@@ -6,7 +6,157 @@
   <title>Banarsi Joda | Community Matrimonial Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Scheherazade+New:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  
+  <style>
+    :root {
+      /* Green, Brown & Gold Palette */
+      --primary: #064e3b;          /* Royal Emerald Green */
+      --primary-dark: #022c22;     /* Deep Night Emerald */
+      --primary-light: #ecfdf5;    /* Soft Mint Wash */
+      --gold: #b8860b;             /* Banarasi Antique Gold */
+      --gold-accent: #d97706;      /* Rich Amber Gold */
+      --gold-light: #fef9e7;       /* Cream Gold */
+      --gold-border: #fef08a;      /* Soft Gold Outline */
+      --brown: #78350f;            /* Banarasi Warm Sandalwood */
+      --brown-dark: #451a03;       /* Deep Mahogany */
+      --whatsapp: #25d366;
+      --surface: #ffffff;
+      --bg: #f8fafc;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 16px;
+      --font: 'Plus Jakarta Sans', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.5; padding-bottom: 70px; }
+    a { text-decoration: none; color: inherit; }
+    button, input, select { font-family: inherit; }
+
+    /* Header */
+    .app-header { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+    .header-container { max-width: 1200px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .brand-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .brand-logo-box { width: 42px; height: 42px; border-radius: 10px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); display: flex; align-items: center; justify-content: center; color: #fef08a; font-size: 1.2rem; font-weight: 900; border: 1.5px solid var(--gold); }
+    .brand-title { font-size: 1.25rem; font-weight: 800; color: var(--primary-dark); }
+    .brand-sub { font-size: 0.7rem; color: #047857; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+    .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; }
+    .desktop-nav { display: none; align-items: center; gap: 6px; }
+    @media(min-width: 860px){ .desktop-nav { display: flex; } }
+    .nav-btn { background: none; border: none; padding: 8px 14px; font-size: 0.88rem; font-weight: 600; color: var(--text-muted); cursor: pointer; border-radius: 8px; }
+    .nav-btn.active, .nav-btn:hover { color: var(--primary); background: var(--primary-light); font-weight: 700; }
+    .header-actions { display: flex; align-items: center; gap: 8px; }
+    .btn-login { background: white; border: 1.5px solid var(--border); padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 0.84rem; cursor: pointer; }
+    .btn-reg { background: var(--primary); color: white; border: 1px solid var(--gold); padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 0.84rem; cursor: pointer; }
+    .user-pill { display: none; align-items: center; gap: 8px; background: var(--primary-light); border: 1px solid #a7f3d0; padding: 4px 12px; border-radius: 20px; cursor: pointer; font-size: 0.82rem; font-weight: 700; color: var(--primary-dark); }
+
+    /* Hero Match Finder */
+    .hero-sec { background: radial-gradient(circle at top right, #0d5e3c, var(--primary-dark) 60%, #031e17); color: white; padding: 32px 16px 44px; text-align: center; }
+    .hero-box { max-width: 1040px; margin: 0 auto; }
+    .hero-badge { display: inline-block; background: rgba(184,134,11,0.2); border: 1px solid var(--gold); color: #fef08a; font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 8px; }
+    .hero-h { font-size: 1.8rem; font-weight: 800; margin-bottom: 6px; }
+    .hero-p { font-size: 0.9rem; color: #d1fae5; margin-bottom: 20px; }
+    .finder-card { background: white; border-radius: var(--radius); padding: 18px; color: var(--text); box-shadow: 0 16px 36px rgba(0,0,0,0.3); text-align: left; }
+    .finder-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    @media(min-width: 768px){ .finder-grid { grid-template-columns: 1fr 1fr 1fr 1fr 1.2fr; align-items: end; } }
+    .finder-grid label { display: block; font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+    .finder-grid select { width: 100%; height: 44px; border: 1.5px solid var(--border); border-radius: 8px; padding: 0 10px; font-size: 0.88rem; outline: none; background: white; }
+    .btn-search { width: 100%; height: 44px; background: linear-gradient(135deg, var(--gold-accent), var(--gold)); color: white; border: none; border-radius: 8px; font-weight: 800; font-size: 0.92rem; cursor: pointer; }
+
+    /* Layout & Stream */
+    .main-wrap { max-width: 1200px; margin: 24px auto; padding: 0 16px; }
+    .layout-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+    @media(min-width: 992px){ .layout-grid { grid-template-columns: 1fr 320px; } }
+
+    /* Guest Privacy Lock (Shaadi.com Model) */
+    .guest-gate { background: linear-gradient(135deg, #064e3b, #022c22); border: 2px solid var(--gold); border-radius: var(--radius); padding: 26px 20px; color: white; text-align: center; margin-bottom: 24px; box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
+    .guest-gate h3 { font-size: 1.35rem; font-weight: 800; margin-bottom: 6px; }
+    .guest-gate p { font-size: 0.88rem; color: #d1fae5; max-width: 620px; margin: 0 auto 16px; }
+    .btn-gate-reg { background: linear-gradient(135deg, var(--gold-accent), var(--gold)); color: white; border: none; padding: 11px 22px; border-radius: 10px; font-weight: 800; font-size: 0.9rem; cursor: pointer; margin-right: 8px; }
+    .btn-gate-demo { background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.4); color: white; padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 0.84rem; cursor: pointer; }
+
+    /* Interactive Profile Cards */
+    .cards-list { display: grid; grid-template-columns: 1fr; gap: 18px; }
+    .card-item { background: white; border: 1px solid var(--border); border-radius: 18px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column; gap: 14px; }
+    @media(min-width: 600px){ .card-item { flex-direction: row; gap: 18px; align-items: flex-start; } }
+
+    /* Big Picture Showcase (130px x 165px) */
+    .pic-showcase { width: 130px; height: 165px; border-radius: 14px; overflow: hidden; position: relative; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .pic-showcase.male-box { background: linear-gradient(135deg, #e0f2fe, #bfdbfe); border: 2px solid #93c5fd; }
+    .pic-showcase.male-box img { width: 100%; height: 100%; object-fit: cover; }
+    .pic-showcase.female-box { background: linear-gradient(135deg, #064e3b, #022c22); border: 2px solid var(--gold); }
+    .urdu-char { font-family: 'Scheherazade New', serif; font-size: 4rem; color: #fef08a; line-height: 1; }
+    .purdah-seal { position: absolute; bottom: 6px; font-size: 0.6rem; font-weight: 800; color: #9d174d; background: #fdf2f8; padding: 2px 8px; border-radius: 10px; border: 1px solid #fbcfe8; }
+    .photo-tag { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(5,150,105,0.95); color: white; font-size: 0.6rem; font-weight: 800; text-align: center; padding: 2px; }
+
+    /* Card Details */
+    .card-info { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .card-name { font-size: 1.2rem; font-weight: 800; color: #0f172a; }
+    .card-meta { font-size: 0.84rem; font-weight: 600; color: var(--text-muted); }
+    .card-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+    .pill { font-size: 0.7rem; font-weight: 800; padding: 3px 8px; border-radius: 14px; text-transform: uppercase; }
+    .pill-groom { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+    .pill-bride { background: #fce7f3; color: #9d174d; border: 1px solid #fbcfe8; }
+    .pill-gold { background: var(--gold-light); color: var(--brown); border: 1px solid var(--gold-border); }
+    .pill-gray { background: #f1f5f9; color: #334155; }
+
+    .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: #f8fafc; border: 1px solid #f1f5f9; padding: 8px 10px; border-radius: 8px; font-size: 0.8rem; }
+    .lineage-toggle { background: #f8fafc; border: 1px dashed #cbd5e1; padding: 6px 10px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; color: var(--primary); cursor: pointer; display: flex; justify-content: space-between; }
+    .lineage-panel { display: none; background: #fbfdfe; border-left: 3px solid var(--primary); padding: 8px 10px; font-size: 0.82rem; border-radius: 0 6px 6px 0; }
+    .lineage-panel.open { display: block; }
+    .card-actions { display: flex; gap: 8px; margin-top: 4px; }
+    .btn-interest { flex: 1.4; height: 40px; background: var(--primary); color: white; border: 1px solid var(--gold); border-radius: 8px; font-size: 0.84rem; font-weight: 700; cursor: pointer; }
+    .btn-interest.sent { background: #ecfdf5; color: #065f46; border-color: #a7f3d0; }
+    .btn-wali { flex: 1; height: 40px; background: white; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.84rem; font-weight: 700; cursor: pointer; }
+    .btn-wa { width: 40px; height: 40px; background: var(--whatsapp); color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+
+    /* Sidebar (Separated with 24px gap) */
+    .sidebar { display: none; flex-direction: column; gap: 24px; }
+    @media(min-width: 992px){ .sidebar { display: flex; } }
+    .side-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .side-card:last-child { margin-bottom: 0; }
+    .side-title { font-size: 0.95rem; font-weight: 800; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+
+    /* Modals */
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 16px; backdrop-filter: blur(4px); }
+    .modal-backdrop.open { display: flex; }
+    .modal-dialog { background: white; border-radius: 18px; width: 100%; max-width: 440px; max-height: 90vh; overflow-y: auto; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); position: relative; }
+    .modal-dialog-large { max-width: 600px; }
+    .close-btn { position: absolute; top: 16px; right: 16px; background: #f1f5f9; border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; }
+
+    /* Auth modal elements */
+    .auth-badge { width: 48px; height: 48px; border-radius: 12px; background: var(--primary); color: #fef08a; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 900; margin: 0 auto 12px; border: 1.5px solid var(--gold); }
+    .auth-h { font-size: 1.35rem; font-weight: 800; text-align: center; margin-bottom: 4px; }
+    .auth-sub { font-size: 0.84rem; color: var(--text-muted); text-align: center; margin-bottom: 18px; }
+    .phone-row { display: flex; gap: 8px; margin-bottom: 14px; }
+    .code-box { width: 75px; height: 46px; border: 1.5px solid var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 700; background: #f8fafc; }
+    .input-field { flex: 1; height: 46px; border: 1.5px solid var(--border); border-radius: 8px; padding: 0 12px; font-size: 0.95rem; outline: none; }
+    .input-field:focus { border-color: var(--primary); }
+    .btn-auth { width: 100%; height: 46px; background: #0f172a; color: white; border: none; border-radius: 8px; font-weight: 700; font-size: 0.92rem; cursor: pointer; }
+    .auth-divider { display: flex; align-items: center; margin: 18px 0; color: #94a3b8; font-size: 0.78rem; text-transform: uppercase; }
+    .auth-divider::before, .auth-divider::after { content: ''; flex: 1; border-bottom: 1px solid #e2e8f0; }
+    .auth-divider::before { margin-right: 10px; } .auth-divider::after { margin-left: 10px; }
+    .btn-social { width: 100%; height: 46px; background: white; border: 1.5px solid #cbd5e1; border-radius: 24px; font-size: 0.88rem; font-weight: 700; color: #334155; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px; }
+
+    /* Form Step Navigation (NO NUMBERS IN TABS!) */
+    .step-nav { display: flex; gap: 4px; margin-bottom: 16px; background: #f1f5f9; padding: 4px; border-radius: 10px; }
+    .step-btn { flex: 1; border: none; background: none; font-size: 0.74rem; font-weight: 700; color: var(--text-muted); padding: 8px 2px; border-radius: 6px; cursor: pointer; text-align: center; }
+    .step-btn.active { background: white; color: var(--primary-dark); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .f-box { display: flex; flex-direction: column; gap: 12px; }
+    .f-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    @media(min-width: 500px){ .f-grid { grid-template-columns: 1fr 1fr; } }
+    .f-item label { display: block; font-size: 0.76rem; font-weight: 700; margin-bottom: 4px; }
+    .f-item input, .f-item select { width: 100%; height: 42px; border: 1.5px solid var(--border); border-radius: 8px; padding: 0 10px; font-size: 0.88rem; outline: none; background: white; }
+    .field-error { border-color: #ef4444 !important; background: #fef2f2 !important; }
+    .btn-proceed { height: 44px; background: var(--primary); color: white; border: 1px solid var(--gold); border-radius: 8px; font-size: 0.88rem; font-weight: 800; cursor: pointer; padding: 0 16px; }
+
+    /* Mobile bar */
+    .mobile-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid var(--border); height: 58px; display: flex; align-items: center; justify-content: space-around; z-index: 99; }
+    @media(min-width: 860px){ .mobile-bar { display: none; } }
+    .m-item { background: none; border: none; font-size: 0.68rem; font-weight: 600; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+    .m-item.active { color: var(--primary); font-weight: 700; }
+  </style>
 </head>
 <body>
 
@@ -91,9 +241,9 @@
 
   <!-- 3. MAIN WRAPPER -->
   <div class="main-wrap">
-    <!-- SHAADI.COM GUEST PRIVACY GATEWAY (Locked until registered) -->
+    <!-- SHAADI.COM GUEST PRIVACY GATE (Locked until registered) -->
     <div class="guest-gate" id="guestGate">
-      <div style="font-size: 2.2rem; margin-bottom: 8px;">🔒</div>
+      <div style="font-size: 2rem; margin-bottom: 6px;">🔒</div>
       <h3>500+ Verified Banarsi Profiles Are Protected</h3>
       <p>To safeguard family dignity & purdah, profiles, photos, and family contacts are restricted to registered members only.</p>
       <button class="btn-gate-reg" onclick="openAuthModal('register')">Register Free with Mobile or Google</button>
@@ -148,7 +298,7 @@
     </div>
   </div>
 
-  <!-- AUTH MODAL (SHAADI.COM STYLE) -->
+  <!-- AUTH MODAL (SHAADI.COM STYLE SCREENSHOT) -->
   <div class="modal-backdrop" id="authModal">
     <div class="modal-dialog">
       <button class="close-btn" onclick="closeAuthModal()">&times;</button>
@@ -187,13 +337,13 @@
     </div>
   </div>
 
-  <!-- MULTI-STEP PROFILE MODAL (NO NUMBERS IN TABS, STRICT VALIDATION, NAMED PAGE BUTTONS) -->
+  <!-- MULTI-STEP PROFILE MODAL (NO NUMBERS IN TABS, NO "NEXT" BUTTON TEXT, STRICT VALIDATION) -->
   <div class="modal-backdrop" id="addModal">
     <div class="modal-dialog modal-dialog-large">
       <button class="close-btn" onclick="closeAddModal()">&times;</button>
       <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 14px;">Complete Banarsi Rishta Profile</h2>
 
-      <!-- STEP TABS: NO NUMBERS! -->
+      <!-- TABS: NO NUMBERS! -->
       <div class="step-nav">
         <button type="button" class="step-btn active" id="tab1" onclick="showStep(1)">Personal & Height</button>
         <button type="button" class="step-btn" id="tab2" onclick="showStep(2)">Marital & Family</button>
@@ -342,7 +492,7 @@
           </div>
         </div>
 
-        <!-- STEP 3: LINEAGE (LOCAL REFERENCES REMOVED!) -->
+        <!-- STEP 3: RELIGIOUS SCHOOL & LINEAGE (LOCAL REFERENCES REMOVED!) -->
         <div class="f-box" id="step3" style="display: none;">
           <div class="f-item">
             <label>Candidate's Maslak / Firqa *</label>
@@ -478,6 +628,439 @@
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <!-- MOBILE BOTTOM BAR -->
+  <nav class="mobile-bar">
+    <button class="m-item active" onclick="switchNav('directory')"><span>📖</span>Directory</button>
+    <button class="m-item" onclick="openAuthModal('register')"><span>💍</span>Matches</button>
+    <button class="m-item" onclick="openAddModal()"><span style="font-size: 1.3rem; color: var(--gold-accent);">＋</span>Add</button>
+    <button class="m-item" onclick="switchNav('trade')"><span>🧵</span>Trade</button>
+  </nav>
+
+  <!-- JAVASCRIPT APPLICATION LOGIC -->
+  <script>
+    let currentTab = 'directory';
+    let currentUser = null; // null = guest mode (Shaadi.com privacy lock active)
+
+    // Populate Height dropdown dynamically (140 cm to 200 cm)
+    const heightSelect = document.getElementById('inHeight');
+    for (let cm = 140; cm <= 200; cm += 2) {
+      const totalInches = Math.round(cm / 2.54);
+      const ft = Math.floor(totalInches / 12);
+      const inch = totalInches % 12;
+      const opt = document.createElement('option');
+      opt.value = cm;
+      opt.innerText = `${cm} cm (${ft}' ${inch}\")`;
+      heightSelect.appendChild(opt);
+    }
+
+    // Urdu initial mapping for women names
+    function getUrduInitial(name) {
+      if (!name) return 'ب';
+      const clean = name.trim();
+      const two = clean.substring(0, 2).toLowerCase();
+      if (two === 'sh') return 'ش';
+      if (two === 'kh') return 'خ';
+      if (two === 'gh') return 'غ';
+      if (two === 'ch') return 'چ';
+      const c = clean[0].toUpperCase();
+      const map = { 'A':'ا','B':'ب','C':'س','D':'د','E':'ا','F':'ف','G':'گ','H':'ح','I':'ا','J':'ج','K':'ک','L':'ل','M':'م','N':'ن','O':'ا','P':'پ','Q':'ق','R':'ر','S':'س','T':'ت','U':'ا','V':'و','W':'و','X':'ز','Y':'ی','Z':'ز' };
+      return map[c] || 'ب';
+    }
+
+    function formatHeightFeet(val) {
+      if (!val) return '';
+      const str = String(val).trim();
+      if (str.includes("'") || str.includes('ft')) return str;
+      const num = parseFloat(str);
+      if (!isNaN(num) && num > 100 && num < 250) {
+        const totalInches = Math.round(num / 2.54);
+        return `${Math.floor(totalInches / 12)}' ${totalInches % 12}\" (${num} cm)`;
+      }
+      return str;
+    }
+
+    // Profiles & B2B Data
+    const seedProfiles = [
+      {
+        fullName: "Saif Khan",
+        gender: "Male",
+        age: "30 Years",
+        height: "169",
+        weight: "68 kg",
+        maritalStatus: "Unmarried",
+        kids: "None",
+        fatherStatus: "Alive",
+        motherStatus: "Alive",
+        housing: "Own House",
+        firqa: "Ahl us Sunnah",
+        walidName: "Shareef Khan",
+        dadaName: "Basheer Khan",
+        khandaan: "Khan",
+        mohalla: "Madanpura",
+        nanihal: "Khan",
+        city: "Bangalore",
+        profession: "E-Commerce Manager & Performance Marketer",
+        managedBy: "Self"
+      },
+      {
+        fullName: "Fatima Bano Ansari",
+        gender: "Female",
+        age: "23 Years",
+        height: "160",
+        weight: "52 kg",
+        maritalStatus: "Unmarried",
+        kids: "None",
+        fatherStatus: "Alive",
+        motherStatus: "Alive",
+        housing: "Own House",
+        firqa: "Deobandi",
+        walidName: "Janab Shamim Ahmad",
+        dadaName: "Haji Kallu Seth",
+        khandaan: "Kallu Seth Wale",
+        mohalla: "Bajardiha",
+        nanihal: "Pilikothi",
+        city: "Delhi",
+        profession: "B.Com, B.Ed Teacher",
+        managedBy: "Father"
+      }
+    ];
+
+    const b2bListings = [
+      {
+        firmName: "Noorani Silk Handloom Karkhana",
+        khandaan: "Noorani Weavers",
+        owner: "Haji Abdul Rashid & Sons",
+        category: "Pure Silk & Kadwa Brocade",
+        mohalla: "Madanpura, Banaras",
+        capacity: "28 Handlooms | 12 Powerlooms",
+        moq: "Min Wholesale Order: 10 Pieces",
+        specialties: ["Pure Katan Silk", "Kadwa Weave", "Bridal Banarsi"],
+        phone: "+919839123456"
+      },
+      {
+        firmName: "Kallu Seth Wholesale Brocades & Sarees",
+        khandaan: "Kallu Seth Wale",
+        owner: "Janab Shamim Ahmad Ansari",
+        category: "Wholesale Saree Gaddi",
+        mohalla: "Bajardiha, Banaras",
+        capacity: "Stockist & Pan-India Distribution",
+        moq: "Wholesale Only | Sample Sets Available",
+        specialties: ["Organza Brocade", "Georgette Khaddi", "Real Zari"],
+        phone: "+919839654321"
+      }
+    ];
+
+    // Auth functions
+    function openAuthModal(mode) {
+      document.getElementById('authModal').classList.add('open');
+      document.getElementById('phoneView').style.display = 'block';
+      document.getElementById('otpView').style.display = 'none';
+      document.getElementById('authTitle').innerText = mode === 'register' ? 'Create Free Profile' : 'Welcome Back';
+    }
+    function closeAuthModal() { document.getElementById('authModal').classList.remove('open'); }
+    function sendOtp() {
+      const p = document.getElementById('mobileInput').value.trim();
+      if (!p || p.length < 10) return alert('Please enter a valid 10-digit mobile number.');
+      document.getElementById('phoneDisplay').innerText = '+91 ' + p;
+      document.getElementById('phoneView').style.display = 'none';
+      document.getElementById('otpView').style.display = 'block';
+    }
+    function verifyOtp() { loginUser('Saif Khan'); }
+    function googleLogin() { loginUser('Mohammed Saif Khan'); }
+    function emailLogin() {
+      const e = prompt('Enter email address:');
+      if (e && e.includes('@')) loginUser(e.split('@')[0]);
+    }
+    function unlockMemberView() { loginUser('Member Guest'); }
+
+    function loginUser(name) {
+      currentUser = { name: name, profilePercent: 40 };
+      document.getElementById('btnLogin').style.display = 'none';
+      document.getElementById('btnReg').style.display = 'none';
+      const up = document.getElementById('userPill');
+      up.style.display = 'flex';
+      document.getElementById('userName').innerText = name;
+      document.getElementById('userInitial').innerText = name[0].toUpperCase();
+
+      document.getElementById('guestGate').style.display = 'none';
+      document.getElementById('streamBar').style.display = 'flex';
+      document.getElementById('cardsList').style.display = 'grid';
+      closeAuthModal();
+      renderFeed(seedProfiles);
+    }
+
+    // STRICT STEP VALIDATION (PREVENTS SKIPPING MANDATORY FIELDS!)
+    function proceedStep(cur, nxt) {
+      document.querySelectorAll('.field-error').forEach(el => el.classList.remove('field-error'));
+      let valid = true;
+      let firstEl = null;
+
+      if (cur === 1) {
+        const name = document.getElementById('inName');
+        const age = document.getElementById('inAge');
+        const height = document.getElementById('inHeight');
+        if (!name.value.trim()) { name.classList.add('field-error'); valid = false; if (!firstEl) firstEl = name; }
+        if (!age.value.trim()) { age.classList.add('field-error'); valid = false; if (!firstEl) firstEl = age; }
+        if (!height.value) { height.classList.add('field-error'); valid = false; if (!firstEl) firstEl = height; }
+      }
+      if (cur === 2) {
+        const marital = document.getElementById('inMaritalStatus').value;
+        const kids = document.getElementById('inKids');
+        if (marital !== 'Unmarried' && !kids.value.trim()) { kids.classList.add('field-error'); valid = false; if (!firstEl) firstEl = kids; }
+      }
+      if (cur === 3) {
+        const walid = document.getElementById('inWalid');
+        const dada = document.getElementById('inDada');
+        const khandaan = document.getElementById('inKhandaan');
+        const mohalla = document.getElementById('inMohalla');
+        if (!walid.value.trim()) { walid.classList.add('field-error'); valid = false; if (!firstEl) firstEl = walid; }
+        if (!dada.value.trim()) { dada.classList.add('field-error'); valid = false; if (!firstEl) firstEl = dada; }
+        if (!khandaan.value.trim()) { khandaan.classList.add('field-error'); valid = false; if (!firstEl) firstEl = khandaan; }
+        if (!mohalla.value) { mohalla.classList.add('field-error'); valid = false; if (!firstEl) firstEl = mohalla; }
+      }
+
+      if (!valid) {
+        alert('Please fill in all mandatory fields before proceeding to the next page.');
+        if (firstEl) firstEl.focus();
+        return false;
+      }
+      showStep(nxt);
+      return true;
+    }
+
+    function showStep(s) {
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById(`step${i}`).style.display = (i === s) ? 'flex' : 'none';
+        document.getElementById(`tab${i}`).classList.toggle('active', i === s);
+      }
+    }
+
+    // Photo upload handlers
+    function fileChosen(e) {
+      const f = e.target.files[0];
+      if (!f) return;
+      const r = new FileReader();
+      r.onload = function(evt) {
+        document.getElementById('inPhotoData').value = evt.target.result;
+        document.getElementById('photoPreview').src = evt.target.result;
+        document.getElementById('photoPlaceholder').style.display = 'none';
+        document.getElementById('photoPreviewWrap').style.display = 'flex';
+      };
+      r.readAsDataURL(f);
+    }
+    function removePhoto() {
+      document.getElementById('inFile').value = '';
+      document.getElementById('inPhotoData').value = '';
+      document.getElementById('photoPlaceholder').style.display = 'block';
+      document.getElementById('photoPreviewWrap').style.display = 'none';
+    }
+
+    function genderChanged() {
+      const g = document.getElementById('inGender').value;
+      const maleSec = document.getElementById('malePhotoBlock');
+      const mSelect = document.getElementById('inMaritalStatus');
+      if (g === 'Female') {
+        maleSec.style.display = 'none';
+        removePhoto();
+        mSelect.innerHTML = '<option value="Unmarried">Never Married (Ghair Shaadishuda)</option><option value="Widowed">Widow (Bewa)</option><option value="Divorced">Divorced (Talaq-shuda)</option>';
+      } else {
+        maleSec.style.display = 'block';
+        mSelect.innerHTML = '<option value="Unmarried">Never Married (Ghair Shaadishuda)</option><option value="Married (Aqd-e-Saani)">Married (Aqd-e-Saani)</option><option value="Widowed">Widower (Bewa)</option><option value="Divorced">Divorced (Talaq-shuda)</option>';
+      }
+    }
+
+    function maritalChanged() {
+      const m = document.getElementById('inMaritalStatus').value;
+      document.getElementById('kidsWrap').style.display = (m === 'Unmarried') ? 'none' : 'block';
+    }
+
+    function openAddModal() { document.getElementById('addModal').classList.add('open'); showStep(1); genderChanged(); }
+    function closeAddModal() { document.getElementById('addModal').classList.remove('open'); }
+    function openB2BModal() { document.getElementById('b2bModal').classList.add('open'); }
+    function closeB2BModal() { document.getElementById('b2bModal').classList.remove('open'); }
+
+    function toggleLineage(id) {
+      const p = document.getElementById('lineage_' + id);
+      const b = document.getElementById('lbtn_' + id);
+      const open = p.classList.contains('open');
+      p.classList.toggle('open', !open);
+      b.innerText = !open ? '▴ Hide Family Lineage' : '▾ View Family Lineage Details';
+    }
+
+    function toggleInterest(btn, name) {
+      btn.classList.toggle('sent');
+      btn.innerText = btn.classList.contains('sent') ? '✓ Interest Sent' : '💌 Send Interest';
+      if (btn.classList.contains('sent')) alert(`Interest expressed to family of ${name}.`);
+    }
+
+    function runMatchFinder() {
+      if (!currentUser) return openAuthModal('register');
+      const g = document.getElementById('finderGender').value;
+      filterByGender(g);
+    }
+
+    function filterByGender(g) {
+      const cards = document.querySelectorAll('.card-item');
+      let count = 0;
+      cards.forEach(c => {
+        const match = (g === 'All' || c.getAttribute('data-gender') === g);
+        c.style.display = match ? 'flex' : 'none';
+        if (match) count++;
+      });
+      document.getElementById('txtCount').innerText = `${count} Matches Found`;
+      document.getElementById('btnFilterAll').classList.toggle('active', g === 'All');
+      document.getElementById('btnFilterMale').classList.toggle('active', g === 'Male');
+      document.getElementById('btnFilterFemale').classList.toggle('active', g === 'Female');
+    }
+
+    function switchNav(t) {
+      currentTab = t;
+      document.getElementById('tabDir').classList.toggle('active', t === 'directory');
+      document.getElementById('tabTrade').classList.toggle('active', t === 'trade');
+      document.getElementById('tabNews').classList.toggle('active', t === 'janaza');
+
+      document.getElementById('b2bSection').style.display = (t === 'trade') ? 'block' : 'none';
+      if (t === 'trade') {
+        document.getElementById('guestGate').style.display = 'none';
+        document.getElementById('cardsList').style.display = 'none';
+        document.getElementById('streamBar').style.display = 'none';
+        renderB2B();
+      } else {
+        if (currentUser) {
+          document.getElementById('cardsList').style.display = 'grid';
+          document.getElementById('streamBar').style.display = 'flex';
+          document.getElementById('guestGate').style.display = 'none';
+        } else {
+          document.getElementById('cardsList').style.display = 'none';
+          document.getElementById('streamBar').style.display = 'none';
+          document.getElementById('guestGate').style.display = 'block';
+        }
+      }
+    }
+
+    // Render interactive cards with big picture showcase
+    function renderFeed(list) {
+      const container = document.getElementById('cardsList');
+      container.innerHTML = '';
+      list.forEach((p, idx) => {
+        const isF = p.gender === 'Female';
+        const heightFormatted = formatHeightFeet(p.height);
+        const card = document.createElement('article');
+        card.className = 'card-item';
+        card.setAttribute('data-gender', p.gender);
+
+        const picHtml = isF
+          ? `<div class="pic-showcase female-box"><span class="urdu-char">${getUrduInitial(p.fullName)}</span><span class="purdah-seal">🛡️ Purdah Protected</span></div>`
+          : (p.photoUrl 
+              ? `<div class="pic-showcase male-box"><img src="${p.photoUrl}"><span class="photo-tag">✓ Verified Photo</span></div>`
+              : `<div class="pic-showcase male-box"><span style="font-size: 3.5rem;">🧔</span><span class="photo-tag" style="background: rgba(30,64,175,0.9);">Groom</span></div>`);
+
+        card.innerHTML = `
+          ${picHtml}
+          <div class="card-info">
+            <div class="card-top">
+              <div>
+                <h3 class="card-name">${p.fullName}</h3>
+                <div class="card-meta">${p.age || ''} • ${heightFormatted} ${p.weight ? '• ' + p.weight : ''}</div>
+              </div>
+              <button style="background: none; border: none; font-size: 1.2rem; cursor: pointer;" onclick="this.innerText = this.innerText === '⭐' ? '★' : '⭐'">⭐</button>
+            </div>
+            <div class="card-badges">
+              <span class="pill ${isF ? 'pill-bride' : 'pill-groom'}">${isF ? 'Bride' : 'Groom'}</span>
+              <span class="pill pill-gold">Khandaan: ${p.khandaan}</span>
+              <span class="pill pill-gray">🕌 ${p.firqa}</span>
+            </div>
+            <div class="specs-grid">
+              <div>💍 ${p.maritalStatus}</div>
+              <div>🏠 ${p.housing}</div>
+              <div>📍 ${p.mohalla} (Banaras)</div>
+              <div>🏢 ${p.city}</div>
+              <div style="grid-column: 1/-1;">💼 ${p.profession}</div>
+            </div>
+            <button type="button" class="lineage-toggle" id="lbtn_${idx}" onclick="toggleLineage(${idx})">▾ View Family Lineage Details</button>
+            <div class="lineage-panel" id="lineage_${idx}">
+              Walid: <b>${p.walidName}</b> (${p.fatherStatus})<br>
+              Dada: <b>${p.dadaName}</b> | Khandaan: ${p.khandaan}<br>
+              Nanihal: ${p.nanihal}
+            </div>
+            <div class="card-actions">
+              <button class="btn-interest" onclick="toggleInterest(this, '${p.fullName}')">💌 Send Interest</button>
+              <button class="btn-wali" onclick="alert('Connection request sent to Wali of ${p.fullName}')">👤 Contact Wali</button>
+              <a class="btn-wa" href="https://api.whatsapp.com/send?text=Assalamu+Alaikum,+inquiry+for+${encodeURIComponent(p.fullName)}" target="_blank">💬</a>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+      document.getElementById('txtCount').innerText = `${list.length} Matches Found`;
+    }
+
+    function renderB2B() {
+      const container = document.getElementById('b2bCardsList');
+      container.innerHTML = '';
+      b2bListings.forEach(item => {
+        const card = document.createElement('article');
+        card.className = 'card-item';
+        card.style.borderColor = 'var(--gold-border)';
+        card.innerHTML = `
+          <div class="pic-showcase" style="width: 100px; height: 110px; background: #fef9e7; font-size: 2.5rem; border-color: var(--gold-border);">🏭</div>
+          <div class="card-info">
+            <h3 class="card-name">${item.firmName}</h3>
+            <div class="card-meta">Prop: ${item.owner} • 📍 ${item.mohalla}</div>
+            <div class="specs-grid">
+              <div>⚙️ Capacity: ${item.capacity}</div>
+              <div>📦 MOQ: ${item.moq}</div>
+            </div>
+            <a class="btn-proceed" style="display: inline-flex; align-items: center; justify-content: center; background: #25d366; text-decoration: none; max-width: 260px;" href="https://api.whatsapp.com/send?phone=${item.phone.replace(/[^0-9]/g, '')}&text=Wholesale+catalog+inquiry" target="_blank">💬 WhatsApp Wholesale Inquiry</a>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function saveProfile(e) {
+      e.preventDefault();
+      const p = {
+        fullName: document.getElementById('inName').value,
+        gender: document.getElementById('inGender').value,
+        age: document.getElementById('inAge').value,
+        height: document.getElementById('inHeight').value,
+        weight: document.getElementById('inWeight').value,
+        maritalStatus: document.getElementById('inMaritalStatus').value,
+        kids: document.getElementById('inKids').value || 'None',
+        fatherStatus: document.getElementById('inFatherStatus').value,
+        housing: document.getElementById('inHousing').value,
+        firqa: document.getElementById('inFirqa').value,
+        walidName: document.getElementById('inWalid').value,
+        dadaName: document.getElementById('inDada').value,
+        khandaan: document.getElementById('inKhandaan').value,
+        mohalla: document.getElementById('inMohalla').value,
+        nanihal: document.getElementById('inNanihal').value,
+        profession: document.getElementById('inWork').value,
+        city: document.getElementById('inCity').value,
+        photoUrl: document.getElementById('inPhotoData').value
+      };
+      seedProfiles.unshift(p);
+      renderFeed(seedProfiles);
+      alert('Profile registered successfully!');
+      closeAddModal();
+    }
+
+    function saveB2B(e) {
+      e.preventDefault();
+      b2bListings.unshift({
+        firmName: document.getElementById('b2bFirm').value,
+        owner: document.getElementById('b2bOwner').value,
+        khandaan: document.getElementById('b2bKhandaan').value,
+        mohalla: document.getElementById('b2bMohalla').value + ', Banaras',
+        capacity: document.getElementById('b2bCap').value,
+        moq: document.getElementById('b2bMoq').value,
+        phone: document.getElementById('b2bPhone').value
+      });
+      renderB2B();
+      alert('B2B Listing Added!');
+      closeB2BModal();
+    }
+  </script>
 </body>
 </html>
