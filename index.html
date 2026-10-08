@@ -825,14 +825,14 @@
     <div class="hero-container">
       <span class="hero-pill">Banarsi Joda • Official Community Portal</span>
       <h2 class="hero-title">Connecting Banarsi Families & Rishtey Across India</h2>
-      <p class="hero-subtitle">Search instantly by Lineage (*Walid/Dada*), Maslak/Firqa, Mohalla & City.</p>
+      <p class="hero-subtitle">Search instantly by Lineage (Walid/Dada), Maslak/Firqa, Mohalla & City.</p>
 
       <!-- Clean Single-Row Search Card -->
       <div class="hero-search-card">
         <div class="search-inputs-grid">
           <div class="field-group">
             <label class="field-label">Keyword / Elder / Khandaan</label>
-            <input type="text" id="keywordSearchInput" class="hero-input" placeholder="e.g. Tariq, Haji Rashid, Noorani, Kallu Seth..." oninput="filterProfiles()">
+            <input type="text" id="keywordSearchInput" class="hero-input" placeholder="Search lineage, elder, or family..." oninput="filterProfiles()">
           </div>
           <div class="field-group">
             <label class="field-label">Maslak / Firqa</label>
@@ -978,14 +978,14 @@
         <div class="form-section-box" id="formStep1">
           <div class="form-grid-2">
             <div class="form-group-item">
-              <label>Candidate Gender</label>
+              <label>Candidate Gender (Jins)</label>
               <select id="inGender" required onchange="handleGenderChange()">
                 <option value="Male">Groom (Dulha / Male)</option>
                 <option value="Female">Bride (Dulhan / Female)</option>
               </select>
             </div>
             <div class="form-group-item">
-              <label>Profile Managed By</label>
+              <label>Profile Managed By (Rabita Kaun Karega)</label>
               <select id="inManagedBy" required>
                 <option value="Father">Father (Walid)</option>
                 <option value="Mother">Mother (Walida)</option>
@@ -996,51 +996,49 @@
           </div>
 
           <div class="form-group-item">
-            <label>Full Name (*Candidate's Name*)</label>
-            <input type="text" id="inName" required placeholder="e.g. Mohammad Tariq Ansari">
+            <label>Full Name (Candidate's Name)</label>
+            <input type="text" id="inName" required placeholder="">
           </div>
 
           <div class="form-grid-2">
             <div class="form-group-item">
-              <label>Age / Date of Birth</label>
-              <input type="text" id="inAge" required placeholder="e.g. 26 Years">
+              <label>Age (Umar) / Date of Birth</label>
+              <input type="text" id="inAge" required placeholder="">
             </div>
             <div class="form-group-item">
-              <label>Height & Weight</label>
-              <input type="text" id="inHeightWeight" required placeholder="e.g. 5' 7\" / 65 kg">
+              <label>Height & Weight (Qad o Wazan)</label>
+              <input type="text" id="inHeightWeight" required placeholder="">
             </div>
           </div>
 
-          <div class="form-grid-2">
-            <div class="form-group-item">
-              <label>Ethnicity / Biradari (*Zaat / Qaum*)</label>
-              <select id="inEthnicity" required>
-                <option value="Ansari">Ansari</option>
-                <option value="Siddiqui">Siddiqui</option>
-                <option value="Qureshi">Qureshi</option>
-                <option value="Abbasi">Abbasi</option>
-                <option value="Pathan">Pathan</option>
-                <option value="Syed">Syed</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-            <div class="form-group-item">
-              <label>Physical Disability / Special Needs</label>
-              <select id="inDisability">
-                <option value="None">None (Alhamdulillah)</option>
-                <option value="Minor">Minor Challenge</option>
-                <option value="Major">Physical Disability</option>
-              </select>
-            </div>
+          <div class="form-group-item">
+            <label>Physical Disability / Special Needs</label>
+            <select id="inDisability">
+              <option value="None">None (Alhamdulillah)</option>
+              <option value="Minor">Minor Challenge</option>
+              <option value="Major">Physical Disability</option>
+            </select>
           </div>
 
-          <!-- Photo upload block (Solution A) -->
+          <!-- Direct Photo Upload: Available for Men only; completely hidden for Women -->
           <div id="malePhotoSection" class="form-group-item">
-            <label>Groom Photo URL (Optional for Men)</label>
-            <input type="url" id="inPhotoUrl" placeholder="https://... (Optional)">
-          </div>
-          <div id="femalePhotoNotice" class="female-photo-privacy-box" style="display: none;">
-            🛡️ <b>Female Privacy (Solution A):</b> No photo is required or displayed publicly. Photos are exchanged privately between family elders / Wali via WhatsApp upon mutual interest.
+            <label>Groom Photo (Upload from Device - Optional for Men)</label>
+            <div class="photo-upload-box" onclick="document.getElementById('inPhotoFile').click()" style="border: 2px dashed #059669; border-radius: 12px; padding: 16px; text-align: center; cursor: pointer; background: #f0fdf4; transition: all 0.2s;">
+              <input type="file" id="inPhotoFile" accept="image/*" style="display: none;" onchange="handlePhotoUpload(event)">
+              <div id="photoPlaceholderUI">
+                <div style="font-size: 2rem; margin-bottom: 6px;">📷</div>
+                <div style="font-weight: 700; color: #065f46; font-size: 0.95rem;">Tap to Choose Photo from Device</div>
+                <div style="font-size: 0.78rem; color: #64748b; margin-top: 3px;">Select photo directly from gallery or camera</div>
+              </div>
+              <div id="photoPreviewUI" style="display: none; align-items: center; justify-content: center; gap: 14px;">
+                <img id="photoPreviewImg" src="" alt="Groom Preview" style="width: 70px; height: 70px; object-fit: cover; border-radius: 50%; border: 3px solid #059669; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                <div style="text-align: left;">
+                  <div style="font-weight: 700; color: #065f46; font-size: 0.9rem;">Photo Selected ✓</div>
+                  <button type="button" onclick="event.stopPropagation(); removeUploadedPhoto();" style="margin-top: 6px; background: #fee2e2; border: 1px solid #ef4444; color: #991b1b; padding: 4px 12px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 600;">Remove Photo</button>
+                </div>
+              </div>
+            </div>
+            <input type="hidden" id="inPhotoData" value="">
           </div>
 
           <div style="margin-top: 10px; display: flex; justify-content: flex-end;">
@@ -1054,15 +1052,16 @@
             <label>Marital Status</label>
             <select id="inMaritalStatus" required onchange="handleMaritalChange()">
               <option value="Unmarried" selected>Never Married (Ghair Shaadishuda)</option>
-              <option value="Widowed">Widow / Widower (Bewa)</option>
-              <option value="Divorced">Divorced (Talaq-shuda / Khula)</option>
+              <option value="Married (Aqd-e-Saani)">Married (Aqd-e-Saani)</option>
+              <option value="Widowed">Widower (Bewa)</option>
+              <option value="Divorced">Divorced (Talaq-shuda)</option>
             </select>
           </div>
 
-          <!-- Children Box: Hidden by default for Never Married, appears ONLY for Widowed/Divorced -->
+          <!-- Children Box: Hidden by default for Never Married, appears for Married (Aqd-e-Saani), Widowed, Divorced -->
           <div class="form-group-item" id="kidsBox" style="display: none;">
-            <label>Children (*Aulad Detail: Number of Kids, Genders & Custody*)</label>
-            <input type="text" id="inKids" value="None" placeholder="e.g. 1 Son / 1 Daughter (living with me)">
+            <label>Children (Aulad Detail: Number of Kids, Genders & Custody)</label>
+            <input type="text" id="inKids" placeholder="">
           </div>
 
           <div class="form-grid-2">
@@ -1119,23 +1118,23 @@
 
           <div class="form-grid-2">
             <div class="form-group-item">
-              <label>Father's Name (*Walid*)</label>
-              <input type="text" id="inWalid" required placeholder="e.g. Haji Abdul Rashid">
+              <label>Father's Name (Walid)</label>
+              <input type="text" id="inWalid" required placeholder="">
             </div>
             <div class="form-group-item">
-              <label>Grandfather (*Dada*)</label>
-              <input type="text" id="inDada" required placeholder="e.g. Late Haji Noor Mohammad">
+              <label>Grandfather (Dada)</label>
+              <input type="text" id="inDada" required placeholder="">
             </div>
           </div>
 
           <div class="form-group-item">
-            <label>Khandaan Name / Urfiat (*Family Moniker*)</label>
-            <input type="text" id="inKhandaan" required placeholder="e.g. Noorani Weavers / Pillai Wale / Kallu Seth">
+            <label>Khandaan Name / Urfiat (Family Moniker)</label>
+            <input type="text" id="inKhandaan" required placeholder="">
           </div>
 
           <div class="form-grid-2">
             <div class="form-group-item">
-              <label>Banaras Root Mohalla (*Abai Mohalla*)</label>
+              <label>Banaras Root Mohalla (Abai Mohalla)</label>
               <select id="inMohalla" required>
                 <option value="">Select Mohalla</option>
                 <option value="Madanpura">Madanpura</option>
@@ -1148,14 +1147,14 @@
               </select>
             </div>
             <div class="form-group-item">
-              <label>Maternal Lineage (*Nanihal Mohalla & Nana*)</label>
-              <input type="text" id="inNanihal" placeholder="e.g. Bajardiha (Kallu Seth Nana)">
+              <label>Maternal Lineage (Nanihal Mohalla & Nana)</label>
+              <input type="text" id="inNanihal" placeholder="">
             </div>
           </div>
 
           <div class="form-group-item">
-            <label>Banaras Local References (*2 References for Verification*)</label>
-            <input type="text" id="inReferences" required placeholder="Names & Mohallas of 1-2 known Banaras elders / relatives">
+            <label>Banaras Local References (2 References for Verification)</label>
+            <input type="text" id="inReferences" required placeholder="">
           </div>
 
           <div style="margin-top: 10px; display: flex; justify-content: space-between;">
@@ -1169,7 +1168,21 @@
           <div class="form-grid-2">
             <div class="form-group-item">
               <label>Preferred Partner Age Range</label>
-              <input type="text" id="inPrefAge" placeholder="e.g. 21 - 26 Years">
+              <select id="inPrefAge">
+                <option value="">Select Preferred Age Range</option>
+                <option value="18 - 22 Years">18 - 22 Years</option>
+                <option value="20 - 25 Years">20 - 25 Years</option>
+                <option value="22 - 27 Years">22 - 27 Years</option>
+                <option value="24 - 29 Years">24 - 29 Years</option>
+                <option value="26 - 31 Years">26 - 31 Years</option>
+                <option value="28 - 33 Years">28 - 33 Years</option>
+                <option value="30 - 35 Years">30 - 35 Years</option>
+                <option value="32 - 38 Years">32 - 38 Years</option>
+                <option value="35 - 42 Years">35 - 42 Years</option>
+                <option value="38 - 45 Years">38 - 45 Years</option>
+                <option value="40+ Years">40+ Years</option>
+                <option value="Flexible / Any">Flexible / Any Age</option>
+              </select>
             </div>
             <div class="form-group-item">
               <label>Firqa Flexibility</label>
@@ -1182,18 +1195,18 @@
 
           <div class="form-grid-2">
             <div class="form-group-item">
-              <label>Profession / Business (*Peesha*)</label>
-              <input type="text" id="inWork" required placeholder="e.g. Saree Merchant / Software Engineer">
+              <label>Profession / Business (Peesha)</label>
+              <input type="text" id="inWork" required placeholder="">
             </div>
             <div class="form-group-item">
               <label>Current Residence City in India</label>
-              <input type="text" id="inCity" required placeholder="e.g. Mumbai, Surat, Delhi">
+              <input type="text" id="inCity" required placeholder="">
             </div>
           </div>
 
           <div class="form-group-item">
-            <label>Guardian / Wali Mobile Number (*For Family Verification*)</label>
-            <input type="tel" id="inPhone" required placeholder="+91 98765 43210">
+            <label>Guardian / Wali Mobile Number (For Family Verification)</label>
+            <input type="tel" id="inPhone" required placeholder="">
           </div>
 
           <div style="margin-top: 14px; display: flex; gap: 8px;">
@@ -1230,7 +1243,7 @@
         fullName: "Mohammad Tariq Ansari",
         gender: "Male",
         age: "26 Years",
-        heightWeight: "5' 8\" / 68 kg",
+        heightWeight: "5ft 8in / 68 kg",
         ethnicity: "Ansari",
         disability: "None",
         maritalStatus: "Unmarried",
@@ -1252,7 +1265,7 @@
         fullName: "Fatima Bano Ansari",
         gender: "Female",
         age: "23 Years",
-        heightWeight: "5' 3\" / 52 kg",
+        heightWeight: "5ft 3in / 52 kg",
         ethnicity: "Ansari",
         disability: "None",
         maritalStatus: "Unmarried",
@@ -1274,7 +1287,7 @@
         fullName: "Mohammad Arshad",
         gender: "Male",
         age: "31 Years",
-        heightWeight: "5' 9\" / 72 kg",
+        heightWeight: "5ft 9in / 72 kg",
         ethnicity: "Ansari",
         disability: "None",
         maritalStatus: "Widowed",
@@ -1296,7 +1309,7 @@
         fullName: "Dr. Farhan Mushtaq",
         gender: "Male",
         age: "29 Years",
-        heightWeight: "5' 11\" / 75 kg",
+        heightWeight: "5ft 11in / 75 kg",
         ethnicity: "Siddiqui",
         disability: "None",
         maritalStatus: "Unmarried",
@@ -1318,7 +1331,7 @@
         fullName: "Zainab Parveen",
         gender: "Female",
         age: "27 Years",
-        heightWeight: "5' 4\" / 56 kg",
+        heightWeight: "5ft 4in / 56 kg",
         ethnicity: "Pathan",
         disability: "None",
         maritalStatus: "Divorced",
@@ -1340,7 +1353,7 @@
         fullName: "Haji Imran Ansari",
         gender: "Male",
         age: "34 Years",
-        heightWeight: "5' 7\" / 70 kg",
+        heightWeight: "5ft 7in / 70 kg",
         ethnicity: "Ansari",
         disability: "None",
         maritalStatus: "Unmarried",
@@ -1424,10 +1437,10 @@
           </div>
 
           <div class="card-person-header">
-            <div class="avatar-box">${isFemale ? '🧕' : '🧔'}</div>
+            <div class="avatar-box">${isFemale ? '🧕' : (p.photoUrl && p.photoUrl.trim() !== '' ? `<img src="${p.photoUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : '🧔')}</div>
             <div>
               <h3 class="card-name">${name}</h3>
-              <div class="card-subtext">${p.age || '25 Yrs'} • ${p.heightWeight || '5\' 6\"'} • ${p.ethnicity || 'Ansari'}</div>
+              <div class="card-subtext">${p.age || '25 Yrs'} • ${p.heightWeight || '5ft 6in'} • ${p.ethnicity || 'Ansari'}</div>
             </div>
           </div>
 
@@ -1534,10 +1547,12 @@
     function openAddModal() {
       document.getElementById('addModalBackdrop').classList.add('open');
       showFormStep(1);
+      handleGenderChange();
     }
 
     function closeAddModal() {
       document.getElementById('addModalBackdrop').classList.remove('open');
+      removeUploadedPhoto();
     }
 
     function showFormStep(step) {
@@ -1547,18 +1562,72 @@
       }
     }
 
-    function handleGenderChange() {
-      const g = document.getElementById('inGender').value;
-      if (g === 'Female') {
-        document.getElementById('malePhotoSection').style.display = 'none';
-        document.getElementById('femalePhotoNotice').style.display = 'flex';
-      } else {
-        document.getElementById('malePhotoSection').style.display = 'flex';
-        document.getElementById('femalePhotoNotice').style.display = 'none';
+// Direct Photo Upload Handling
+    function handlePhotoUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Image size exceeds 5MB. Please choose a smaller photo.');
+        return;
       }
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        document.getElementById('inPhotoData').value = dataUrl;
+        document.getElementById('photoPreviewImg').src = dataUrl;
+        document.getElementById('photoPlaceholderUI').style.display = 'none';
+        document.getElementById('photoPreviewUI').style.display = 'flex';
+      };
+      reader.readAsDataURL(file);
     }
 
-    // SMART CHILDREN TOGGLE: Hidden for Never Married, shows ONLY for Widowed / Divorced!
+    function removeUploadedPhoto() {
+      document.getElementById('inPhotoFile').value = '';
+      document.getElementById('inPhotoData').value = '';
+      document.getElementById('photoPreviewImg').src = '';
+      document.getElementById('photoPlaceholderUI').style.display = 'block';
+      document.getElementById('photoPreviewUI').style.display = 'none';
+    }
+
+    function handleGenderChange() {
+      const g = document.getElementById('inGender').value;
+      const photoSec = document.getElementById('malePhotoSection');
+      const maritalSelect = document.getElementById('inMaritalStatus');
+      const curMarital = maritalSelect.value;
+
+      if (g === 'Female') {
+        // No photo option for women
+        photoSec.style.display = 'none';
+        removeUploadedPhoto();
+
+        // Women marital status (No Married / Aqd-e-Saani)
+        maritalSelect.innerHTML = `
+          <option value="Unmarried">Never Married (Ghair Shaadishuda)</option>
+          <option value="Widowed">Widow (Bewa)</option>
+          <option value="Divorced">Divorced (Talaq-shuda / Khula)</option>
+        `;
+        if (curMarital === 'Married (Aqd-e-Saani)') {
+          maritalSelect.value = 'Unmarried';
+        } else {
+          maritalSelect.value = curMarital || 'Unmarried';
+        }
+      } else {
+        // Direct photo upload available for men
+        photoSec.style.display = 'block';
+
+        // Men marital status (Includes Married (Aqd-e-Saani))
+        maritalSelect.innerHTML = `
+          <option value="Unmarried">Never Married (Ghair Shaadishuda)</option>
+          <option value="Married (Aqd-e-Saani)">Married (Aqd-e-Saani)</option>
+          <option value="Widowed">Widower (Bewa)</option>
+          <option value="Divorced">Divorced (Talaq-shuda)</option>
+        `;
+        maritalSelect.value = curMarital || 'Unmarried';
+      }
+      handleMaritalChange();
+    }
+
+    // Children toggle: shows for Married (Aqd-e-Saani), Widowed, Divorced; hidden for Never Married
     function handleMaritalChange() {
       const m = document.getElementById('inMaritalStatus').value;
       const kidsBox = document.getElementById('kidsBox');
@@ -1566,11 +1635,11 @@
       
       if (m === 'Unmarried') {
         kidsBox.style.display = 'none';
-        inKids.value = 'None';
-      } else {
-        kidsBox.style.display = 'flex';
         inKids.value = '';
-        inKids.placeholder = 'e.g. 1 Son / 1 Daughter (living with me)';
+      } else {
+        kidsBox.style.display = 'block';
+        inKids.value = '';
+        inKids.placeholder = '';
       }
     }
 
@@ -1580,17 +1649,19 @@
       btn.innerText = 'Saving to Database...';
       btn.disabled = true;
 
+      const genderVal = document.getElementById('inGender').value;
+      const photoVal = (genderVal === 'Male') ? (document.getElementById('inPhotoData').value || '') : '';
+
       const profile = {
-        gender: document.getElementById('inGender').value,
+        gender: genderVal,
         managedBy: document.getElementById('inManagedBy').value,
         fullName: document.getElementById('inName').value,
         age: document.getElementById('inAge').value,
         heightWeight: document.getElementById('inHeightWeight').value,
-        ethnicity: document.getElementById('inEthnicity').value,
         disability: document.getElementById('inDisability').value,
-        photoUrl: document.getElementById('inPhotoUrl') ? document.getElementById('inPhotoUrl').value : '',
+        photoUrl: photoVal,
         maritalStatus: document.getElementById('inMaritalStatus').value,
-        kids: document.getElementById('inKids').value || 'None',
+        kids: document.getElementById('inKids').value.trim() || 'None',
         fatherStatus: document.getElementById('inFatherStatus').value,
         motherStatus: document.getElementById('inMotherStatus').value,
         housing: document.getElementById('inHousing').value,
