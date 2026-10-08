@@ -299,7 +299,7 @@
       background: var(--primary-dark);
     }
 
-    /* 2. Hero Search Section */
+    /* 2. Hero Search Section (Simplified & Clean) */
     .hero-search-section {
       background: linear-gradient(180deg, var(--primary-dark) 0%, #0d6e43 100%);
       color: white;
@@ -312,7 +312,7 @@
       }
     }
     .hero-container {
-      max-width: 1060px;
+      max-width: 1000px;
       margin: 0 auto;
     }
     .hero-pill {
@@ -350,7 +350,7 @@
       }
     }
 
-    /* Advanced Multi-Filter Search Card */
+    /* Clean, Simple Search Card */
     .hero-search-card {
       background: white;
       border-radius: var(--radius);
@@ -407,21 +407,7 @@
       box-shadow: 0 0 0 2px rgba(11, 94, 57, 0.15);
     }
 
-    /* Secondary Filter Row */
-    .secondary-filter-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px dashed var(--border);
-    }
-    @media (min-width: 768px) {
-      .secondary-filter-row {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
-
+    /* Popular Tags Row */
     .popular-tags-row {
       margin-top: 12px;
       display: flex;
@@ -501,7 +487,7 @@
       }
     }
 
-    /* Matrimonial Profile Card */
+    /* Profile Card */
     .family-card {
       background: var(--surface);
       border-radius: var(--radius);
@@ -615,7 +601,6 @@
       border-left: 3px solid var(--primary);
     }
 
-    /* Grid of Matrimonial Spec Chips */
     .matri-specs-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -768,7 +753,7 @@
       margin-bottom: 2px;
     }
 
-    /* 5. Multi-Step Matrimonial Registration Modal */
+    /* 5. Registration Modal Dialog */
     .modal-backdrop {
       display: none;
       position: fixed;
@@ -837,7 +822,6 @@
       color: var(--text-muted);
     }
 
-    /* Modal Step Nav */
     .form-step-nav {
       display: flex;
       gap: 6px;
@@ -942,14 +926,14 @@
     </div>
   </header>
 
-  <!-- 2. HERO SEARCH SECTION (WITH 4-FIRQA & GENDER FILTERS) -->
+  <!-- 2. HERO SEARCH SECTION (CLEAN & SIMPLE: 1 ROW SEARCH BAR + 3 FILTERS) -->
   <section class="hero-search-section">
     <div class="hero-container">
       <span class="hero-pill" id="heroBadge">Banarsi Joda • Official Community Portal</span>
       <h2 class="hero-title" id="heroHeading">Connecting Banarsi Families & Rishtey Across India</h2>
-      <p class="hero-subtitle" id="heroSubheading">Search instantly by Lineage (*Walid/Dada*), Maslak/Firqa, Age & City.</p>
+      <p class="hero-subtitle" id="heroSubheading">Search instantly by Lineage (*Walid/Dada*), Maslak/Firqa, Mohalla & City.</p>
 
-      <!-- Search Card -->
+      <!-- Clean Single-Row Search Card -->
       <div class="hero-search-card">
         <div class="search-inputs-grid">
           <div class="field-group">
@@ -976,46 +960,6 @@
           </div>
         </div>
 
-        <!-- Secondary Row: Gender & Marital Status Filters -->
-        <div class="secondary-filter-row">
-          <div class="field-group">
-            <label class="field-label" id="lblSearchGender">Candidate Gender</label>
-            <select id="genderSelectInput" class="hero-select" style="height: 38px;" onchange="filterProfiles()">
-              <option value="">All Genders</option>
-              <option value="Male">Groom (Dulha)</option>
-              <option value="Female">Bride (Dulhan)</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label class="field-label" id="lblSearchMarital">Marital Status</label>
-            <select id="maritalSelectInput" class="hero-select" style="height: 38px;" onchange="filterProfiles()">
-              <option value="">Any Status</option>
-              <option value="Unmarried">Never Married (Unmarried)</option>
-              <option value="Widowed">Widow / Widower (Bewa)</option>
-              <option value="Divorced">Divorced (Talaq-shuda / Khula)</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label class="field-label" id="lblSearchEthnicity">Ethnicity / Zaat</label>
-            <select id="ethnicitySelectInput" class="hero-select" style="height: 38px;" onchange="filterProfiles()">
-              <option value="">All Biradaris</option>
-              <option value="Ansari">Ansari</option>
-              <option value="Siddiqui">Siddiqui</option>
-              <option value="Qureshi">Qureshi</option>
-              <option value="Pathan">Pathan</option>
-              <option value="Syed">Syed</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label class="field-label" id="lblSearchHouse">House Ownership</label>
-            <select id="houseSelectInput" class="hero-select" style="height: 38px;" onchange="filterProfiles()">
-              <option value="">Any Housing</option>
-              <option value="Own House">Own House (Zati)</option>
-              <option value="Rented">Rented House</option>
-            </select>
-          </div>
-        </div>
-
         <!-- Popular Tags -->
         <div class="popular-tags-row">
           <span class="popular-label" id="lblPopular">Popular:</span>
@@ -1023,6 +967,7 @@
           <span class="tag-chip" onclick="quickFillTag('Deobandi')">Deobandi</span>
           <span class="tag-chip" onclick="quickFillTag('Noorani')">Noorani Weavers</span>
           <span class="tag-chip" onclick="quickFillTag('Kallu Seth')">Kallu Seth Wale</span>
+          <span class="tag-chip" onclick="quickFillTag('Pillai')">Pillai Wale</span>
         </div>
       </div>
     </div>
@@ -1060,7 +1005,7 @@
             <h3 class="side-card-title" style="color: #9d174d;">🛡️ Female Photo Privacy</h3>
           </div>
           <p style="font-size: 0.82rem; color: #831843; line-height: 1.5;">
-            Following strict community modesty norms, female candidate photos are <b>never displayed publicly</b>. Photos are exchanged privately between family elders / Wali via WhatsApp upon mutual interest.
+            Following community modesty norms, female photos are <b>never displayed publicly</b>. Photos are exchanged privately between family elders / Wali via WhatsApp upon mutual interest.
           </p>
         </div>
 
@@ -1072,7 +1017,7 @@
           <p style="font-size: 0.82rem; color: #713f12; margin-bottom: 10px;">
             Direct handloom & powerloom weaver connections between Banaras and retail boutique owners nationwide.
           </p>
-          <button class="pill-btn" style="width: 100%; background: #fef08a; color: #854d0e; font-weight: 700; border: none; padding: 8px;" onclick="switchNav('trade')">Browse 140+ Weavers</button>
+          <button class="pill-btn" style="width: 100%; background: #fef08a; color: #854d0e; font-weight: 700; border: none; padding: 8px; border-radius: 8px; cursor: pointer;" onclick="switchNav('trade')">Browse 140+ Weavers</button>
         </div>
       </aside>
     </div>
@@ -1102,7 +1047,7 @@
     </button>
   </nav>
 
-  <!-- 5. COMPREHENSIVE MATRIMONIAL REGISTRATION MODAL -->
+  <!-- 5. REGISTRATION MODAL (SMART CHILDREN FIELD TOGGLE) -->
   <div class="modal-backdrop" id="addModalBackdrop">
     <div class="modal-dialog">
       <div class="modal-top">
@@ -1179,7 +1124,7 @@
             </div>
           </div>
 
-          <!-- Photo upload block (Solution A: Male allows photo, Female shows Pardah notice) -->
+          <!-- Photo upload block (Solution A) -->
           <div id="malePhotoSection" class="form-group-item">
             <label>Groom Photo URL (Optional for Men)</label>
             <input type="url" id="inPhotoUrl" placeholder="https://... (Optional)">
@@ -1193,21 +1138,21 @@
           </div>
         </div>
 
-        <!-- STEP 2: MARITAL STATUS & LIVING -->
+        <!-- STEP 2: MARITAL STATUS & LIVING (SMART CHILDREN FIELD) -->
         <div class="form-section-box" id="formStep2" style="display: none;">
-          <div class="form-grid-2">
-            <div class="form-group-item">
-              <label>Marital Status (*Azdawaji Haisiyat*)</label>
-              <select id="inMaritalStatus" required onchange="handleMaritalChange()">
-                <option value="Unmarried">Never Married (Ghair Shaadishuda)</option>
-                <option value="Widowed">Widow / Widower (Bewa)</option>
-                <option value="Divorced">Divorced (Talaq-shuda / Khula)</option>
-              </select>
-            </div>
-            <div class="form-group-item" id="kidsBox">
-              <label>Children (*Aulad Detail*)</label>
-              <input type="text" id="inKids" placeholder="e.g. None / 1 Son (with me)">
-            </div>
+          <div class="form-group-item">
+            <label>Marital Status (*Azdawaji Haisiyat*)</label>
+            <select id="inMaritalStatus" required onchange="handleMaritalChange()">
+              <option value="Unmarried" selected>Never Married (Ghair Shaadishuda)</option>
+              <option value="Widowed">Widow / Widower (Bewa)</option>
+              <option value="Divorced">Divorced (Talaq-shuda / Khula)</option>
+            </select>
+          </div>
+
+          <!-- Children Box: Hidden by default for Never Married, appears ONLY for Widowed/Divorced -->
+          <div class="form-group-item" id="kidsBox" style="display: none;">
+            <label>Children (*Aulad Detail: Number of Kids, Genders & Custody*)</label>
+            <input type="text" id="inKids" value="None" placeholder="e.g. 1 Son / 1 Daughter (living with me)">
           </div>
 
           <div class="form-grid-2">
@@ -1382,16 +1327,12 @@
         liveSync: 'Live Database',
         heroBadge: 'Banarsi Joda • Official Community Portal',
         heroHeading: 'Connecting Banarsi Families & Rishtey Across India',
-        heroSubheading: 'Search instantly by Lineage (*Walid/Dada*), Maslak/Firqa, Age & City.',
+        heroSubheading: 'Search instantly by Lineage (*Walid/Dada*), Maslak/Firqa, Mohalla & City.',
         lblSearchKeyword: 'Keyword / Elder / Khandaan',
         searchPlaceholder: 'e.g. Tariq, Haji Rashid, Noorani, Kallu Seth...',
         lblSearchFirqa: 'Maslak / Firqa',
         lblSearchMohalla: 'Banaras Mohalla',
         lblSearchCity: 'Current City in India',
-        lblSearchGender: 'Candidate Gender',
-        lblSearchMarital: 'Marital Status',
-        lblSearchEthnicity: 'Ethnicity / Zaat',
-        lblSearchHouse: 'House Ownership',
         lblPopular: 'Popular:',
         streamTitle: 'Verified Matrimonial Profiles',
         streamTitleRishta: 'Banarsi Rishta Lineages (Dadhial & Nanihal)',
@@ -1420,16 +1361,12 @@
         liveSync: 'لائیو ڈیٹا بیس',
         heroBadge: 'بنارسی جوڑا • مستند رشتہ پورٹل',
         heroHeading: 'پورے ہندوستان میں بنارسی خاندانوں اور رشتوں کا باوقار رابطہ',
-        heroSubheading: 'والد، دادا، مسلک، عمر اور شہر کے اعتبار سے فوری شناخت اور رشتہ تلاش کریں۔',
+        heroSubheading: 'والد، دادا، مسلک، محلہ اور شہر کے اعتبار سے فوری شناخت اور رشتہ تلاش کریں۔',
         lblSearchKeyword: 'نام / بزرگ / خاندان کا نام',
         searchPlaceholder: 'مثلاً: طارق، حاجی رشید، نورانی، کلو سیٹھ...',
         lblSearchFirqa: 'مسلک / فقہی وابستگی',
         lblSearchMohalla: 'بنارس کا آبائی محلہ',
         lblSearchCity: 'موجودہ رہائشی شہر',
-        lblSearchGender: 'امیدوار کی جنس',
-        lblSearchMarital: 'ازدواجی حیثیت',
-        lblSearchEthnicity: 'برادری / ذات',
-        lblSearchHouse: 'مکان کی ملکیت',
         lblPopular: 'مشہور:',
         streamTitle: 'تصدیق شدہ بنارسی رشتے',
         streamTitleRishta: 'بنارسی رشتہ (دادیال و نانہال شجرہ)',
@@ -1756,10 +1693,6 @@
         card.setAttribute('data-mohalla', p.mohalla || '');
         card.setAttribute('data-city', p.city || '');
         card.setAttribute('data-firqa', p.firqa || '');
-        card.setAttribute('data-gender', p.gender || '');
-        card.setAttribute('data-marital', p.maritalStatus || '');
-        card.setAttribute('data-ethnicity', p.ethnicity || '');
-        card.setAttribute('data-housing', p.housing || '');
         card.setAttribute('data-text', searchKeywords);
 
         const waText = encodeURIComponent(t.waShare(name, khandaan, mohalla));
@@ -1818,10 +1751,6 @@
       const selFirqa = document.getElementById('firqaSelectInput').value;
       const selMohalla = document.getElementById('mohallaSelectInput').value;
       const selCity = document.getElementById('citySelectInput').value;
-      const selGender = document.getElementById('genderSelectInput').value;
-      const selMarital = document.getElementById('maritalSelectInput').value;
-      const selEthnicity = document.getElementById('ethnicitySelectInput').value;
-      const selHouse = document.getElementById('houseSelectInput').value;
 
       const cards = document.querySelectorAll('.family-card');
       let visible = 0;
@@ -1831,21 +1760,13 @@
         const mohalla = card.getAttribute('data-mohalla') || '';
         const city = card.getAttribute('data-city') || '';
         const firqa = card.getAttribute('data-firqa') || '';
-        const gender = card.getAttribute('data-gender') || '';
-        const marital = card.getAttribute('data-marital') || '';
-        const ethnicity = card.getAttribute('data-ethnicity') || '';
-        const housing = card.getAttribute('data-housing') || '';
 
         const matchQ = !q || text.includes(q);
         const matchF = !selFirqa || firqa.toLowerCase().includes(selFirqa.toLowerCase());
         const matchM = !selMohalla || mohalla === selMohalla;
         const matchC = !selCity || city.toLowerCase().includes(selCity.toLowerCase());
-        const matchG = !selGender || gender === selGender;
-        const matchMar = !selMarital || marital === selMarital;
-        const matchEth = !selEthnicity || ethnicity === selEthnicity;
-        const matchH = !selHouse || housing === selHouse;
 
-        if (matchQ && matchF && matchM && matchC && matchG && matchMar && matchEth && matchH) {
+        if (matchQ && matchF && matchM && matchC) {
           card.style.display = 'flex';
           visible++;
         } else {
@@ -1887,10 +1808,6 @@
       document.getElementById('lblSearchFirqa').innerText = t.lblSearchFirqa;
       document.getElementById('lblSearchMohalla').innerText = t.lblSearchMohalla;
       document.getElementById('lblSearchCity').innerText = t.lblSearchCity;
-      document.getElementById('lblSearchGender').innerText = t.lblSearchGender;
-      document.getElementById('lblSearchMarital').innerText = t.lblSearchMarital;
-      document.getElementById('lblSearchEthnicity').innerText = t.lblSearchEthnicity;
-      document.getElementById('lblSearchHouse').innerText = t.lblSearchHouse;
       document.getElementById('lblPopular').innerText = t.lblPopular;
 
       document.getElementById('lblHeaderAddBtn').innerText = t.headerAddBtn;
@@ -1958,7 +1875,6 @@
       document.getElementById('addModalBackdrop').classList.remove('open');
     }
 
-    // Step Switcher in Modal
     function showFormStep(step) {
       for (let i = 1; i <= 4; i++) {
         document.getElementById(`formStep${i}`).style.display = (i === step) ? 'flex' : 'none';
@@ -1977,13 +1893,19 @@
       }
     }
 
+    // SMART CHILDREN TOGGLE: Turn off children option if Never Married is selected!
     function handleMaritalChange() {
       const m = document.getElementById('inMaritalStatus').value;
       const kidsBox = document.getElementById('kidsBox');
+      const inKids = document.getElementById('inKids');
+      
       if (m === 'Unmarried') {
-        document.getElementById('inKids').value = 'None';
+        kidsBox.style.display = 'none';
+        inKids.value = 'None';
       } else {
-        document.getElementById('inKids').placeholder = 'e.g. 1 Son / 1 Daughter (with me)';
+        kidsBox.style.display = 'flex';
+        inKids.value = '';
+        inKids.placeholder = 'e.g. 1 Son / 1 Daughter (with me)';
       }
     }
 
