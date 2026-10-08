@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="htmlRoot">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Banarsi Joda | بنارسی جوڑا</title>
+  
+  <!-- Fonts: Inter for English, Jameel Noori Nastaleeq & Noto Nastaliq Urdu for Urdu -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Jameel Noori Nastaleeq Web Font CDN -->
+  <style>
+    @font-face {
+      font-family: 'Jameel Noori Nastaleeq';
+      src: url('https://cdn.jsdelivr.net/gh/UrduWeb/Urdu-Web-Fonts/Jameel%20Noori%20Nastaleeq.woff2') format('woff2'),
+           url('https://cdn.jsdelivr.net/gh/UrduWeb/Urdu-Web-Fonts/Jameel%20Noori%20Nastaleeq.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+
+  <!-- Firebase SDKs (Compat version for pure HTML without build tools) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    :root {
+      --primary: #0d5c3a;
+      --primary-dark: #083c26;
+      --primary-light: #e8f5ee;
+      --gold: #c59b27;
+      --gold-light: #fcf6e6;
+      --whatsapp-green: #25d366;
+      --accent-red: #c0392b;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --bg-page: #f8fafc;
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+      --radius: 12px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.07);
+      --font-en: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-nastaleeq: 'Jameel Noori Nastaleeq', 'Jameel Nastaleeq', 'Noto Nastaliq Urdu', 'Urdu Typesetting', serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      font-family: var(--font-en);
+      line-height: 1.5;
+      padding-bottom: 75px;
+      transition: background-color 0.2s ease;
+    }
+
+    /* =========================================================================
+       URDU JAMEEL NOORI NASTALEEQ TYPOGRAPHY & SPACING FIXES
+       ========================================================================= */
+    html[dir="rtl"] body {
+      font-family: var(--font-nastaleeq);
+      line-height: 1.8;
+      font-size: 1.05rem;
+    }
+
+    /* Prevent clipping in Nastaleeq headings & text */
+    html[dir="rtl"] h1, 
+    html[dir="rtl"] h2, 
+    html[dir="rtl"] h3, 
+    html[dir="rtl"] .hero-title,
+    html[dir="rtl"] .profile-name,
+    html[dir="rtl"] .section-heading {
+      font-family: var(--font-nastaleeq);
+      line-height: 1.7;
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
+
+    html[dir="rtl"] .brand-titles h1 {
+      font-size: 1.6rem;
+      line-height: 1.4;
+      font-weight: 700;
+    }
+
+    html[dir="rtl"] .brand-titles p {
+      font-size: 0.92rem;
+      line-height: 1.4;
+    }
+
+    html[dir="rtl"] .hero-title {
+      font-size: 2.2rem;
+      line-height: 1.7;
+    }
+
+    html[dir="rtl"] .hero-subtitle {
+      font-size: 1.15rem;
+      line-height: 1.8;
+    }
+
+    html[dir="rtl"] .nav-btn {
+      font-family: var(--font-nastaleeq);
+      font-size: 1.05rem;
+      padding: 6px 16px;
+      line-height: 1.6;
+    }
+
+    html[dir="rtl"] .btn-header-add {
+      font-family: var(--font-nastaleeq);
+      font-size: 1.05rem;
+      padding: 8px 18px;
+    }
+
+    html[dir="rtl"] .field-wrap label {
+      font-family: var(--font-nastaleeq);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 4px;
+    }
+
+    /* Form Inputs in Urdu: Avoid clipping descenders */
+    html[dir="rtl"] .field-wrap input,
+    html[dir="rtl"] .field-wrap select,
+    html[dir="rtl"] .form-group-item input,
+    html[dir="rtl"] .form-group-item select {
+      font-family: var(--font-nastaleeq);
+      font-size: 1.05rem;
+      padding: 8px 14px;
+      min-height: 48px;
+      line-height: 1.5;
+    }
+
+    html[dir="rtl"] .khandaan-ribbon {
+      font-family: var(--font-nastaleeq);
+      font-size: 0.95rem;
+      line-height: 1.4;
+      padding: 4px 10px;
+    }
+
+    html[dir="rtl"] .lineage-block {
+      font-family: var(--font-nastaleeq);
+      font-size: 1rem;
+      line-height: 2.0;
+      border-left: none;
+      border-right: 3px solid var(--primary);
+      padding: 10px 14px;
+    }
+
+    html[dir="rtl"] .location-details {
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    html[dir="rtl"] .btn-connect {
+      font-family: var(--font-nastaleeq);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    html[dir="rtl"] .quick-tag-pill {
+      font-family: var(--font-nastaleeq);
+      font-size: 0.92rem;
+      padding: 4px 10px;
+    }
+
+    html[dir="rtl"] .mohalla-btn {
+      font-family: var(--font-nastaleeq);
+      font-size: 0.95rem;
+      padding: 5px 12px;
+    }
+
+    html[dir="rtl"] .m-nav-item span {
+      font-family: var(--font-nastaleeq);
+      font-size: 0.8rem;
+    }
+
+    /* Top Strip */
+    .top-strip {
+      background: var(--primary-dark);
+      color: #cbd5e1;
+      font-size: 0.78rem;
+      padding: 6px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      direction: ltr; /* base flex container */
+    }
+    html[dir="rtl"] .top-strip {
+      direction: rtl;
+      font-size: 0.88rem;
+    }
+    .top-strip a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    @media (max-width: 600px) {
+      .top-strip {
+        font-size: 0.72rem;
+        flex-direction: column;
+        gap: 2px;
+        text-align: center;
+      }
+    }
+
+    /* Header */
+    header {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 99;
+      box-shadow: var(--shadow-sm);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--primary), var(--gold));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(13, 92, 58, 0.25);
+    }
+    .brand-titles h1 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      line-height: 1.2;
+    }
+    .brand-titles p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-btn {
+      background: transparent;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .nav-btn.active, .nav-btn:hover {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+    @media (max-width: 880px) {
+      .desktop-nav {
+        display: none;
+      }
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    /* Language Switcher */
+    .lang-toggle {
+      display: flex;
+      background: #f1f5f9;
+      border-radius: 20px;
+      padding: 3px;
+      border: 1px solid var(--border-color);
+    }
+    .lang-btn {
+      border: none;
+      background: none;
+      padding: 4px 10px;
+      border-radius: 16px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .lang-btn.active {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+    .lang-btn.urdu {
+      font-family: var(--font-nastaleeq);
+      font-size: 0.9rem;
+      padding: 2px 10px;
+    }
+
+    .btn-header-add {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .btn-header-add:hover {
+      background: var(--primary-dark);
+    }
+
+    /* Status Bar */
+    .db-status-bar {
+      background: #e6fffa;
+      border-bottom: 1px solid #b2f5ea;
+      color: #234e52;
+      font-size: 0.78rem;
+      padding: 6px 16px;
+      text-align: center;
+      font-weight: 600;
+    }
+    html[dir="rtl"] .db-status-bar {
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Hero & Search */
+    .hero-search-area {
+      background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary) 100%);
+      color: white;
+      padding: 30px 16px 42px;
+      text-align: center;
+    }
+    .hero-content {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .hero-pill {
+      display: inline-block;
+      background: rgba(197, 155, 39, 0.25);
+      border: 1px solid var(--gold);
+      color: #fef08a;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 14px;
+      margin-bottom: 10px;
+    }
+    html[dir="rtl"] .hero-pill {
+      font-size: 0.88rem;
+    }
+
+    .hero-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    @media (min-width: 768px) {
+      .hero-title {
+        font-size: 2.3rem;
+      }
+    }
+    .hero-subtitle {
+      font-size: 0.95rem;
+      color: #d1fae5;
+      margin-bottom: 24px;
+    }
+
+    .search-box-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+      color: var(--text-main);
+      text-align: left;
+    }
+    html[dir="rtl"] .search-box-card {
+      text-align: right;
+    }
+    .search-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 768px) {
+      .search-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .field-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .field-wrap label {
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .field-wrap input, .field-wrap select {
+      width: 100%;
+      min-height: 46px;
+      padding: 8px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: white;
+      color: var(--text-main);
+      outline: none;
+    }
+    .field-wrap input:focus, .field-wrap select:focus {
+      border-color: var(--primary);
+    }
+
+    .quick-tags {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .quick-tag-pill {
+      background: #f1f5f9;
+      color: #334155;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .quick-tag-pill:hover {
+      background: #e2e8f0;
+      color: var(--primary-dark);
+    }
+
+    /* Main Grid */
+    .main-grid {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 290px 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 900px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .side-widget {
+      background: white;
+      border-radius: var(--radius);
+      padding: 18px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+    .widget-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+    }
+    .widget-head h3 {
+      font-size: 1rem;
+      color: var(--primary-dark);
+    }
+
+    .mohalla-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .mohalla-btn {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      color: #334155;
+      font-size: 0.8rem;
+      padding: 5px 12px;
+      border-radius: 14px;
+      cursor: pointer;
+    }
+    .mohalla-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .results-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .results-bar h2 {
+      font-size: 1.2rem;
+      color: var(--primary-dark);
+      font-weight: 700;
+    }
+
+    .cards-flow {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 18px;
+    }
+
+    .family-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .family-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .khandaan-ribbon {
+      display: inline-block;
+      background: var(--gold-light);
+      color: #8c6a0b;
+      border: 1px solid rgba(197, 155, 39, 0.3);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .profile-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 6px;
+    }
+    .lineage-block {
+      font-size: 0.86rem;
+      color: #334155;
+      line-height: 1.5;
+      background: #f8fafc;
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      border-left: 3px solid var(--primary);
+    }
+
+    .location-details {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .loc-line {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .card-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 1px solid #f1f5f9;
+    }
+    .btn-connect {
+      flex: 1;
+      height: 40px;
+      background: white;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.84rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .btn-whatsapp {
+      height: 40px;
+      width: 40px;
+      background: #e7f9ee;
+      border: 1px solid var(--whatsapp-green);
+      color: #075e54;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      text-decoration: none;
+    }
+
+    .mobile-bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: white;
+      border-top: 1px solid var(--border-color);
+      z-index: 1000;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
+      justify-content: space-around;
+      align-items: center;
+    }
+    @media (max-width: 880px) {
+      .mobile-bottom-nav {
+        display: flex;
+      }
+    }
+    .m-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      flex: 1;
+      font-weight: 600;
+    }
+    .m-nav-item.active {
+      color: var(--primary);
+    }
+    .m-nav-icon {
+      font-size: 1.25rem;
+    }
+
+    /* Modal Backdrop */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-backdrop.open {
+      display: flex;
+    }
+    .modal-window {
+      background: white;
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px;
+      text-align: left;
+    }
+    html[dir="rtl"] .modal-window {
+      text-align: right;
+    }
+    .modal-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .btn-close-modal {
+      background: none;
+      border: none;
+      font-size: 1.6rem;
+      cursor: pointer;
+      color: #94a3b8;
+    }
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 520px) {
+      .form-row-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+    .form-group-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+    .form-group-item label {
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+    .form-group-item input, .form-group-item select {
+      padding: 10px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Strip -->
+  <div class="top-strip">
+    <div id="topBannerText">رابطۂ بنارس • Banarsi Joda - All-India Banarsi Muslim Community & Rishta Platform</div>
+    <div><span id="urgentHelpText">Urgent Blood SOS / Khabar:</span> <a href="tel:919820012345" id="callDeskText">Call Community Desk</a></div>
+  </div>
+
+  <!-- Realtime Database Status Banner -->
+  <div class="db-status-bar" id="dbStatus">
+    🟢 <b>Banarsi Joda Live Database (<bdi dir="ltr">Google Firebase: banarsi-joda</bdi>)</b> • Connected & syncing 24/7 across India.
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <div class="brand-wrap">
+        <div class="brand-icon">ب ج</div>
+        <div class="brand-titles">
+          <h1 id="brandTitle">Banarsi Joda</h1>
+          <p id="brandSubtitle">بنارسی جوڑا • Khandaan, Lineage & Rishta Platform</p>
+        </div>
+      </div>
+
+      <nav class="desktop-nav">
+        <button class="nav-btn active" id="tabDir" onclick="setTab('directory')">Directory (Shajra)</button>
+        <button class="nav-btn" id="tabRishta" onclick="setTab('matrimony')">Banarsi Rishta</button>
+        <button class="nav-btn" id="tabTrade" onclick="setTab('trade')">B2B Saree Trade</button>
+        <button class="nav-btn" id="tabNews" onclick="setTab('notices')">Janaza & News</button>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Language Switcher -->
+        <div class="lang-toggle">
+          <button class="lang-btn active" id="btnEn" onclick="switchLang('en')">English</button>
+          <button class="lang-btn urdu" id="btnUr" onclick="switchLang('ur')">اردو</button>
+        </div>
+
+        <button class="btn-header-add" onclick="openRegisterModal()">
+          <span>➕</span>
+          <span id="btnAddFamilyHeader">Add Family</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero & Search -->
+  <section class="hero-search-area">
+    <div class="hero-content">
+      <span class="hero-pill" id="heroBadge">Banarsi Joda • Official Community Portal</span>
+      <h2 class="hero-title" id="heroHeading">Connecting Banarsi Families & Rishtey Across India</h2>
+      <p class="hero-subtitle" id="heroSubheading">Search instantly by Father (*Walid*), Grandfather (*Dada*), or Khandaan name.</p>
+
+      <div class="search-box-card">
+        <div class="search-grid">
+          <div class="field-wrap">
+            <label id="lblSearchKeyword">Name / Elder / Khandaan</label>
+            <input type="text" id="keywordInput" placeholder="e.g. Tariq, Haji Rashid, Noorani, Kallu Seth..." oninput="applyFilters()">
+          </div>
+          <div class="field-wrap">
+            <label id="lblSearchMohalla">Banaras Mohalla</label>
+            <select id="filterMohalla" onchange="applyFilters()">
+              <!-- Options populated dynamically by JS based on language -->
+            </select>
+          </div>
+          <div class="field-wrap">
+            <label id="lblSearchCity">Current City in India</label>
+            <select id="filterCity" onchange="applyFilters()">
+              <!-- Options populated dynamically by JS based on language -->
+            </select>
+          </div>
+        </div>
+
+        <div class="quick-tags">
+          <span id="lblPopularTags">Popular:</span>
+          <span class="quick-tag-pill" id="tagNoorani" onclick="quickFill('Noorani')">Noorani Weavers</span>
+          <span class="quick-tag-pill" id="tagKallu" onclick="quickFill('Kallu Seth')">Kallu Seth Wale</span>
+          <span class="quick-tag-pill" id="tagPillai" onclick="quickFill('Pillai')">Pillai Wale</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Grid -->
+  <main class="main-grid">
+    <aside class="sidebar">
+      <div class="side-widget">
+        <div class="widget-head">
+          <h3 id="widgetNewsTitle">📢 Janaza & Urgent Notices</h3>
+        </div>
+        <div style="font-size: 0.88rem; margin-bottom: 8px;">
+          <b id="widgetJanazaHeading">Namaz-e-Janaza Today:</b> <span id="widgetJanazaName">Haji Manzoor Ahmad (Age 78)</span><br>
+          <span style="font-size: 0.8rem; color: var(--text-muted);" id="widgetJanazaDetails">Madanpura Badi Masjid after Asr.</span>
+        </div>
+      </div>
+
+      <div class="side-widget">
+        <div class="widget-head">
+          <h3 id="widgetMohallasTitle">📍 Mohallas in Banaras</h3>
+        </div>
+        <div class="mohalla-container" id="mohallaPillsContainer">
+          <!-- Populated dynamically by JS -->
+        </div>
+      </div>
+    </aside>
+
+    <section>
+      <div class="results-bar">
+        <h2 id="sectionTitle">Verified Family Lineage Cards</h2>
+        <span id="cardCounter" style="font-size: 0.84rem; color: var(--text-muted);">Connecting to database...</span>
+      </div>
+
+      <div class="cards-flow" id="cardsList">
+        <!-- Rendered dynamically by JavaScript & Firebase -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav">
+    <button class="m-nav-item active" id="mNavDir" onclick="setTab('directory')">
+      <span class="m-nav-icon">📖</span>
+      <span id="mNavLabelDir">Directory</span>
+    </button>
+    <button class="m-nav-item" id="mNavRishta" onclick="setTab('matrimony')">
+      <span class="m-nav-icon">💍</span>
+      <span id="mNavLabelRishta">Rishta</span>
+    </button>
+    <button class="m-nav-item" onclick="openRegisterModal()">
+      <span class="m-nav-icon" style="color: var(--primary);">➕</span>
+      <span id="mNavLabelAdd" style="color: var(--primary);">Add Family</span>
+    </button>
+    <button class="m-nav-item" id="mNavTrade" onclick="setTab('trade')">
+      <span class="m-nav-icon">🧵</span>
+      <span id="mNavLabelTrade">Trade</span>
+    </button>
+    <button class="m-nav-item" id="mNavNews" onclick="setTab('notices')">
+      <span class="m-nav-icon">📢</span>
+      <span id="mNavLabelNews">Janaza</span>
+    </button>
+  </nav>
+
+  <!-- Family Registration Modal -->
+  <div class="modal-backdrop" id="regModal">
+    <div class="modal-window">
+      <div class="modal-top">
+        <h3 id="modalTitle">Register Your Family on Banarsi Joda</h3>
+        <button class="btn-close-modal" onclick="closeRegisterModal()">&times;</button>
+      </div>
+      <form id="familyForm" onsubmit="handleRegistration(event)">
+        <div class="form-group-item">
+          <label id="lblFormName">Your Full Name (*Apna Naam*)</label>
+          <input type="text" id="regName" required placeholder="e.g. Mohammad Bilal Ansari">
+        </div>
+        <div class="form-row-2">
+          <div class="form-group-item">
+            <label id="lblFormWalid">Father's Name (*Walid*)</label>
+            <input type="text" id="regWalid" required placeholder="e.g. Janab Akhtar Hussain">
+          </div>
+          <div class="form-group-item">
+            <label id="lblFormDada">Grandfather's Name (*Dada*)</label>
+            <input type="text" id="regDada" required placeholder="e.g. Late Haji Maqbool">
+          </div>
+        </div>
+        <div class="form-group-item">
+          <label id="lblFormKhandaan">Khandaan Name / Urfiat (*Mashhoor Naam*)</label>
+          <input type="text" id="regKhandaan" required placeholder="e.g. Noorani Weavers / Pillai Wale">
+        </div>
+        <div class="form-row-2">
+          <div class="form-group-item">
+            <label id="lblFormMohalla">Banaras Root Mohalla</label>
+            <select id="regMohalla" required>
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+          <div class="form-group-item">
+            <label id="lblFormCity">Current Residence City</label>
+            <input type="text" id="regCity" required placeholder="e.g. Mumbai, Surat, Delhi">
+          </div>
+        </div>
+        <div class="form-group-item">
+          <label id="lblFormWork">Profession / Business</label>
+          <input type="text" id="regProfession" placeholder="e.g. Saree Merchant, Software Engineer">
+        </div>
+        <div class="form-group-item">
+          <label id="lblFormPhone">Mobile Number (Confidential / Family Verification)</label>
+          <input type="tel" id="regPhone" required placeholder="+91 98765 43210">
+        </div>
+        <div style="margin-top: 15px; display: flex; justify-content: flex-end; gap: 8px;">
+          <button type="button" class="btn-connect" style="max-width: 110px;" id="btnCancelModal" onclick="closeRegisterModal()">Cancel</button>
+          <button type="submit" class="btn-header-add" id="submitBtn">Save to Banarsi Joda</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // 1. DICTIONARIES & OPTIONS (ENGLISH & JAMEEL NOORI NASTALEEQ URDU)
+    // =========================================================================
+    let currentLang = 'en';
+
+    const mohallaOptions = [
+      { val: "", en: "All Mohallas", ur: "تمام محلے" },
+      { val: "Madanpura", en: "Madanpura", ur: "مدن پورہ" },
+      { val: "Bajardiha", en: "Bajardiha", ur: "بجرڈیہہ" },
+      { val: "Alaipura", en: "Alaipura", ur: "علائی پورہ" },
+      { val: "Pilikothi", en: "Pilikothi", ur: "پیلی کوٹھی" },
+      { val: "Lohta", en: "Lohta", ur: "لوہتا" },
+      { val: "Adampura", en: "Adampura", ur: "آدم پورہ" }
+    ];
+
+    const cityOptions = [
+      { val: "", en: "All Cities", ur: "تمام شہر" },
+      { val: "Mumbai", en: "Mumbai / Bhiwandi", ur: "ممبئی / بھیونڈی" },
+      { val: "Delhi", en: "Delhi-NCR", ur: "دہلی این سی آر" },
+      { val: "Surat", en: "Surat", ur: "سورت" },
+      { val: "Bengaluru", en: "Bengaluru", ur: "بنگلور" },
+      { val: "Kolkata", en: "Kolkata", ur: "کولکتہ" },
+      { val: "Varanasi", en: "Banaras (Native)", ur: "بنارس (آبائی)" }
+    ];
+
+    const translations = {
+      en: {
+        dir: 'ltr',
+        brandTitle: 'Banarsi Joda',
+        brandSubtitle: 'بنارسی جوڑا • Khandaan, Lineage & Rishta Platform',
+        topBannerText: 'رابطۂ بنارس • Banarsi Joda - All-India Banarsi Muslim Community & Rishta Platform',
+        urgentHelpText: 'Urgent Blood SOS / Khabar:',
+        callDeskText: 'Call Community Desk',
+        dbStatus: '🟢 <b>Banarsi Joda Live Database (<bdi dir="ltr">Google Firebase: banarsi-joda</bdi>)</b> • Connected & syncing 24/7 across India.',
+        tabDir: 'Directory (Shajra)',
+        tabRishta: 'Banarsi Rishta',
+        tabTrade: 'B2B Saree Trade',
+        tabNews: 'Janaza & News',
+        btnAddFamilyHeader: 'Add Family',
+        heroBadge: 'Banarsi Joda • Official Community Portal',
+        heroHeading: 'Connecting Banarsi Families & Rishtey Across India',
+        heroSubheading: 'Search instantly by Father (*Walid*), Grandfather (*Dada*), or Khandaan name.',
+        lblSearchKeyword: 'Name / Elder / Khandaan',
+        searchPlaceholder: 'e.g. Tariq, Haji Rashid, Noorani, Kallu Seth...',
+        lblSearchMohalla: 'Banaras Mohalla',
+        lblSearchCity: 'Current City in India',
+        lblPopularTags: 'Popular:',
+        tagNoorani: 'Noorani Weavers',
+        tagKallu: 'Kallu Seth Wale',
+        tagPillai: 'Pillai Wale',
+        widgetNewsTitle: '📢 Janaza & Urgent Notices',
+        widgetJanazaHeading: 'Namaz-e-Janaza Today:',
+        widgetJanazaName: 'Haji Manzoor Ahmad (Age 78)',
+        widgetJanazaDetails: 'Madanpura Badi Masjid after Asr.',
+        widgetMohallasTitle: '📍 Mohallas in Banaras',
+        sectionTitle: 'Verified Family Lineage Cards',
+        sectionTitleMatrimony: 'Banarsi Joda • Rishta Lineage Cards (Dadhial & Nanihal)',
+        sectionTitleTrade: 'B2B Saree Weavers & Merchant Network',
+        sectionTitleNews: 'Banaras Mohalla Bulletins & Janaza Alerts',
+        mNavLabelDir: 'Directory',
+        mNavLabelRishta: 'Rishta',
+        mNavLabelAdd: 'Add Family',
+        mNavLabelTrade: 'Trade',
+        mNavLabelNews: 'Janaza',
+        modalTitle: 'Register Your Family on Banarsi Joda',
+        lblFormName: 'Your Full Name (*Apna Naam*)',
+        lblFormWalid: "Father's Name (*Walid*)",
+        lblFormDada: "Grandfather's Name (*Dada*)",
+        lblFormKhandaan: 'Khandaan Name / Urfiat (*Mashhoor Naam*)',
+        lblFormMohalla: 'Banaras Root Mohalla',
+        lblFormCity: 'Current Residence City',
+        lblFormWork: 'Profession / Business',
+        lblFormPhone: 'Mobile Number (Confidential / Family Verification)',
+        btnCancelModal: 'Cancel',
+        btnSubmitModal: 'Save to Banarsi Joda',
+        cardKhandaanPrefix: 'Khandaan: ',
+        cardWalidLabel: 'Walid: ',
+        cardDadaLabel: 'Dada: ',
+        cardRootsLabel: 'Roots: ',
+        cardCurrentLabel: 'Current: ',
+        cardWorkLabel: 'Work: ',
+        btnRequestConnect: 'Request Connect',
+        showingCount: (n) => `Showing ${n} verified profiles`,
+        waShareTemplate: (name, khandaan, mohalla) => `Assalamu Alaikum, check out the profile of ${name} (${khandaan}, from ${mohalla}) on Banarsi Joda.`
+      },
+      ur: {
+        dir: 'rtl',
+        brandTitle: 'بنارسی جوڑا',
+        brandSubtitle: 'رابطۂ بنارس • خاندان، شجرۂ نسب اور بنارسی رشتہ پلیٹ فارم',
+        topBannerText: 'رابطۂ بنارس • بنارسی جوڑا - آل انڈیا بنارسی مسلم برادری و رشتہ پلیٹ فارم',
+        urgentHelpText: 'ضروری بلڈ یا خبر:',
+        callDeskText: 'کمیونٹی ڈیسک پر کال کریں',
+        dbStatus: '🟢 <b>بنارسی جوڑا لائیو ڈیٹا بیس (<bdi dir="ltr">Google Firebase: banarsi-joda</bdi>)</b> • منسلک اور چوبیس گھنٹے فعال ہے۔',
+        tabDir: 'شجرہ و ڈائریکٹری',
+        tabRishta: 'بنارسی رشتہ',
+        tabTrade: 'بی ٹو بی ساڑھی تجارت',
+        tabNews: 'اعلاناتِ جنازہ و خبریں',
+        btnAddFamilyHeader: 'خاندان درج کریں',
+        heroBadge: 'بنارسی جوڑا • مستند برادری پورٹل',
+        heroHeading: 'پورے ہندوستان میں بنارسی خاندانوں اور رشتوں کا باوقار رابطہ',
+        heroSubheading: 'والد، دادا اور مشہور خاندان کے نام سے فوری شناخت اور تلاش کریں۔',
+        lblSearchKeyword: 'نام / بزرگ / خاندان کا نام',
+        searchPlaceholder: 'مثلاً: طارق، حاجی رشید، نورانی، کلو سیٹھ...',
+        lblSearchMohalla: 'بنارس کا آبائی محلہ',
+        lblSearchCity: 'موجودہ رہائشی شہر',
+        lblPopularTags: 'مشہور:',
+        tagNoorani: 'نورانی ویورز',
+        tagKallu: 'کلو سیٹھ والے',
+        tagPillai: 'پلائی والے',
+        widgetNewsTitle: '📢 اعلاناتِ جنازہ و ضروری اطلاعات',
+        widgetJanazaHeading: 'نمازِ جنازہ آج:',
+        widgetJanazaName: 'حاجی منظور احمد (عمر 78 سال)',
+        widgetJanazaDetails: 'مدن پورہ بڑی مسجد بعد نمازِ عصر۔',
+        widgetMohallasTitle: '📍 بنارس کے محلے',
+        sectionTitle: 'تصدیق شدہ خاندانی شجرہ و احباب',
+        sectionTitleMatrimony: 'بنارسی جوڑا • رشتہ داریاں و شجرۂ نسب (دادیال و نانہال)',
+        sectionTitleTrade: 'بی ٹو بی بنارسی ساڑھی بنکر و تاجر نیٹ ورک',
+        sectionTitleNews: 'بنارس محلہ بلیٹن و اعلاناتِ جنازہ',
+        mNavLabelDir: 'ڈائریکٹری',
+        mNavLabelRishta: 'رشتہ',
+        mNavLabelAdd: 'خاندان درج کریں',
+        mNavLabelTrade: 'تجارت',
+        mNavLabelNews: 'جنازہ',
+        modalTitle: 'بنارسی جوڑا پر اپنے خاندان کا اندراج کریں',
+        lblFormName: 'آپ کا پورا نام',
+        lblFormWalid: 'والد محترم کا نام',
+        lblFormDada: 'دادا مرحوم / محترم کا نام',
+        lblFormKhandaan: 'خاندان کا نام / عرفیت (مشہور نام)',
+        lblFormMohalla: 'بنارس کا آبائی محلہ',
+        lblFormCity: 'موجودہ رہائشی شہر (ہندوستان میں)',
+        lblFormWork: 'پیشہ یا کاروبار',
+        lblFormPhone: 'موبائل نمبر (خاندانی تصدیق کے لیے صیغۂ راز میں)',
+        btnCancelModal: 'منسوخ کریں',
+        btnSubmitModal: 'بنارسی جوڑا پر محفوظ کریں',
+        cardKhandaanPrefix: 'خاندان: ',
+        cardWalidLabel: 'والد: ',
+        cardDadaLabel: 'دادا: ',
+        cardRootsLabel: 'آبائی وطن: ',
+        cardCurrentLabel: 'موجودہ شہر: ',
+        cardWorkLabel: 'پیشہ: ',
+        btnRequestConnect: 'رابطے کی درخواست',
+        showingCount: (n) => `${n} تصدیق شدہ خاندانی کارڈز موجود ہیں`,
+        waShareTemplate: (name, khandaan, mohalla) => `السلام علیکم، بنارسی جوڑا پر ${name} (${khandaan}، آبائی تعلق: ${mohalla}) کا خاندانی تعارف دیکھیں۔`
+      }
+    };
+
+    function populateDropdowns() {
+      const isUr = currentLang === 'ur';
+      
+      // Mohalla filter
+      const filterMohalla = document.getElementById('filterMohalla');
+      const curMohallaVal = filterMohalla.value;
+      filterMohalla.innerHTML = '';
+      mohallaOptions.forEach(opt => {
+        const o = document.createElement('option');
+        o.value = opt.val;
+        o.innerText = isUr ? opt.ur : opt.en;
+        if (opt.val === curMohallaVal) o.selected = true;
+        filterMohalla.appendChild(o);
+      });
+
+      // City filter
+      const filterCity = document.getElementById('filterCity');
+      const curCityVal = filterCity.value;
+      filterCity.innerHTML = '';
+      cityOptions.forEach(opt => {
+        const o = document.createElement('option');
+        o.value = opt.val;
+        o.innerText = isUr ? opt.ur : opt.en;
+        if (opt.val === curCityVal) o.selected = true;
+        filterCity.appendChild(o);
+      });
+
+      // Modal Mohalla Select
+      const regMohalla = document.getElementById('regMohalla');
+      regMohalla.innerHTML = `<option value="">${isUr ? 'محلہ منتخب کریں' : 'Select Mohalla'}</option>`;
+      mohallaOptions.slice(1).forEach(opt => {
+        const o = document.createElement('option');
+        o.value = opt.val;
+        o.innerText = isUr ? opt.ur : opt.en;
+        regMohalla.appendChild(o);
+      });
+      const oOther = document.createElement('option');
+      oOther.value = "Other";
+      oOther.innerText = isUr ? "دیگر محلہ" : "Other Mohalla";
+      regMohalla.appendChild(oOther);
+
+      // Mohalla Pills Widget
+      const pillsContainer = document.getElementById('mohallaPillsContainer');
+      pillsContainer.innerHTML = '';
+      mohallaOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'mohalla-btn' + (opt.val === '' ? ' active' : '');
+        btn.innerText = isUr ? opt.ur : opt.en;
+        btn.onclick = () => setMohallaBtn(opt.val);
+        pillsContainer.appendChild(btn);
+      });
+    }
+
+    function switchLang(lang) {
+      currentLang = lang;
+      const t = translations[lang];
+      const root = document.getElementById('htmlRoot');
+      root.setAttribute('dir', t.dir);
+      root.setAttribute('lang', lang);
+
+      if (lang === 'en') {
+        document.getElementById('btnEn').classList.add('active');
+        document.getElementById('btnUr').classList.remove('active');
+      } else {
+        document.getElementById('btnUr').classList.add('active');
+        document.getElementById('btnEn').classList.remove('active');
+      }
+
+      document.getElementById('brandTitle').innerText = t.brandTitle;
+      document.getElementById('brandSubtitle').innerText = t.brandSubtitle;
+      document.getElementById('topBannerText').innerText = t.topBannerText;
+      document.getElementById('urgentHelpText').innerText = t.urgentHelpText;
+      document.getElementById('callDeskText').innerText = t.callDeskText;
+      document.getElementById('dbStatus').innerHTML = t.dbStatus;
+      document.getElementById('tabDir').innerText = t.tabDir;
+      document.getElementById('tabRishta').innerText = t.tabRishta;
+      document.getElementById('tabTrade').innerText = t.tabTrade;
+      document.getElementById('tabNews').innerText = t.tabNews;
+      document.getElementById('btnAddFamilyHeader').innerText = t.btnAddFamilyHeader;
+
+      document.getElementById('heroBadge').innerText = t.heroBadge;
+      document.getElementById('heroHeading').innerText = t.heroHeading;
+      document.getElementById('heroSubheading').innerText = t.heroSubheading;
+
+      document.getElementById('lblSearchKeyword').innerText = t.lblSearchKeyword;
+      document.getElementById('keywordInput').setAttribute('placeholder', t.searchPlaceholder);
+      document.getElementById('lblSearchMohalla').innerText = t.lblSearchMohalla;
+      document.getElementById('lblSearchCity').innerText = t.lblSearchCity;
+      document.getElementById('lblPopularTags').innerText = t.lblPopularTags;
+      document.getElementById('tagNoorani').innerText = t.tagNoorani;
+      document.getElementById('tagKallu').innerText = t.tagKallu;
+      document.getElementById('tagPillai').innerText = t.tagPillai;
+
+      document.getElementById('widgetNewsTitle').innerText = t.widgetNewsTitle;
+      document.getElementById('widgetJanazaHeading').innerText = t.widgetJanazaHeading;
+      document.getElementById('widgetJanazaName').innerText = t.widgetJanazaName;
+      document.getElementById('widgetJanazaDetails').innerText = t.widgetJanazaDetails;
+      document.getElementById('widgetMohallasTitle').innerText = t.widgetMohallasTitle;
+
+      document.getElementById('sectionTitle').innerText = t.sectionTitle;
+
+      document.getElementById('mNavLabelDir').innerText = t.mNavLabelDir;
+      document.getElementById('mNavLabelRishta').innerText = t.mNavLabelRishta;
+      document.getElementById('mNavLabelAdd').innerText = t.mNavLabelAdd;
+      document.getElementById('mNavLabelTrade').innerText = t.mNavLabelTrade;
+      document.getElementById('mNavLabelNews').innerText = t.mNavLabelNews;
+
+      document.getElementById('modalTitle').innerText = t.modalTitle;
+      document.getElementById('lblFormName').innerText = t.lblFormName;
+      document.getElementById('lblFormWalid').innerText = t.lblFormWalid;
+      document.getElementById('lblFormDada').innerText = t.lblFormDada;
+      document.getElementById('lblFormKhandaan').innerText = t.lblFormKhandaan;
+      document.getElementById('lblFormMohalla').innerText = t.lblFormMohalla;
+      document.getElementById('lblFormCity').innerText = t.lblFormCity;
+      document.getElementById('lblFormWork').innerText = t.lblFormWork;
+      document.getElementById('lblFormPhone').innerText = t.lblFormPhone;
+      document.getElementById('btnCancelModal').innerText = t.btnCancelModal;
+      document.getElementById('submitBtn').innerText = t.btnSubmitModal;
+
+      populateDropdowns();
+      renderProfiles(allProfiles);
+    }
+
+    // =========================================================================
+    // 2. FIREBASE CONFIGURATION (BANARSI JODA PRODUCTION DATABASE)
+    // =========================================================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8h2eVchH4syRCGEjvQXMUbeMHUPWcJgo",
+      authDomain: "banarsi-joda.firebaseapp.com",
+      projectId: "banarsi-joda",
+      storageBucket: "banarsi-joda.firebasestorage.app",
+      messagingSenderId: "745946678609",
+      appId: "1:745946678609:web:3947812859cf5139a8bf70",
+      measurementId: "G-01Q4YM4673"
+    };
+
+    let db = null;
+    let isFirebaseReady = false;
+
+    const seedProfiles = [
+      {
+        fullName: "Mohammad Tariq Ansari",
+        fullNameUr: "محمد طارق انصاری",
+        walidName: "Haji Abdul Rashid",
+        walidNameUr: "حاجی عبد الرشید",
+        dadaName: "Late Haji Noor Mohammad",
+        dadaNameUr: "مرحوم حاجی نور محمد",
+        khandaan: "Noorani Weavers",
+        khandaanUr: "نورانی ویورز",
+        mohalla: "Madanpura",
+        mohallaUr: "مدن پورہ",
+        city: "Mumbai",
+        cityUr: "ممبئی / بھیونڈی",
+        profession: "Pure Silk Saree Wholesale",
+        professionUr: "خالص بنارسی ریشم ساڑھی تجارت"
+      },
+      {
+        fullName: "Zubair Ahmad Ansari",
+        fullNameUr: "زبیر احمد انصاری",
+        walidName: "Janab Shamim Ahmad",
+        walidNameUr: "جناب شمیم احمد",
+        dadaName: "Haji Kallu Seth",
+        dadaNameUr: "حاجی کلو سیٹھ",
+        khandaan: "Kallu Seth Wale",
+        khandaanUr: "کلو سیٹھ والے",
+        mohalla: "Bajardiha",
+        mohallaUr: "بجرڈیہہ",
+        city: "Delhi",
+        cityUr: "نوئیڈا / دہلی",
+        profession: "Senior Software Engineer",
+        professionUr: "سینئر سافٹ ویئر انجینئر"
+      },
+      {
+        fullName: "Mohammad Arshad",
+        fullNameUr: "محمد ارشد",
+        walidName: "Haji Nizamuddin",
+        walidNameUr: "حاجی نظام الدین",
+        dadaName: "Late Master Abdul Qadir",
+        dadaNameUr: "مرحوم ماسٹر عبد القادر",
+        khandaan: "Pillai Wale",
+        khandaanUr: "پلائی والے",
+        mohalla: "Alaipura",
+        mohallaUr: "علائی پورہ",
+        city: "Surat",
+        cityUr: "سورت (گجرات)",
+        profession: "Textile Jacquard Processing",
+        professionUr: "ٹیکسٹائل جیکارڈ پروسیسنگ"
+      },
+      {
+        fullName: "Dr. Farhan Mushtaq",
+        fullNameUr: "ڈاکٹر فرحان مشتاق",
+        walidName: "Prof. Mushtaq Ahmad",
+        walidNameUr: "پروفیسر مشتاق احمد",
+        dadaName: "Late Janab Bashir Master",
+        dadaNameUr: "مرحوم جناب بشیر ماسٹر",
+        khandaan: "Masterji Khandaan",
+        khandaanUr: "ماسٹر جی خاندان",
+        mohalla: "Pilikothi",
+        mohallaUr: "پیلی کوٹھی",
+        city: "Bengaluru",
+        cityUr: "بنگلور (کرناٹک)",
+        profession: "Cardiologist (MBBS, MD)",
+        professionUr: "ماہرِ امراضِ قلب (ایم بی بی ایس)"
+      },
+      {
+        fullName: "Haji Imran Ansari",
+        fullNameUr: "حاجی عمران انصاری",
+        walidName: "Haji Gufran Ahmad",
+        walidNameUr: "حاجی غفران احمد",
+        dadaName: "Munshi Abdul Sattar",
+        dadaNameUr: "منشی عبد الستار",
+        khandaan: "Munshi Ji Wale",
+        khandaanUr: "منشی جی والے",
+        mohalla: "Lohta",
+        mohallaUr: "لوہتا",
+        city: "Varanasi",
+        cityUr: "بنارس (چوک)",
+        profession: "Master Weaver (Pure Katan)",
+        professionUr: "ماہر بنکر (خالص کتان)"
+      },
+      {
+        fullName: "Salman Irfan",
+        fullNameUr: "سلمان عرفان",
+        walidName: "Janab Irfan-ur-Rahman",
+        walidNameUr: "جناب عرفان الرحمن",
+        dadaName: "Haji Chhotey Mian",
+        dadaNameUr: "حاجی چھوٹے میاں",
+        khandaan: "Chhotey Mian Wale",
+        khandaanUr: "چھوٹے میاں والے",
+        mohalla: "Madanpura",
+        mohallaUr: "مدن پورہ",
+        city: "Kolkata",
+        cityUr: "بڑا بازار، کولکتہ",
+        profession: "Wholesale Cloth Merchant",
+        professionUr: "تھوک کپڑا تاجر"
+      }
+    ];
+
+    let allProfiles = [...seedProfiles];
+
+    // Initialize Firebase
+    try {
+      firebase.initializeApp(firebaseConfig);
+      db = firebase.firestore();
+      isFirebaseReady = true;
+      loadProfilesFromFirebase();
+    } catch (err) {
+      console.error("Firebase connection notice:", err);
+      renderProfiles(allProfiles);
+    }
+
+    // Realtime Listener on Cloud Firestore
+    function loadProfilesFromFirebase() {
+      db.collection("families").onSnapshot((snapshot) => {
+        const liveProfiles = [];
+        snapshot.forEach(doc => {
+          liveProfiles.push(doc.data());
+        });
+        
+        if (liveProfiles.length > 0) {
+          allProfiles = [...liveProfiles, ...seedProfiles];
+        } else {
+          allProfiles = [...seedProfiles];
+        }
+        renderProfiles(allProfiles);
+      }, (error) => {
+        console.warn("Firestore listener notice:", error);
+        renderProfiles(allProfiles);
+      });
+    }
+
+    // Render Cards to DOM
+    function renderProfiles(list) {
+      const container = document.getElementById('cardsList');
+      container.innerHTML = '';
+      const t = translations[currentLang];
+      const isUr = currentLang === 'ur';
+
+      list.forEach(p => {
+        // Fallback gracefully if profile is entered in English or Urdu
+        const name = (isUr && p.fullNameUr) ? p.fullNameUr : p.fullName;
+        const walid = (isUr && p.walidNameUr) ? p.walidNameUr : p.walidName;
+        const dada = (isUr && p.dadaNameUr) ? p.dadaNameUr : p.dadaName;
+        const khandaan = (isUr && p.khandaanUr) ? p.khandaanUr : p.khandaan;
+        const mohalla = (isUr && p.mohallaUr) ? p.mohallaUr : (p.mohalla || 'Banaras');
+        const city = (isUr && p.cityUr) ? p.cityUr : (p.city || '');
+        const work = (isUr && p.professionUr) ? p.professionUr : (p.profession || '');
+
+        const searchKeywords = `${p.fullName} ${p.walidName} ${p.dadaName} ${p.khandaan} ${p.mohalla || ''} ${p.city || ''} ${p.profession || ''} ${p.fullNameUr || ''} ${p.khandaanUr || ''}`.toLowerCase();
+        
+        const card = document.createElement('article');
+        card.className = 'family-card';
+        card.setAttribute('data-mohalla', p.mohalla || '');
+        card.setAttribute('data-city', p.city || '');
+        card.setAttribute('data-text', searchKeywords);
+
+        const waText = encodeURIComponent(t.waShareTemplate(name, khandaan, mohalla));
+
+        card.innerHTML = `
+          <div>
+            <span class="khandaan-ribbon">${t.cardKhandaanPrefix}${khandaan || (isUr ? 'بنارسی خاندان' : 'Banarsi Parivar')}</span>
+            <h3 class="profile-name">${name}</h3>
+            <div class="lineage-block">
+              ${t.cardWalidLabel}<b>${walid}</b><br>
+              ${t.cardDadaLabel}<b>${dada}</b>
+            </div>
+            <div class="location-details">
+              <div class="loc-line">📍 <b>${t.cardRootsLabel}</b> ${mohalla}، بنارس</div>
+              <div class="loc-line">🏢 <b>${t.cardCurrentLabel}</b> ${city}</div>
+              <div class="loc-line">💼 <b>${t.cardWorkLabel}</b> ${work}</div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-connect" onclick="alert('${isUr ? 'رابطے کی درخواست بزرگوں کو ارسال کر دی گئی ہے۔' : 'Connection request sent to family.'}')">${t.btnRequestConnect}</button>
+            <a class="btn-whatsapp" href="https://api.whatsapp.com/send?text=${waText}" target="_blank" title="Share on WhatsApp">💬</a>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+      applyFilters();
+    }
+
+    // Form Submission: Write directly to Firebase Cloud Firestore
+    async function handleRegistration(e) {
+      e.preventDefault();
+      const submitBtn = document.getElementById('submitBtn');
+      const isUr = currentLang === 'ur';
+      submitBtn.innerText = isUr ? 'محفوظ ہو رہا ہے...' : 'Saving...';
+      submitBtn.disabled = true;
+
+      const newFamily = {
+        fullName: document.getElementById('regName').value,
+        walidName: document.getElementById('regWalid').value,
+        dadaName: document.getElementById('regDada').value,
+        khandaan: document.getElementById('regKhandaan').value,
+        mohalla: document.getElementById('regMohalla').value,
+        city: document.getElementById('regCity').value,
+        profession: document.getElementById('regProfession').value,
+        phone: document.getElementById('regPhone').value,
+        createdAt: new Date().toISOString()
+      };
+
+      if (isFirebaseReady && db) {
+        try {
+          await db.collection("families").add(newFamily);
+          alert(isUr ? 'مبارک! آپ کا خاندانی اندراج بنارسی جوڑا ڈیٹا بیس میں کامیابی سے شامل ہو گیا ہے۔' : 'Mubarak! Your family profile has been saved live into Banarsi Joda on Google Cloud Firestore.');
+          document.getElementById('familyForm').reset();
+          closeRegisterModal();
+        } catch (err) {
+          alert('Error: ' + err.message);
+        }
+      } else {
+        allProfiles.unshift(newFamily);
+        renderProfiles(allProfiles);
+        alert(isUr ? 'محفوظ کر لیا گیا ہے!' : 'Saved locally!');
+        document.getElementById('familyForm').reset();
+        closeRegisterModal();
+      }
+
+      submitBtn.innerText = translations[currentLang].btnSubmitModal;
+      submitBtn.disabled = false;
+    }
+
+    function applyFilters() {
+      const keyword = document.getElementById('keywordInput').value.toLowerCase();
+      const mohalla = document.getElementById('filterMohalla').value;
+      const city = document.getElementById('filterCity').value;
+      const cards = document.querySelectorAll('.family-card');
+      let count = 0;
+
+      cards.forEach(card => {
+        const text = card.getAttribute('data-text') || '';
+        const cardMohalla = card.getAttribute('data-mohalla') || '';
+        const cardCity = card.getAttribute('data-city') || '';
+
+        const matchKeyword = !keyword || text.includes(keyword);
+        const matchMohalla = !mohalla || cardMohalla === mohalla;
+        const matchCity = !city || cardCity.toLowerCase().includes(city.toLowerCase());
+
+        if (matchKeyword && matchMohalla && matchCity) {
+          card.style.display = 'flex';
+          count++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      document.getElementById('cardCounter').innerText = translations[currentLang].showingCount(count);
+    }
+
+    function quickFill(khandaan) {
+      document.getElementById('keywordInput').value = khandaan;
+      applyFilters();
+    }
+
+    function setMohallaBtn(mohalla) {
+      document.getElementById('filterMohalla').value = mohalla;
+      document.querySelectorAll('.mohalla-btn').forEach(btn => {
+        if ((mohalla === '' && (btn.innerText === 'All' || btn.innerText === 'تمام محلے')) || btn.innerText.includes(mohalla)) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      applyFilters();
+    }
+
+    function setTab(tab) {
+      document.querySelectorAll('.nav-btn, .m-nav-item').forEach(el => el.classList.remove('active'));
+      const t = translations[currentLang];
+      const title = document.getElementById('sectionTitle');
+      if (tab === 'directory') title.innerText = t.sectionTitle;
+      if (tab === 'matrimony') title.innerText = t.sectionTitleMatrimony;
+      if (tab === 'trade') title.innerText = t.sectionTitleTrade;
+      if (tab === 'notices') title.innerText = t.sectionTitleNews;
+    }
+
+    function openRegisterModal() {
+      document.getElementById('regModal').classList.add('open');
+    }
+
+    function closeRegisterModal() {
+      document.getElementById('regModal').classList.remove('open');
+    }
+
+    // Initialize on page load
+    populateDropdowns();
+  </script>
+</body>
+</html>
