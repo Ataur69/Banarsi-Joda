@@ -1,1228 +1,148 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-  <title>Banarsi Joda | Matrimonial & Community Portal</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
-  <style>
-    :root {
-      --primary: #0b5e39;
-      --primary-dark: #063a23;
-      --primary-light: #eaf6ef;
-      --gold: #b8860b;
-      --gold-light: #fef9e7;
-      --whatsapp: #25d366;
-      --bg: #f8fafc;
-      --surface: #ffffff;
-      --text: #0f172a;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
-      --radius: 14px;
-      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.5; padding-bottom: 80px; -webkit-tap-highlight-color: transparent; }
-    a { color: inherit; text-decoration: none; }
-    button, input, select, textarea { font-family: inherit; }
-
-    /* Header */
-    .app-header { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-    .header-container { max-width: 1200px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
-    .brand-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-    .brand-logo-box { width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: #fef08a; font-size: 1.3rem; font-weight: 800; border: 1.5px solid var(--gold); }
-    .brand-title { font-size: 1.25rem; font-weight: 800; color: var(--primary-dark); line-height: 1.1; }
-    .brand-sub { font-size: 0.72rem; color: #15803d; font-weight: 600; display: flex; align-items: center; gap: 4px; }
-    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; display: inline-block; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-    .desktop-nav-links { display: none; align-items: center; gap: 8px; }
-    @media (min-width: 768px) { .desktop-nav-links { display: flex; } }
-    .nav-link { background: none; border: none; padding: 8px 14px; font-size: 0.9rem; font-weight: 600; color: var(--text-muted); cursor: pointer; border-radius: 8px; transition: all 0.2s; }
-    .nav-link:hover, .nav-link.active { color: var(--primary); background: var(--primary-light); }
-
-    .btn-header-add { background: var(--primary); color: white; border: none; font-size: 0.85rem; font-weight: 700; padding: 8px 16px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.2s; }
-    .btn-header-add:hover { background: var(--primary-dark); }
-
-    /* Hero Search */
-    .hero-search-section { background: linear-gradient(180deg, var(--primary-dark) 0%, #0d6e43 100%); color: white; padding: 28px 16px 36px; text-align: center; }
-    .hero-container { max-width: 900px; margin: 0 auto; }
-    .hero-pill { display: inline-block; background: rgba(184, 134, 11, 0.25); border: 1px solid var(--gold); color: #fef08a; font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 10px; }
-    .hero-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 6px; }
-    .hero-subtitle { font-size: 0.9rem; color: #d1fae5; margin-bottom: 18px; }
-    .hero-search-card { background: white; border-radius: var(--radius); padding: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); color: var(--text); text-align: left; }
-    .search-inputs-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
-    @media (min-width: 768px) { .search-inputs-grid { grid-template-columns: 2fr 1.2fr 1.2fr 1.2fr; } }
-    .field-label { display: block; font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
-    .hero-input, .hero-select { width: 100%; height: 42px; border: 1.5px solid var(--border); border-radius: 8px; padding: 0 10px; font-size: 0.88rem; outline: none; transition: border-color 0.2s; background: white; }
-    .hero-input:focus, .hero-select:focus { border-color: var(--primary); }
-
-    /* Main Layout */
-    .main-wrapper { max-width: 1200px; margin: 24px auto; padding: 0 16px; }
-    .responsive-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
-    @media (min-width: 992px) { .responsive-grid { grid-template-columns: 1fr 340px; } }
-    .stream-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-    .stream-title { font-size: 1.2rem; font-weight: 800; color: var(--primary-dark); }
-    .stream-count { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); }
-    .cards-stream-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
-
-    /* Family Cards */
-    .family-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column; gap: 12px; transition: transform 0.2s, box-shadow 0.2s; }
-    .family-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
-    .card-badges-strip { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .gender-pill { font-size: 0.72rem; font-weight: 800; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; }
-    .pill-groom { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
-    .pill-bride { background: #fce7f3; color: #9d174d; border: 1px solid #fbcfe8; }
-    .khandaan-badge { background: #fef9e7; color: #854d0e; border: 1px solid #fef08a; font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
-    .firqa-badge { background: #f1f5f9; color: #334155; font-size: 0.72rem; font-weight: 600; padding: 3px 8px; border-radius: 6px; }
-    .card-person-header { display: flex; align-items: center; gap: 12px; }
-    .avatar-box { width: 50px; height: 50px; border-radius: 50%; background: #f1f5f9; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; overflow: hidden; }
-    .card-name { font-size: 1.05rem; font-weight: 800; color: #1e293b; }
-    .card-subtext { font-size: 0.82rem; color: var(--text-muted); }
-    .lineage-box { background: #f8fafc; border-left: 3px solid var(--primary); padding: 10px 12px; font-size: 0.84rem; line-height: 1.45; border-radius: 0 8px 8px 0; }
-    .matri-specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: #f8fafc; border: 1px solid #f1f5f9; padding: 10px; border-radius: 8px; font-size: 0.8rem; }
-    .spec-item { display: flex; align-items: center; gap: 6px; }
-    .card-actions-row { display: flex; gap: 8px; margin-top: 4px; }
-    .btn-primary-action { flex: 1; height: 40px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
-    .btn-primary-action:hover { background: var(--primary-dark); }
-    .btn-wa-action { width: 42px; height: 40px; background: var(--whatsapp); color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
-
-    /* Sidebar */
-    .sidebar-column { display: flex; flex-direction: column; gap: 16px; }
-    .desktop-only { display: none; }
-    @media (min-width: 992px) { .desktop-only { display: block; } }
-    .side-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
-    .side-card-title { font-size: 0.95rem; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
-    .badge-live { background: #fee2e2; color: #dc2626; font-size: 0.68rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
-
-    /* Modals */
-    .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
-    .modal-backdrop.open { display: flex; }
-    .modal-dialog { background: white; border-radius: 16px; width: 100%; max-width: 580px; max-height: 90vh; overflow-y: auto; padding: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); }
-    .modal-top { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 14px; }
-    .modal-title { font-size: 1.2rem; font-weight: 800; color: var(--primary-dark); }
-    .modal-close-btn { background: none; border: none; font-size: 1.6rem; cursor: pointer; color: var(--text-muted); line-height: 1; }
-
-    /* Form Steps */
-    .form-step-nav { display: flex; gap: 4px; margin-bottom: 16px; background: #f1f5f9; padding: 4px; border-radius: 10px; }
-    .form-step-btn { flex: 1; border: none; background: none; font-size: 0.74rem; font-weight: 700; color: var(--text-muted); padding: 8px 2px; border-radius: 6px; cursor: pointer; text-align: center; }
-    .form-step-btn.active { background: white; color: var(--primary-dark); box-shadow: 0 2px 4px rgba(0,0,0,0.06); }
-    .form-section-box { display: flex; flex-direction: column; gap: 12px; }
-    .form-grid-2 { display: grid; grid-template-columns: 1fr; gap: 10px; }
-    @media (min-width: 500px) { .form-grid-2 { grid-template-columns: 1fr 1fr; } }
-    .form-group-item label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-    .form-group-item input, .form-group-item select { width: 100%; height: 42px; border: 1.5px solid var(--border); border-radius: 8px; padding: 0 10px; font-size: 0.88rem; outline: none; background: white; }
-    .form-group-item input:focus, .form-group-item select:focus { border-color: var(--primary); }
-
-    /* Mobile Bottom Navigation */
-    .mobile-app-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid var(--border); height: 60px; display: flex; align-items: center; justify-content: space-around; z-index: 99; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
-    .mobile-only { display: flex; }
-    @media (min-width: 768px) { .mobile-only { display: none; } }
-    .nav-tab-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: var(--text-muted); font-size: 0.68rem; font-weight: 600; cursor: pointer; flex: 1; height: 100%; }
-    .nav-tab-item.active { color: var(--primary); }
-    .nav-tab-icon { font-size: 1.25rem; }
-    .nav-tab-item.center-add { position: relative; top: -14px; }
-    .center-add-circle { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 12px rgba(11,94,57,0.4); border: 2px solid white; }
-  </style>
-</head>
-<body>
-
-  <!-- HEADER -->
-  <header class="app-header">
-    <div class="header-container">
-      <div class="brand-wrap" onclick="switchNav('directory')">
-        <div class="brand-logo-box">ب ج</div>
-        <div>
-          <h1 class="brand-title">Banarsi Joda</h1>
-          <div class="brand-sub"><span class="live-dot"></span> Live Community Portal</div>
-        </div>
-      </div>
-      <nav class="desktop-nav-links">
-        <button class="nav-link active" id="deskTabDir" onclick="switchNav('directory')">Directory</button>
-        <button class="nav-link" id="deskTabRishta" onclick="switchNav('matrimony')">Banarsi Rishta</button>
-        <button class="nav-link" id="deskTabTrade" onclick="switchNav('trade')">B2B Trade</button>
-        <button class="nav-link" id="deskTabNews" onclick="switchNav('janaza')">Janaza & News</button>
-      </nav>
-      <button class="btn-header-add" onclick="openAddModal()">
-        <span>➕</span> Register Rishta
-      </button>
-    </div>
-  </header>
-
-  <!-- HERO SEARCH SECTION -->
-  <section class="hero-search-section">
-    <div class="hero-container">
-      <span class="hero-pill">Banarsi Joda • Official Community Portal</span>
-      <h2 class="hero-title">Connecting Banarsi Families & Rishtey Across India</h2>
-      <p class="hero-subtitle">Search instantly by Lineage (Walid/Dada), Maslak/Firqa, Mohalla & City.</p>
-      <div class="hero-search-card">
-        <div class="search-inputs-grid">
-          <div>
-            <label class="field-label">Keyword / Elder / Khandaan</label>
-            <input type="text" id="keywordSearchInput" class="hero-input" placeholder="Search lineage, elder, or family..." oninput="filterProfiles()">
-          </div>
-          <div>
-            <label class="field-label">Maslak / Firqa</label>
-            <select id="firqaSelectInput" class="hero-select" onchange="filterProfiles()">
-              <option value="">All Maslak / Firqas</option>
-              <option value="Ahl us Sunnah">Ahl us Sunnah wal Jama'ah</option>
-              <option value="Deobandi">Deobandi</option>
-              <option value="Ahl-e-Hadees">Ahl-e-Hadees</option>
-              <option value="Ahl-e-Tashayyo">Ahl-e-Tashayyo</option>
-            </select>
-          </div>
-          <div>
-            <label class="field-label">Banaras Mohalla</label>
-            <select id="mohallaSelectInput" class="hero-select" onchange="filterProfiles()">
-              <option value="">All Mohallas</option>
-              <option value="Madanpura">Madanpura</option>
-              <option value="Bajardiha">Bajardiha</option>
-              <option value="Alaipura">Alaipura</option>
-              <option value="Pilikothi">Pilikothi</option>
-              <option value="Lohta">Lohta</option>
-              <option value="Adampura">Adampura</option>
-            </select>
-          </div>
-          <div>
-            <label class="field-label">Current City</label>
-            <select id="citySelectInput" class="hero-select" onchange="filterProfiles()">
-              <option value="">All Cities</option>
-              <option value="Mumbai">Mumbai</option>
-              <option value="Delhi">Delhi</option>
-              <option value="Surat">Surat</option>
-              <option value="Varanasi">Banaras</option>
-              <option value="Bengaluru">Bengaluru</option>
-              <option value="Kolkata">Kolkata</option>
-            </select>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MAIN STREAM & SIDEBAR -->
-  <div class="main-wrapper">
-    <div class="responsive-grid">
-      <div>
-        <div class="stream-header">
-          <h2 class="stream-title" id="txtStreamTitle">Verified Matrimonial Profiles</h2>
-          <span class="stream-count" id="txtProfileCount">Loading...</span>
-        </div>
-
-        <div class="cards-stream-grid" id="cardsStreamList"></div>
-
-        <!-- B2B STREAM SECTION -->
-        <div id="b2bStreamSection" style="display: none;">
-          <div style="background: linear-gradient(135deg, #fef9e7 0%, #fffdf5 100%); border: 1px solid #fef08a; border-radius: var(--radius); padding: 16px; margin-bottom: 16px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-              <div>
-                <span style="background: #fef08a; color: #854d0e; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 12px; text-transform: uppercase;">Direct Saree Hub</span>
-                <h3 style="font-size: 1.2rem; font-weight: 800; color: #854d0e; margin-top: 4px;">Banaras Direct B2B Weavers & Saree Wholesalers</h3>
-                <p style="font-size: 0.82rem; color: #713f12;">Direct karkhana connections between Banaras handloom/powerloom weavers and boutique owners nationwide.</p>
-              </div>
-              <button onclick="openB2BAddModal()" style="background: #854d0e; color: white; border: none; font-size: 0.8rem; font-weight: 700; padding: 8px 14px; border-radius: 8px; cursor: pointer;">
-                ➕ List Your Karkhana
-              </button>
-            </div>
-            <div style="display: flex; gap: 6px; overflow-x: auto; padding-top: 10px;">
-              <button onclick="filterB2BCards('all')" class="b2b-filter-pill active" id="b2bFilterAll" style="background: #854d0e; color: white; border: none; padding: 5px 12px; border-radius: 16px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">All B2B</button>
-              <button onclick="filterB2BCards('katan')" class="b2b-filter-pill" id="b2bFilterKatan" style="background: white; color: #854d0e; border: 1px solid #fef08a; padding: 5px 12px; border-radius: 16px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">Pure Katan Silk</button>
-              <button onclick="filterB2BCards('wholesale')" class="b2b-filter-pill" id="b2bFilterWholesale" style="background: white; color: #854d0e; border: 1px solid #fef08a; padding: 5px 12px; border-radius: 16px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">Wholesale Gaddis</button>
-              <button onclick="filterB2BCards('kadwa')" class="b2b-filter-pill" id="b2bFilterKadwa" style="background: white; color: #854d0e; border: 1px solid #fef08a; padding: 5px 12px; border-radius: 16px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">Kadwa Brocades</button>
-              <button onclick="filterB2BCards('yarn')" class="b2b-filter-pill" id="b2bFilterYarn" style="background: white; color: #854d0e; border: 1px solid #fef08a; padding: 5px 12px; border-radius: 16px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">Raw Silk & Yarn</button>
-            </div>
-          </div>
-          <div class="cards-stream-grid" id="b2bCardsList"></div>
-        </div>
-      </div>
-
-      <!-- SIDEBAR -->
-      <aside class="sidebar-column desktop-only">
-        <div class="side-card">
-          <div class="side-card-title">
-            <span>📢 Janaza & Urgent Notices</span>
-            <span class="badge-live">Live</span>
-          </div>
-          <div style="font-size: 0.84rem; margin-bottom: 6px;">
-            <b>Namaz-e-Janaza Today:</b> Haji Manzoor Ahmad (Age 78)<br>
-            <span style="font-size: 0.75rem; color: var(--text-muted);">Madanpura Badi Masjid after Asr.</span>
-          </div>
-        </div>
-
-        <div class="side-card" style="background: #fffdf5; border-color: #fef08a;">
-          <div class="side-card-title" style="color: #854d0e;">
-            <span>🧵 B2B Saree Weavers</span>
-          </div>
-          <p style="font-size: 0.8rem; color: #713f12; margin-bottom: 10px;">
-            Direct handloom & powerloom weaver connections between Banaras and retail boutique owners nationwide.
-          </p>
-          <button style="width: 100%; background: #fef08a; color: #854d0e; font-weight: 700; border: none; padding: 8px; border-radius: 8px; cursor: pointer;" onclick="switchNav('trade')">Browse 140+ Weavers</button>
-        </div>
-      </aside>
-    </div>
-  </div>
-
-  <!-- REGISTRATION MODAL -->
-  <div class="modal-backdrop" id="addModalBackdrop">
-    <div class="modal-dialog">
-      <div class="modal-top">
-        <h2 class="modal-title">Register Banarsi Rishta</h2>
-        <button class="modal-close-btn" onclick="closeAddModal()">&times;</button>
-      </div>
-
-      <div class="form-step-nav">
-        <button type="button" class="form-step-btn active" id="stepBtn1" onclick="showFormStep(1)">1. Personal & Physical</button>
-        <button type="button" class="form-step-btn" id="stepBtn2" onclick="showFormStep(2)">2. Marital & Family</button>
-        <button type="button" class="form-step-btn" id="stepBtn3" onclick="showFormStep(3)">3. Lineage & Firqa</button>
-        <button type="button" class="form-step-btn" id="stepBtn4" onclick="showFormStep(4)">4. Expectations & Contact</button>
-      </div>
-
-      <form id="familyRegistrationForm" onsubmit="submitFamilyProfile(event)">
-        <!-- STEP 1: PERSONAL & PHYSICAL -->
-        <div class="form-section-box" id="formStep1">
-          <div class="form-grid-2">
-            <div class="form-group-item">
-              <label>Candidate Gender (Jins)</label>
-              <select id="inGender" required onchange="handleGenderChange()">
-                <option value="Male">Groom (Dulha / Male)</option>
-                <option value="Female">Bride (Dulhan / Female)</option>
-              </select>
-            </div>
-            <div class="form-group-item">
-              <label>Profile Managed By (Rabita Kaun Karega)</label>
-              <select id="inManagedBy" required>
-                <option value="Father">Father (Walid)</option>
-                <option value="Mother">Mother (Walida)</option>
-                <option value="Brother">Brother (Bhai)</option>
-                <option value="Self">Self (Candidate)</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group-item">
-            <label>Full Name (Candidate's Name)</label>
-            <input type="text" id="inName" required placeholder="">
-          </div>
-
-          <div class="form-grid-2">
-            <div class="form-group-item">
-              <label>Age (Umar) / Date of Birth</label>
-              <input type="text" id="inAge" required placeholder="">
-            </div>
-            <div class="form-group-item">
-              <label>Height & Weight (Qad o Wazan)</label>
-              <input type="text" id="inHeightWeight" required placeholder="">
-            </div>
-          </div>
-
-          <div class="form-group-item">
-            <label>Physical Disability / Special Needs</label>
-            <select id="inDisability">
-              <option value="None">None (Alhamdulillah)</option>
-              <option value="Minor">Minor Challenge</option>
-              <option value="Major">Physical Disability</option>
-            </select>
-          </div>
-
-          <!-- DIRECT PHOTO UPLOAD (Men Only) -->
-          <div id="malePhotoSection" class="form-group-item">
-            <label>Groom Photo (Upload from Device - Optional for Men)</label>
-            <div class="photo-upload-box" onclick="document.getElementById('inPhotoFile').click()" style="border: 2px dashed #059669; border-radius: 12px; padding: 14px; text-align: center; cursor: pointer; background: #f0fdf4;">
-              <input type="file" id="inPhotoFile" accept="image/*" style="display: none;" onchange="handlePhotoUpload(event)">
-              <div id="photoPlaceholderUI">
-                <div style="font-size: 1.8rem; margin-bottom: 4px;">📷</div>
-                <div style="font-weight: 700; color: #065f46; font-size: 0.9rem;">Tap to Choose Photo from Device</div>
-                <div style="font-size: 0.75rem; color: #64748b; margin-top: 2px;">Select directly from gallery or camera</div>
-              </div>
-              <div id="photoPreviewUI" style="display: none; align-items: center; justify-content: center; gap: 12px;">
-                <img id="photoPreviewImg" src="" alt="Groom Preview" style="width: 65px; height: 65px; object-fit: cover; border-radius: 50%; border: 3px solid #059669;">
-                <div style="text-align: left;">
-                  <div style="font-weight: 700; color: #065f46; font-size: 0.85rem;">Photo Selected ✓</div>
-                  <button type="button" onclick="event.stopPropagation(); removeUploadedPhoto();" style="margin-top: 4px; background: #fee2e2; border: 1px solid #ef4444; color: #991b1b; padding: 3px 10px; border-radius: 6px; font-size: 0.72rem; cursor: pointer; font-weight: 600;">Remove</button>
-                </div>
-              </div>
-            </div>
-            <input type="hidden" id="inPhotoData" value="">
-          </div>
-
-          <div style="margin-top: 8px; display: flex; justify-content: flex-end;">
-            <button type="button" class="btn-primary-action" style="max-width: 140px;" onclick="showFormStep(2)">Next: Family ➔</button>
-          </div>
-        </div>
-
-        <!-- STEP 2: MARITAL STATUS & LIVING -->
-        <div class="form-section-box" id="formStep2" style="display: none;">
-          <div class="form-group-item">
-            <label>Marital Status</label>
-            <select id="inMaritalStatus" required onchange="handleMaritalChange()">
-              <option value="Unmarried" selected>Never Married (Ghair Shaadishuda)</option>
-              <option value="Married (Aqd-e-Saani)">Married (Aqd-e-Saani)</option>
-              <option value="Widowed">Widower (Bewa)</option>
-              <option value="Divorced">Divorced (Talaq-shuda)</option>
-            </select>
-          </div>
-
-          <div class="form-group-item" id="kidsBox" style="display: none;">
-            <label>Children (Aulad Detail: Number of Kids, Genders & Custody)</label>
-            <input type="text" id="inKids" placeholder="">
-          </div>
-
-          <div class="form-grid-2">
-            <div class="form-group-item">
-              <label>Father's Status</label>
-              <select id="inFatherStatus">
-                <option value="Alive">Alive (Ba-Hayaat)</option>
-                <option value="Deceased">Deceased (Marhoom)</option>
-              </select>
-            </div>
-            <div class="form-group-item">
-              <label>Mother's Status</label>
-              <select id="inMotherStatus">
-                <option value="Alive">Alive (Ba-Hayaat)</option>
-                <option value="Deceased">Deceased (Marhooma)</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-grid-2">
-            <div class="form-group-item">
-              <label>Current Housing Status</label>
-              <select id="inHousing">
-                <option value="Own House">Own House (Zati Makaan)</option>
-                <option value="Rented">Rented House (Kiraye Ka)</option>
-              </select>
-            </div>
-            <div class="form-group-item">
-              <label>Ancestral House in Banaras</label>
-              <select id="inBanarasHouse">
-                <option value="Yes">Yes (Own Ancestral Home)</option>
-                <option value="No">No</option>
-              </select>
-            </div>
-          </div>
-
-          <div style="margin-top: 8px; display: flex; justify-content: space-between;">
-            <button type="button" class="btn-primary-action" style="max-width: 120px; background: #f1f5f9; color: #334155;" onclick="showFormStep(1)">⬅ Back</button>
-            <button type="button" class="btn-primary-action" style="max-width: 140px;" onclick="showFormStep(3)">Next: Lineage ➔</button>
-          </div>
-        </div>
-
-        <!-- STEP 3: RELIGIOUS SCHOOL & LINEAGE -->
-        <div class="form-section-box" id="formStep3" style="display: none;">
-          <div class="form-group-item">
-            <label>Candidate's Maslak / Firqa</label>
-            <select id="inFirqa" required>
-              <option value="Ahl us Sunnah">Ahl us Sunnah wal Jama'ah</option>
-              <option value="Deobandi">Deobandi</option>
-              <option value="Ahl-e-Hadees">Ahl-e-Hadees</option>
-              <option value="Ahl-e-Tashayyo">Ahl-e-Tashayyo</option>
-            </select>
-          </div>
-
-          <div class="form-grid-2">
-            <div class="form-group-item">
-              <label>Father's Name (Walid)</label>
-              <input type="text" id="inWalid" required placeholder="">
-            </div>
-            <div class="form-group-item">
-              <label>Grandfather (Dada)</label>
-              <input type="text" id="inDada" required placeholder="">
-            </div>
-          </div>
-
-          <div class="form-group-item">
-            <label>Khandaan Name / Urfiat (Family Moniker)</label>
-            <input type="text" id="inKhandaan" required placeholder="">
-          </div>
-
-          <div class="form-grid-2">
-            <div class="form-group-item">
-              <label>Banaras Root Mohalla (Abai Mohalla)</label>
-              <select id="inMohalla" required>
-                <option value="">Select Mohalla</option>
-                <option value="Madanpura">Madanpura</option>
-                <option value="Bajardiha">Bajardiha</option>
-                <option value="Alaipura">Alaipura</option>
-                <option value="Pilikothi">Pilikothi</option>
-                <option value="Lohta">Lohta</option>
-                <option value="Adampura">Adampura</option>
-                <option value="Other">Other Mohalla</option>
-              </select>
-            </div>
-            <div class="form-group-item">
-              <label>Maternal Lineage (Nanihal Mohalla & Nana)</label>
-              <input type="text" id="inNanihal" placeholder="">
-            </div>
-          </div>
-
-          <div class="form-group-item">
-            <label>Banaras Local References (2 References for Verification)</label>
-            <input type="text" id="inReferences" required placeholder="">
-          </div>
-
-          <div style="margin-top: 8px; display: flex; justify-content: space-between;">
-            <button type="button" class="btn-primary-action" style="max-width: 120px; background: #f1f5f9; color: #334155;" onclick="showFormStep(2)">⬅ Back</button>
-            <button type="button" class="btn-primary-action" style="max-width: 160px;" onclick="showFormStep(4)">Next: Expectations ➔</button>
-          </div>
-        </div>
-
-        <!-- STEP 4: EXPECTATIONS & CONTACT -->
-        <div class="form-section-box" id="formStep4" style="display: none;">
-          <div class="form-grid-2">
-            <div class="form-group-item">
-              <label>Preferred Partner Age Range</label>
-              <select id="inPrefAge">
-                <option value="">Select Preferred Age Range</option>
-                <option value="18 - 22 Years">18 - 22 Years</option>
-                <option value="20 - 25 Years">20 - 25 Years</option>
-                <option value="22 - 27 Years">22 - 27 Years</option>
-                <option value="24 - 29 Years">24 - 29 Years</option>
-                <option value="26 - 31 Years">26 - 31 Years</option>
-                <option value="28 - 33 Years">28 - 33 Years</option>
-                <option value="30 - 35 Years">30 - 35 Years</option>
-                <option value="32 - 38 Years">32 - 38 Years</option>
-                <option value="35 - 42 Years">35 - 42 Years</option>
-                <option value="38 - 45 Years">38 - 45 Years</option>
-                <option value="40+ Years">40+ Years</option>
-                <option value="Flexible / Any">Flexible / Any Age</option>
-              </select>
-            </div>
-            <div class="form-group-item">
-              <label>Firqa Flexibility</label>
-              <select id="inFirqaFlex">
-                <option value="Same Firqa Only">Strictly Same Firqa Only</option>
-                <option value="Open to Any">Open to Other Maslak / Any</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-grid-2">
-            <div class="form-group-item">
-              <label>Profession / Business (Peesha)</label>
-              <input type="text" id="inWork" required placeholder="">
-            </div>
-            <div class="form-group-item">
-              <label>B2B Business / Trade Category (Karobar Type)</label>
-              <select id="inB2BType">
-                <option value="">Select Category (Optional)</option>
-                <option value="Saree Manufacturer / Karkhanedar (Loom Owner)">Saree Manufacturer / Karkhanedar (Loom Owner)</option>
-                <option value="B2B Saree Wholesaler / Thok Vyapari">B2B Saree Wholesaler / Thok Vyapari</option>
-                <option value="Pure Silk & Katan Weaving">Pure Silk & Katan Weaving Unit</option>
-                <option value="Raw Silk & Yarn (Resham) Merchant">Raw Silk & Yarn (Resham) Merchant</option>
-                <option value="Zari, Dyeing & Karigari Unit">Zari, Dyeing & Karigari Unit</option>
-                <option value="Textile Exporter & Bulk Supplier">Textile Exporter & Bulk Supplier</option>
-                <option value="Retail Saree Showroom Owner">Retail Saree Showroom Owner</option>
-                <option value="Corporate / Salaried Job">Corporate / Salaried Job</option>
-                <option value="Other Business">Other Business</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group-item">
-            <label>Current Residence City in India</label>
-            <input type="text" id="inCity" required placeholder="">
-          </div>
-
-          <div class="form-group-item">
-            <label>Guardian / Wali Mobile Number (For Family Verification)</label>
-            <input type="tel" id="inPhone" required placeholder="">
-          </div>
-
-          <div style="margin-top: 10px; display: flex; gap: 8px;">
-            <button type="button" class="btn-primary-action" style="max-width: 100px; background: #f1f5f9; color: #334155;" onclick="showFormStep(3)">⬅ Back</button>
-            <button type="submit" class="btn-primary-action" id="btnSubmitModal" style="flex: 2; height: 44px; border-radius: 8px; font-size: 0.92rem;">
-              Save to Banarsi Joda Database
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- B2B REGISTRATION MODAL -->
-  <div class="modal-backdrop" id="addB2BModalBackdrop">
-    <div class="modal-dialog">
-      <div class="modal-top">
-        <h2 class="modal-title" style="color: #854d0e;">🧵 Register B2B Weaving Unit / Gaddi</h2>
-        <button class="modal-close-btn" onclick="closeB2BAddModal()">&times;</button>
-      </div>
-
-      <form id="b2bRegistrationForm" onsubmit="submitB2BProfile(event)">
-        <div class="form-section-box">
-          <div class="form-group-item">
-            <label>Business / Firm Name (Dukaan / Karkhana Ka Naam)</label>
-            <input type="text" id="inB2BFirm" required placeholder="">
-          </div>
-          <div class="form-grid-2">
-            <div class="form-group-item">
-              <label>Owner / Prop. Name</label>
-              <input type="text" id="inB2BOwner" required placeholder="">
-            </div>
-            <div class="form-group-item">
-              <label>Khandaan Name / Moniker</label>
-              <input type="text" id="inB2BKhandaan" required placeholder="">
-            </div>
-          </div>
-          <div class="form-grid-2">
-            <div class="form-group-item">
-              <label>Category of Trade</label>
-              <select id="inB2BCat" required>
-                <option value="Pure Silk & Kadwa Brocade">Pure Silk & Kadwa Brocade</option>
-                <option value="Wholesale Saree Gaddi">Wholesale Saree Gaddi</option>
-                <option value="Loom Manufacturer & Exporter">Loom Manufacturer & Exporter</option>
-                <option value="Raw Silk & Yarn Merchant">Raw Silk & Yarn Merchant</option>
-                <option value="Zari, Dyeing & Karigari">Zari, Dyeing & Karigari Unit</option>
-              </select>
-            </div>
-            <div class="form-group-item">
-              <label>Banaras Mohalla</label>
-              <select id="inB2BMohalla" required>
-                <option value="Madanpura">Madanpura</option>
-                <option value="Bajardiha">Bajardiha</option>
-                <option value="Pilikothi">Pilikothi</option>
-                <option value="Alaipura">Alaipura</option>
-                <option value="Lohta">Lohta</option>
-                <option value="Adampura">Adampura</option>
-                <option value="Other">Other Mohalla</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-grid-2">
-            <div class="form-group-item">
-              <label>Loom / Production Capacity</label>
-              <input type="text" id="inB2BCapacity" required placeholder="">
-            </div>
-            <div class="form-group-item">
-              <label>Minimum Order Qty (MOQ)</label>
-              <input type="text" id="inB2BMOQ" required placeholder="">
-            </div>
-          </div>
-          <div class="form-group-item">
-            <label>Key Specialties (e.g. Pure Katan, Organza, Tanchoi, Kadwa)</label>
-            <input type="text" id="inB2BSpecialties" required placeholder="">
-          </div>
-          <div class="form-group-item">
-            <label>WhatsApp / Mobile Number for Wholesale Inquiries</label>
-            <input type="tel" id="inB2BPhone" required placeholder="">
-          </div>
-          <div style="margin-top: 10px; display: flex; gap: 8px;">
-            <button type="button" class="btn-primary-action" style="max-width: 100px; background: #f1f5f9; color: #334155;" onclick="closeB2BAddModal()">Cancel</button>
-            <button type="submit" class="btn-primary-action" style="flex: 2; height: 44px; border-radius: 8px; font-size: 0.92rem; background: #854d0e;">
-              Save to B2B Directory
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- MOBILE BOTTOM BAR -->
-  <nav class="mobile-app-bar mobile-only">
-    <button class="nav-tab-item active" id="tabNavDir" onclick="switchNav('directory')">
-      <span class="nav-tab-icon">📖</span>
-      <span>Directory</span>
-    </button>
-    <button class="nav-tab-item" id="tabNavRishta" onclick="switchNav('matrimony')">
-      <span class="nav-tab-icon">💍</span>
-      <span>Rishta</span>
-    </button>
-    <button class="nav-tab-item center-add" onclick="openAddModal()">
-      <div class="center-add-circle">＋</div>
-      <span style="font-size: 0.65rem;">Add Rishta</span>
-    </button>
-    <button class="nav-tab-item" id="tabNavTrade" onclick="switchNav('trade')">
-      <span class="nav-tab-icon">🧵</span>
-      <span>Trade</span>
-    </button>
-    <button class="nav-tab-item" id="tabNavNews" onclick="switchNav('janaza')">
-      <span class="nav-tab-icon">📢</span>
-      <span>Janaza</span>
-    </button>
-  </nav>
-
-  <script>
-    let currentTab = 'directory';
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyD8h2eVchH4syRCGEjvQXMUbeMHUPWcJgo",
-      authDomain: "banarsi-joda.firebaseapp.com",
-      projectId: "banarsi-joda",
-      storageBucket: "banarsi-joda.firebasestorage.app",
-      messagingSenderId: "745946678609",
-      appId: "1:745946678609:web:3947812859cf5139a8bf70"
-    };
-
-    let db = null;
-    let isFirebaseReady = false;
-
-    try {
-      if (typeof firebase !== 'undefined') {
-        firebase.initializeApp(firebaseConfig);
-        db = firebase.firestore();
-        isFirebaseReady = true;
-        loadLiveProfiles();
-      }
-    } catch (e) {
-      console.warn("Using local cache fallback.");
-    }
-
-    const seedProfiles = [
-      {
-        fullName: "Mohammad Tariq Ansari",
-        gender: "Male",
-        age: "26 Years",
-        heightWeight: "5ft 8in / 68 kg",
-        disability: "None",
-        maritalStatus: "Unmarried",
-        kids: "None",
-        fatherStatus: "Alive",
-        motherStatus: "Alive",
-        housing: "Own House",
-        firqa: "Ahl us Sunnah",
-        walidName: "Haji Abdul Rashid",
-        dadaName: "Late Haji Noor Mohammad",
-        khandaan: "Noorani Weavers",
-        mohalla: "Madanpura",
-        nanihal: "Bajardiha (Kallu Seth)",
-        city: "Mumbai",
-        profession: "Pure Silk Saree Wholesale",
-        managedBy: "Father",
-        b2bType: "B2B Saree Wholesaler / Thok Vyapari"
-      },
-      {
-        fullName: "Fatima Bano Ansari",
-        gender: "Female",
-        age: "23 Years",
-        heightWeight: "5ft 3in / 52 kg",
-        disability: "None",
-        maritalStatus: "Unmarried",
-        kids: "None",
-        fatherStatus: "Alive",
-        motherStatus: "Alive",
-        housing: "Own House",
-        firqa: "Deobandi",
-        walidName: "Janab Shamim Ahmad",
-        dadaName: "Haji Kallu Seth",
-        khandaan: "Kallu Seth Wale",
-        mohalla: "Bajardiha",
-        nanihal: "Pilikothi",
-        city: "Delhi",
-        profession: "B.Com, B.Ed Teacher",
-        managedBy: "Father"
-      },
-      {
-        fullName: "Mohammad Arshad",
-        gender: "Male",
-        age: "31 Years",
-        heightWeight: "5ft 9in / 72 kg",
-        disability: "None",
-        maritalStatus: "Married (Aqd-e-Saani)",
-        kids: "1 Son (living with family)",
-        fatherStatus: "Alive",
-        motherStatus: "Alive",
-        housing: "Own House",
-        firqa: "Ahl-e-Hadees",
-        walidName: "Janab Akhtar Ali",
-        dadaName: "Janab Bashir Ahmad",
-        khandaan: "Pillai Wale",
-        mohalla: "Pilikothi",
-        nanihal: "Lohta",
-        city: "Surat",
-        profession: "Textile Powerloom Unit Owner",
-        managedBy: "Self",
-        b2bType: "Saree Manufacturer / Karkhanedar (Loom Owner)"
-      }
-    ];
-
-    let allProfiles = [...seedProfiles];
-
-    let b2bListings = [
-      {
-        firmName: "Noorani Silk Handloom Karkhana",
-        khandaan: "Noorani Weavers",
-        owner: "Haji Abdul Rashid & Sons",
-        category: "Pure Silk & Kadwa Brocade",
-        mohalla: "Madanpura, Banaras",
-        capacity: "28 Handlooms | 12 Powerlooms",
-        moq: "Min Wholesale Order: 10 Pieces",
-        specialties: ["Pure Katan Silk", "Jangla & Kadwa Weave", "Bridal Banarsi", "Tanchoi Silk"],
-        phone: "+919839123456",
-        tag: "katan",
-        status: "Verified Master Weaver"
-      },
-      {
-        firmName: "Kallu Seth Wholesale Brocades & Sarees",
-        khandaan: "Kallu Seth Wale",
-        owner: "Janab Shamim Ahmad Ansari",
-        category: "Wholesale Saree Gaddi",
-        mohalla: "Bajardiha, Banaras",
-        capacity: "Pan-India Saree Distribution & Stockist",
-        moq: "Wholesale Only | Sample Sets Available",
-        specialties: ["Organza Katan Brocade", "Georgette Khaddi", "Real Zari Meenakari", "Silk Dupattas"],
-        phone: "+919839654321",
-        tag: "wholesale",
-        status: "Certified Wholesale Gaddi"
-      },
-      {
-        firmName: "Al-Madina Zari & Kadwa Textiles",
-        khandaan: "Pillai Wale",
-        owner: "Haji Mohammad Arshad",
-        category: "Loom Manufacturer & Exporter",
-        mohalla: "Pilikothi, Banaras",
-        capacity: "45 Loom Setup | Custom Dyeing & Weaving",
-        moq: "Bulk Orders for Retail Boutiques & Export",
-        specialties: ["Katan Silk Sarees", "Tissue & Tissue Brocade", "Kadhwa Booti", "Lehenga Fabrics"],
-        phone: "+919838765432",
-        tag: "kadwa",
-        status: "Direct Loom Owner"
-      },
-      {
-        firmName: "Banaras Resham & Raw Silk Syndicate",
-        khandaan: "Resham Wale",
-        owner: "Haji Kallu & Brothers",
-        category: "Raw Silk & Yarn Merchant",
-        mohalla: "Alaipura, Banaras",
-        capacity: "Direct Malda & Bengaluru Silk Yarn Import",
-        moq: "Yarn Bundles & Unfinished Grey Thans",
-        specialties: ["Mulberry Silk Yarn", "Twisted Katan Warp", "Tested Silver/Gold Zari", "Grey Fabric Thans"],
-        phone: "+919839988776",
-        tag: "yarn",
-        status: "Silk Board Registered"
-      }
-    ];
-
-    function handlePhotoUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      if (file.size > 5 * 1024 * 1024) {
-        alert('Image size exceeds 5MB. Please choose a smaller photo.');
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const dataUrl = e.target.result;
-        document.getElementById('inPhotoData').value = dataUrl;
-        document.getElementById('photoPreviewImg').src = dataUrl;
-        document.getElementById('photoPlaceholderUI').style.display = 'none';
-        document.getElementById('photoPreviewUI').style.display = 'flex';
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function removeUploadedPhoto() {
-      document.getElementById('inPhotoFile').value = '';
-      document.getElementById('inPhotoData').value = '';
-      document.getElementById('photoPreviewImg').src = '';
-      document.getElementById('photoPlaceholderUI').style.display = 'block';
-      document.getElementById('photoPreviewUI').style.display = 'none';
-    }
-
-    function handleGenderChange() {
-      const g = document.getElementById('inGender').value;
-      const photoSec = document.getElementById('malePhotoSection');
-      const maritalSelect = document.getElementById('inMaritalStatus');
-      const curMarital = maritalSelect.value;
-
-      if (g === 'Female') {
-        photoSec.style.display = 'none';
-        removeUploadedPhoto();
-        maritalSelect.innerHTML = `
-          <option value="Unmarried">Never Married (Ghair Shaadishuda)</option>
-          <option value="Widowed">Widow (Bewa)</option>
-          <option value="Divorced">Divorced (Talaq-shuda / Khula)</option>
-        `;
-        if (curMarital === 'Married (Aqd-e-Saani)') {
-          maritalSelect.value = 'Unmarried';
-        } else {
-          maritalSelect.value = curMarital || 'Unmarried';
-        }
-      } else {
-        photoSec.style.display = 'block';
-        maritalSelect.innerHTML = `
-          <option value="Unmarried">Never Married (Ghair Shaadishuda)</option>
-          <option value="Married (Aqd-e-Saani)">Married (Aqd-e-Saani)</option>
-          <option value="Widowed">Widower (Bewa)</option>
-          <option value="Divorced">Divorced (Talaq-shuda)</option>
-        `;
-        maritalSelect.value = curMarital || 'Unmarried';
-      }
-      handleMaritalChange();
-    }
-
-    function handleMaritalChange() {
-      const m = document.getElementById('inMaritalStatus').value;
-      const kidsBox = document.getElementById('kidsBox');
-      const inKids = document.getElementById('inKids');
-      if (m === 'Unmarried') {
-        kidsBox.style.display = 'none';
-        inKids.value = '';
-      } else {
-        kidsBox.style.display = 'block';
-        inKids.value = '';
-      }
-    }
-
-    function openAddModal() {
-      document.getElementById('addModalBackdrop').classList.add('open');
-      showFormStep(1);
-      handleGenderChange();
-    }
-
-    function closeAddModal() {
-      document.getElementById('addModalBackdrop').classList.remove('open');
-      removeUploadedPhoto();
-    }
-
-    function openB2BAddModal() {
-      document.getElementById('addB2BModalBackdrop').classList.add('open');
-    }
-
-    function closeB2BAddModal() {
-      document.getElementById('addB2BModalBackdrop').classList.remove('open');
-    }
-
-    function showFormStep(step) {
-      for (let i = 1; i <= 4; i++) {
-        document.getElementById(`formStep${i}`).style.display = (i === step) ? 'flex' : 'none';
-        document.getElementById(`stepBtn${i}`).classList.toggle('active', i === step);
-      }
-    }
-
-    function switchNav(tab) {
-      currentTab = tab;
-      document.querySelectorAll('.nav-link, .nav-tab-item').forEach(el => el.classList.remove('active'));
-      const cardsList = document.getElementById('cardsStreamList');
-      const b2bSection = document.getElementById('b2bStreamSection');
-
-      if (tab === 'directory') {
-        document.getElementById('deskTabDir')?.classList.add('active');
-        document.getElementById('tabNavDir')?.classList.add('active');
-        if (cardsList) cardsList.style.display = 'grid';
-        if (b2bSection) b2bSection.style.display = 'none';
-        document.getElementById('txtStreamTitle').innerText = 'Verified Matrimonial Profiles';
-        filterProfiles();
-      }
-      if (tab === 'matrimony') {
-        document.getElementById('deskTabRishta')?.classList.add('active');
-        document.getElementById('tabNavRishta')?.classList.add('active');
-        if (cardsList) cardsList.style.display = 'grid';
-        if (b2bSection) b2bSection.style.display = 'none';
-        document.getElementById('txtStreamTitle').innerText = 'Banarsi Rishta Lineages (Dadhial & Nanihal)';
-        filterProfiles();
-      }
-      if (tab === 'trade') {
-        document.getElementById('deskTabTrade')?.classList.add('active');
-        document.getElementById('tabNavTrade')?.classList.add('active');
-        if (cardsList) cardsList.style.display = 'none';
-        if (b2bSection) b2bSection.style.display = 'block';
-        document.getElementById('txtStreamTitle').innerText = 'B2B Saree Weavers & Wholesale Trade';
-        document.getElementById('txtProfileCount').innerText = `${b2bListings.length} verified units`;
-        renderB2BFeed(b2bListings);
-      }
-      if (tab === 'janaza') {
-        document.getElementById('deskTabNews')?.classList.add('active');
-        document.getElementById('tabNavNews')?.classList.add('active');
-        if (cardsList) cardsList.style.display = 'grid';
-        if (b2bSection) b2bSection.style.display = 'none';
-        document.getElementById('txtStreamTitle').innerText = 'Janaza Notices & Community Khabar';
-        filterProfiles();
-      }
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function loadLiveProfiles() {
-      if (!db) return;
-      db.collection("families").onSnapshot((snapshot) => {
-        const liveList = [];
-        snapshot.forEach(doc => liveList.push(doc.data()));
-        allProfiles = liveList.length > 0 ? [...liveList, ...seedProfiles] : [...seedProfiles];
-        renderFeed(allProfiles);
-      }, (err) => {
-        console.warn("Firestore listener:", err);
-        renderFeed(allProfiles);
-      });
-    }
-
-    function renderFeed(list) {
-      const container = document.getElementById('cardsStreamList');
-      if (!container) return;
-      container.innerHTML = '';
-
-      list.forEach(p => {
-        const name = p.fullName;
-        const walid = p.walidName;
-        const dada = p.dadaName;
-        const khandaan = p.khandaan || 'Banarsi Parivar';
-        const mohalla = p.mohalla || 'Banaras';
-        const city = p.city || '';
-        const firqa = p.firqa || 'Ahl us Sunnah';
-        const work = p.profession || '';
-        const isFemale = p.gender === 'Female';
-
-        const searchKeywords = `${p.fullName || ''} ${p.walidName || ''} ${p.dadaName || ''} ${p.khandaan || ''} ${p.mohalla || ''} ${p.city || ''} ${p.firqa || ''} ${p.gender || ''} ${p.maritalStatus || ''}`.toLowerCase();
-
-        const card = document.createElement('article');
-        card.className = 'family-card';
-        card.setAttribute('data-mohalla', p.mohalla || '');
-        card.setAttribute('data-city', p.city || '');
-        card.setAttribute('data-firqa', p.firqa || '');
-        card.setAttribute('data-text', searchKeywords);
-
-        const waText = encodeURIComponent(`Assalamu Alaikum, check out the profile of ${name} (${khandaan}, from ${mohalla}) on Banarsi Joda.`);
-
-        const avatarHtml = isFemale 
-          ? '<div class="avatar-box">🧕</div>'
-          : (p.photoUrl && p.photoUrl.trim() !== '' 
-              ? `<div class="avatar-box" style="padding:0; overflow:hidden;"><img src="${p.photoUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>`
-              : '<div class="avatar-box">🧔</div>');
-
-        card.innerHTML = `
-          <div class="card-badges-strip">
-            <span class="gender-pill ${isFemale ? 'pill-bride' : 'pill-groom'}">${isFemale ? 'Bride' : 'Groom'}</span>
-            <span class="khandaan-badge">Khandaan: ${khandaan}</span>
-            <span class="firqa-badge">🕌 ${firqa}</span>
-          </div>
-
-          <div class="card-person-header">
-            ${avatarHtml}
-            <div>
-              <h3 class="card-name">${name}</h3>
-              <div class="card-subtext">${p.age || ''} ${p.age && p.heightWeight ? '•' : ''} ${p.heightWeight || ''}</div>
-            </div>
-          </div>
-
-          <div class="lineage-box">
-            Walid: <b>${walid}</b> (${p.fatherStatus === 'Deceased' ? 'Deceased' : 'Alive'})<br>
-            Dada: <b>${dada}</b> | <b>Khandaan:</b> ${khandaan}<br>
-            ${p.nanihal ? `<span><b>Nanihal:</b> ${p.nanihal}</span>` : ''}
-          </div>
-
-          <div class="matri-specs-grid">
-            <div class="spec-item">💍 ${p.maritalStatus || 'Unmarried'} ${p.kids && p.kids !== 'None' ? `(${p.kids})` : ''}</div>
-            <div class="spec-item">🏠 ${p.housing || 'Own House'}</div>
-            <div class="spec-item">📍 ${mohalla} (Banaras)</div>
-            <div class="spec-item">🏢 ${city}</div>
-            ${p.b2bType ? `<div class="spec-item" style="grid-column: 1 / -1; color: #854d0e;">🧵 <b>Trade:</b> ${p.b2bType}</div>` : ''}
-            <div class="spec-item" style="grid-column: 1 / -1;">💼 ${work || 'Business'} (Managed by: ${p.managedBy || 'Father'})</div>
-          </div>
-
-          <div class="card-actions-row">
-            <button class="btn-primary-action" onclick="alert('Connection request sent to family guardian (Wali).')">
-              <span>👤</span>
-              <span>Contact Family / Wali</span>
-            </button>
-            <a class="btn-wa-action" href="https://api.whatsapp.com/send?text=${waText}" target="_blank" title="WhatsApp">💬</a>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-
-      filterProfiles();
-    }
-
-    function renderB2BFeed(list) {
-      const container = document.getElementById('b2bCardsList');
-      if (!container) return;
-      container.innerHTML = '';
-
-      list.forEach(item => {
-        const card = document.createElement('article');
-        card.className = 'family-card';
-        card.style.borderColor = '#fef08a';
-        card.style.background = '#ffffff';
-
-        const waMsg = encodeURIComponent(`Assalamu Alaikum, I found your weaving firm *${item.firmName}* on Banarsi Joda. Please share your wholesale saree catalog and price list.`);
-
-        const specialtiesHtml = (Array.isArray(item.specialties) ? item.specialties : item.specialties.split(','))
-          .map(s => `<span style="background: #fef9e7; color: #854d0e; font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; border: 1px solid #fef08a;">${s.trim()}</span>`)
-          .join(' ');
-
-        card.innerHTML = `
-          <div class="card-badges-strip">
-            <span class="gender-pill" style="background: #fef08a; color: #854d0e; border: 1px solid #eab308;">🧵 ${item.category}</span>
-            <span class="khandaan-badge">Khandaan: ${item.khandaan}</span>
-            <span class="firqa-badge" style="background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0;">✓ ${item.status}</span>
-          </div>
-
-          <div class="card-person-header">
-            <div class="avatar-box" style="background: #fef9e7; color: #854d0e; font-size: 1.5rem; border-color: #fef08a;">🏭</div>
-            <div>
-              <h3 class="card-name" style="color: #1e293b;">${item.firmName}</h3>
-              <div class="card-subtext">Prop: <b>${item.owner}</b> • 📍 ${item.mohalla}</div>
-            </div>
-          </div>
-
-          <div style="margin: 8px 0; display: flex; flex-wrap: wrap; gap: 6px;">
-            ${specialtiesHtml}
-          </div>
-
-          <div class="matri-specs-grid" style="background: #fffdf5; border-color: #fef08a;">
-            <div class="spec-item">⚙️ <b>Capacity:</b> ${item.capacity}</div>
-            <div class="spec-item">📦 <b>MOQ:</b> ${item.moq}</div>
-          </div>
-
-          <div class="card-actions-row">
-            <a class="btn-primary-action" style="background: #25d366; text-decoration: none; justify-content: center;" href="https://api.whatsapp.com/send?phone=${item.phone.replace(/[^0-9]/g, '')}&text=${waMsg}" target="_blank">
-              <span>💬</span>
-              <span>Wholesale WhatsApp Inquiry</span>
-            </a>
-            <a class="btn-wa-action" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1;" href="tel:${item.phone}" title="Call">📞</a>
-          </div>
-        `;
-
-        container.appendChild(card);
-      });
-    }
-
-    function filterProfiles() {
-      const q = document.getElementById('keywordSearchInput').value.toLowerCase().trim();
-      const selFirqa = document.getElementById('firqaSelectInput').value;
-      const selMohalla = document.getElementById('mohallaSelectInput').value;
-      const selCity = document.getElementById('citySelectInput').value;
-
-      const cards = document.querySelectorAll('#cardsStreamList .family-card');
-      let visible = 0;
-
-      cards.forEach(card => {
-        const text = card.getAttribute('data-text') || '';
-        const mohalla = card.getAttribute('data-mohalla') || '';
-        const city = card.getAttribute('data-city') || '';
-        const firqa = card.getAttribute('data-firqa') || '';
-
-        const matchQ = !q || text.includes(q);
-        const matchF = !selFirqa || firqa.toLowerCase().includes(selFirqa.toLowerCase());
-        const matchM = !selMohalla || mohalla === selMohalla;
-        const matchC = !selCity || city.toLowerCase().includes(selCity.toLowerCase());
-
-        if (matchQ && matchF && matchM && matchC) {
-          card.style.display = 'flex';
-          visible++;
-        } else {
-          card.style.display = 'none';
-        }
-      });
-
-      const countElem = document.getElementById('txtProfileCount');
-      if (countElem && currentTab !== 'trade') {
-        countElem.innerText = `${visible} profiles found`;
-      }
-    }
-
-    function filterB2BCards(tag) {
-      document.querySelectorAll('.b2b-filter-pill').forEach(btn => {
-        btn.style.background = 'white';
-        btn.style.color = '#854d0e';
-        btn.style.border = '1px solid #fef08a';
-      });
-      const activeBtn = document.getElementById(`b2bFilter${tag.charAt(0).toUpperCase() + tag.slice(1)}`) || document.getElementById('b2bFilterAll');
-      if (activeBtn) {
-        activeBtn.style.background = '#854d0e';
-        activeBtn.style.color = 'white';
-      }
-
-      if (tag === 'all') {
-        renderB2BFeed(b2bListings);
-      } else {
-        const filtered = b2bListings.filter(item => item.tag === tag || item.category.toLowerCase().includes(tag) || (Array.isArray(item.specialties) ? item.specialties.join(' ') : item.specialties).toLowerCase().includes(tag));
-        renderB2BFeed(filtered);
-      }
-    }
-
-    async function submitFamilyProfile(e) {
-      e.preventDefault();
-      const btn = document.getElementById('btnSubmitModal');
-      btn.innerText = 'Saving...';
-      btn.disabled = true;
-
-      const genderVal = document.getElementById('inGender').value;
-      const photoVal = (genderVal === 'Male') ? (document.getElementById('inPhotoData').value || '') : '';
-      const b2bVal = document.getElementById('inB2BType') ? document.getElementById('inB2BType').value : '';
-
-      const profile = {
-        gender: genderVal,
-        managedBy: document.getElementById('inManagedBy').value,
-        fullName: document.getElementById('inName').value,
-        age: document.getElementById('inAge').value,
-        heightWeight: document.getElementById('inHeightWeight').value,
-        disability: document.getElementById('inDisability').value,
-        photoUrl: photoVal,
-        maritalStatus: document.getElementById('inMaritalStatus').value,
-        kids: document.getElementById('inKids').value.trim() || 'None',
-        fatherStatus: document.getElementById('inFatherStatus').value,
-        motherStatus: document.getElementById('inMotherStatus').value,
-        housing: document.getElementById('inHousing').value,
-        banarasHouse: document.getElementById('inBanarasHouse').value,
-        firqa: document.getElementById('inFirqa').value,
-        walidName: document.getElementById('inWalid').value,
-        dadaName: document.getElementById('inDada').value,
-        khandaan: document.getElementById('inKhandaan').value,
-        mohalla: document.getElementById('inMohalla').value,
-        nanihal: document.getElementById('inNanihal').value,
-        references: document.getElementById('inReferences').value,
-        prefAge: document.getElementById('inPrefAge').value,
-        firqaFlex: document.getElementById('inFirqaFlex').value,
-        profession: document.getElementById('inWork').value,
-        b2bType: b2bVal,
-        city: document.getElementById('inCity').value,
-        phone: document.getElementById('inPhone').value,
-        createdAt: new Date().toISOString()
-      };
-
-      if (isFirebaseReady && db) {
-        try {
-          await db.collection("families").add(profile);
-          alert('Mubarak! Your profile has been saved live into Banarsi Joda database.');
-          document.getElementById('familyRegistrationForm').reset();
-          closeAddModal();
-        } catch (err) {
-          alert('Error: ' + err.message);
-        }
-      } else {
-        allProfiles.unshift(profile);
-        renderFeed(allProfiles);
-        alert('Saved locally!');
-        document.getElementById('familyRegistrationForm').reset();
-        closeAddModal();
-      }
-
-      btn.innerText = 'Save to Banarsi Joda Database';
-      btn.disabled = false;
-    }
-
-    function submitB2BProfile(e) {
-      e.preventDefault();
-      const newB2B = {
-        firmName: document.getElementById('inB2BFirm').value,
-        khandaan: document.getElementById('inB2BKhandaan').value,
-        owner: document.getElementById('inB2BOwner').value,
-        category: document.getElementById('inB2BCat').value,
-        mohalla: document.getElementById('inB2BMohalla').value + ", Banaras",
-        capacity: document.getElementById('inB2BCapacity').value,
-        moq: document.getElementById('inB2BMOQ').value,
-        specialties: document.getElementById('inB2BSpecialties').value.split(',').map(s => s.trim()),
-        phone: document.getElementById('inB2BPhone').value,
-        tag: 'all',
-        status: 'Direct Loom Owner'
-      };
-
-      b2bListings.unshift(newB2B);
-      renderB2BFeed(b2bListings);
-      alert('Mubarak! Your B2B weaving / wholesale listing has been added successfully.');
-      document.getElementById('b2bRegistrationForm').reset();
-      closeB2BAddModal();
-    }
-
-    renderFeed(allProfiles);
-  </script>
-</body>
-</html>
+:root {
+  --primary: #064e3b;
+  --primary-dark: #022c22;
+  --primary-light: #ecfdf5;
+  --gold: #b8860b;
+  --gold-accent: #d97706;
+  --gold-light: #fef9e7;
+  --gold-border: #fef08a;
+  --brown: #78350f;
+  --brown-dark: #451a03;
+  --whatsapp: #25d366;
+  --surface: #ffffff;
+  --bg: #f8fafc;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --radius: 16px;
+  --font: 'Plus Jakarta Sans', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.5; padding-bottom: 70px; }
+a { text-decoration: none; color: inherit; }
+button, input, select { font-family: inherit; }
+
+/* Header */
+.app-header { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+.header-container { max-width: 1200px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
+.brand-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.brand-logo-box { width: 42px; height: 42px; border-radius: 10px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); display: flex; align-items: center; justify-content: center; color: #fef08a; font-size: 1.2rem; font-weight: 900; border: 1.5px solid var(--gold); }
+.brand-title { font-size: 1.25rem; font-weight: 800; color: var(--primary-dark); }
+.brand-sub { font-size: 0.7rem; color: #047857; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+.live-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; }
+.desktop-nav { display: none; align-items: center; gap: 6px; }
+@media(min-width: 860px){ .desktop-nav { display: flex; } }
+.nav-btn { background: none; border: none; padding: 8px 14px; font-size: 0.88rem; font-weight: 600; color: var(--text-muted); cursor: pointer; border-radius: 8px; }
+.nav-btn.active, .nav-btn:hover { color: var(--primary); background: var(--primary-light); font-weight: 700; }
+.header-actions { display: flex; align-items: center; gap: 8px; }
+.btn-login { background: white; border: 1.5px solid var(--border); padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 0.84rem; cursor: pointer; }
+.btn-reg { background: var(--primary); color: white; border: 1px solid var(--gold); padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 0.84rem; cursor: pointer; }
+.user-pill { display: none; align-items: center; gap: 8px; background: var(--primary-light); border: 1px solid #a7f3d0; padding: 4px 12px; border-radius: 20px; cursor: pointer; font-size: 0.82rem; font-weight: 700; color: var(--primary-dark); }
+
+/* Hero Match Finder */
+.hero-sec { background: radial-gradient(circle at top right, #0d5e3c, var(--primary-dark) 60%, #031e17); color: white; padding: 32px 16px 44px; text-align: center; }
+.hero-box { max-width: 1040px; margin: 0 auto; }
+.hero-badge { display: inline-block; background: rgba(184,134,11,0.2); border: 1px solid var(--gold); color: #fef08a; font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 8px; }
+.hero-h { font-size: 1.8rem; font-weight: 800; margin-bottom: 6px; }
+.hero-p { font-size: 0.9rem; color: #d1fae5; margin-bottom: 20px; }
+.finder-card { background: white; border-radius: var(--radius); padding: 18px; color: var(--text); box-shadow: 0 16px 36px rgba(0,0,0,0.3); text-align: left; }
+.finder-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+@media(min-width: 768px){ .finder-grid { grid-template-columns: 1fr 1fr 1fr 1fr 1.2fr; align-items: end; } }
+.finder-grid label { display: block; font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+.finder-grid select { width: 100%; height: 44px; border: 1.5px solid var(--border); border-radius: 8px; padding: 0 10px; font-size: 0.88rem; outline: none; background: white; }
+.btn-search { width: 100%; height: 44px; background: linear-gradient(135deg, var(--gold-accent), var(--gold)); color: white; border: none; border-radius: 8px; font-weight: 800; font-size: 0.92rem; cursor: pointer; }
+
+/* Layout & Stream */
+.main-wrap { max-width: 1200px; margin: 24px auto; padding: 0 16px; }
+.layout-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+@media(min-width: 992px){ .layout-grid { grid-template-columns: 1fr 320px; } }
+
+/* Guest Privacy Lock */
+.guest-gate { background: linear-gradient(135deg, #064e3b, #022c22); border: 2px solid var(--gold); border-radius: var(--radius); padding: 26px 20px; color: white; text-align: center; margin-bottom: 24px; box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
+.guest-gate h3 { font-size: 1.35rem; font-weight: 800; margin-bottom: 6px; }
+.guest-gate p { font-size: 0.88rem; color: #d1fae5; max-width: 620px; margin: 0 auto 16px; }
+.btn-gate-reg { background: linear-gradient(135deg, var(--gold-accent), var(--gold)); color: white; border: none; padding: 11px 22px; border-radius: 10px; font-weight: 800; font-size: 0.9rem; cursor: pointer; margin-right: 8px; }
+.btn-gate-demo { background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.4); color: white; padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 0.84rem; cursor: pointer; }
+
+/* Interactive Profile Cards */
+.cards-list { display: grid; grid-template-columns: 1fr; gap: 18px; }
+.card-item { background: white; border: 1px solid var(--border); border-radius: 18px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column; gap: 14px; }
+@media(min-width: 600px){ .card-item { flex-direction: row; gap: 18px; align-items: flex-start; } }
+
+/* Big Picture Showcase (130px x 165px) */
+.pic-showcase { width: 130px; height: 165px; border-radius: 14px; overflow: hidden; position: relative; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.pic-showcase.male-box { background: linear-gradient(135deg, #e0f2fe, #bfdbfe); border: 2px solid #93c5fd; }
+.pic-showcase.male-box img { width: 100%; height: 100%; object-fit: cover; }
+.pic-showcase.female-box { background: linear-gradient(135deg, #064e3b, #022c22); border: 2px solid var(--gold); }
+.urdu-char { font-family: 'Scheherazade New', serif; font-size: 4rem; color: #fef08a; line-height: 1; }
+.purdah-seal { position: absolute; bottom: 6px; font-size: 0.6rem; font-weight: 800; color: #9d174d; background: #fdf2f8; padding: 2px 8px; border-radius: 10px; border: 1px solid #fbcfe8; }
+.photo-tag { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(5,150,105,0.95); color: white; font-size: 0.6rem; font-weight: 800; text-align: center; padding: 2px; }
+
+/* Card Details */
+.card-info { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.card-name { font-size: 1.2rem; font-weight: 800; color: #0f172a; }
+.card-meta { font-size: 0.84rem; font-weight: 600; color: var(--text-muted); }
+.card-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+.pill { font-size: 0.7rem; font-weight: 800; padding: 3px 8px; border-radius: 14px; text-transform: uppercase; }
+.pill-groom { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+.pill-bride { background: #fce7f3; color: #9d174d; border: 1px solid #fbcfe8; }
+.pill-gold { background: var(--gold-light); color: var(--brown); border: 1px solid var(--gold-border); }
+.pill-gray { background: #f1f5f9; color: #334155; }
+
+.specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: #f8fafc; border: 1px solid #f1f5f9; padding: 8px 10px; border-radius: 8px; font-size: 0.8rem; }
+.lineage-toggle { background: #f8fafc; border: 1px dashed #cbd5e1; padding: 6px 10px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; color: var(--primary); cursor: pointer; display: flex; justify-content: space-between; }
+.lineage-panel { display: none; background: #fbfdfe; border-left: 3px solid var(--primary); padding: 8px 10px; font-size: 0.82rem; border-radius: 0 6px 6px 0; }
+.lineage-panel.open { display: block; }
+.card-actions { display: flex; gap: 8px; margin-top: 4px; }
+.btn-interest { flex: 1.4; height: 40px; background: var(--primary); color: white; border: 1px solid var(--gold); border-radius: 8px; font-size: 0.84rem; font-weight: 700; cursor: pointer; }
+.btn-interest.sent { background: #ecfdf5; color: #065f46; border-color: #a7f3d0; }
+.btn-wali { flex: 1; height: 40px; background: white; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.84rem; font-weight: 700; cursor: pointer; }
+.btn-wa { width: 40px; height: 40px; background: var(--whatsapp); color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+
+/* Sidebar */
+.sidebar { display: none; flex-direction: column; gap: 24px; }
+@media(min-width: 992px){ .sidebar { display: flex; } }
+.side-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.side-card:last-child { margin-bottom: 0; }
+.side-title { font-size: 0.95rem; font-weight: 800; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+
+/* Modals */
+.modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 16px; backdrop-filter: blur(4px); }
+.modal-backdrop.open { display: flex; }
+.modal-dialog { background: white; border-radius: 18px; width: 100%; max-width: 440px; max-height: 90vh; overflow-y: auto; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); position: relative; }
+.modal-dialog-large { max-width: 600px; }
+.close-btn { position: absolute; top: 16px; right: 16px; background: #f1f5f9; border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; }
+
+/* Auth modal elements */
+.auth-badge { width: 48px; height: 48px; border-radius: 12px; background: var(--primary); color: #fef08a; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 900; margin: 0 auto 12px; border: 1.5px solid var(--gold); }
+.auth-h { font-size: 1.35rem; font-weight: 800; text-align: center; margin-bottom: 4px; }
+.auth-sub { font-size: 0.84rem; color: var(--text-muted); text-align: center; margin-bottom: 18px; }
+.phone-row { display: flex; gap: 8px; margin-bottom: 14px; }
+.code-box { width: 75px; height: 46px; border: 1.5px solid var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 700; background: #f8fafc; }
+.input-field { flex: 1; height: 46px; border: 1.5px solid var(--border); border-radius: 8px; padding: 0 12px; font-size: 0.95rem; outline: none; }
+.input-field:focus { border-color: var(--primary); }
+.btn-auth { width: 100%; height: 46px; background: #0f172a; color: white; border: none; border-radius: 8px; font-weight: 700; font-size: 0.92rem; cursor: pointer; }
+.auth-divider { display: flex; align-items: center; margin: 18px 0; color: #94a3b8; font-size: 0.78rem; text-transform: uppercase; }
+.auth-divider::before, .auth-divider::after { content: ''; flex: 1; border-bottom: 1px solid #e2e8f0; }
+.auth-divider::before { margin-right: 10px; } .auth-divider::after { margin-left: 10px; }
+.btn-social { width: 100%; height: 46px; background: white; border: 1.5px solid #cbd5e1; border-radius: 24px; font-size: 0.88rem; font-weight: 700; color: #334155; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px; }
+
+/* Form Step Navigation (NO NUMBERS!) */
+.step-nav { display: flex; gap: 4px; margin-bottom: 16px; background: #f1f5f9; padding: 4px; border-radius: 10px; }
+.step-btn { flex: 1; border: none; background: none; font-size: 0.74rem; font-weight: 700; color: var(--text-muted); padding: 8px 2px; border-radius: 6px; cursor: pointer; text-align: center; }
+.step-btn.active { background: white; color: var(--primary-dark); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.f-box { display: flex; flex-direction: column; gap: 12px; }
+.f-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+@media(min-width: 500px){ .f-grid { grid-template-columns: 1fr 1fr; } }
+.f-item label { display: block; font-size: 0.76rem; font-weight: 700; margin-bottom: 4px; }
+.f-item input, .f-item select { width: 100%; height: 42px; border: 1.5px solid var(--border); border-radius: 8px; padding: 0 10px; font-size: 0.88rem; outline: none; background: white; }
+.field-error { border-color: #ef4444 !important; background: #fef2f2 !important; }
+.btn-proceed { height: 44px; background: var(--primary); color: white; border: 1px solid var(--gold); border-radius: 8px; font-size: 0.88rem; font-weight: 800; cursor: pointer; padding: 0 16px; }
+
+/* Mobile bottom bar */
+.mobile-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid var(--border); height: 58px; display: flex; align-items: center; justify-content: space-around; z-index: 99; }
+@media(min-width: 860px){ .mobile-bar { display: none; } }
+.m-item { background: none; border: none; font-size: 0.68rem; font-weight: 600; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+.m-item.active { color: var(--primary); font-weight: 700; }
