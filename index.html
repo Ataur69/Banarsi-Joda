@@ -76,7 +76,7 @@
 
     @media (min-width: 768px) {
       body {
-        padding-top: 70px;
+        padding-top: 68px;
         padding-bottom: 30px;
       }
       .desktop-only {
@@ -92,9 +92,19 @@
       font-family: var(--font-ur);
       font-size: 1.05rem;
     }
+    html[dir="rtl"] .hero-title {
+      font-family: var(--font-ur);
+      font-size: 2.1rem;
+      line-height: 1.6;
+    }
+    html[dir="rtl"] .hero-subtitle {
+      font-family: var(--font-ur);
+      font-size: 1.15rem;
+      line-height: 1.8;
+    }
     html[dir="rtl"] .app-title {
       font-family: var(--font-ur);
-      font-size: 1.45rem;
+      font-size: 1.4rem;
     }
     html[dir="rtl"] .card-name {
       font-family: var(--font-ur);
@@ -108,10 +118,10 @@
       border-right: 3px solid var(--primary);
     }
     html[dir="rtl"] .nav-link,
-    html[dir="rtl"] .pill-btn,
     html[dir="rtl"] .khandaan-badge,
     html[dir="rtl"] .btn-primary-action,
-    html[dir="rtl"] .search-input {
+    html[dir="rtl"] .field-label,
+    html[dir="rtl"] .hero-pill {
       font-family: var(--font-ur);
     }
 
@@ -129,7 +139,7 @@
     }
     @media (min-width: 768px) {
       .site-header {
-        height: 70px;
+        height: 68px;
       }
     }
 
@@ -167,8 +177,8 @@
     }
     @media (min-width: 768px) {
       .brand-logo-icon {
-        width: 44px;
-        height: 44px;
+        width: 42px;
+        height: 42px;
         font-size: 1.25rem;
       }
     }
@@ -178,7 +188,7 @@
       flex-direction: column;
     }
     .app-title {
-      font-size: 1.15rem;
+      font-size: 1.12rem;
       font-weight: 800;
       color: var(--primary-dark);
       letter-spacing: -0.3px;
@@ -186,15 +196,15 @@
     }
     @media (min-width: 768px) {
       .app-title {
-        font-size: 1.3rem;
+        font-size: 1.28rem;
       }
     }
     .app-subtitle-tag {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       color: var(--text-muted);
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
     }
     .pulse-dot {
       width: 6px;
@@ -289,15 +299,150 @@
       background: var(--primary-dark);
     }
 
-    /* 2. Responsive Grid */
+    /* 2. Hero Search Section */
+    .hero-search-section {
+      background: linear-gradient(180deg, var(--primary-dark) 0%, #0d6e43 100%);
+      color: white;
+      padding: 26px 16px 36px;
+      text-align: center;
+    }
+    @media (min-width: 768px) {
+      .hero-search-section {
+        padding: 38px 24px 48px;
+      }
+    }
+    .hero-container {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    .hero-pill {
+      display: inline-block;
+      background: rgba(184, 134, 11, 0.25);
+      border: 1px solid var(--gold);
+      color: #fef08a;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    .hero-title {
+      font-size: 1.65rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      line-height: 1.25;
+      letter-spacing: -0.5px;
+    }
+    @media (min-width: 768px) {
+      .hero-title {
+        font-size: 2.3rem;
+      }
+    }
+    .hero-subtitle {
+      font-size: 0.92rem;
+      color: #d1fae5;
+      margin-bottom: 22px;
+      line-height: 1.45;
+    }
+    @media (min-width: 768px) {
+      .hero-subtitle {
+        font-size: 1.05rem;
+      }
+    }
+
+    /* 3-Column Search Card */
+    .hero-search-card {
+      background: white;
+      border-radius: 14px;
+      padding: 16px 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      color: var(--text);
+      text-align: left;
+    }
+    html[dir="rtl"] .hero-search-card {
+      text-align: right;
+    }
+
+    .search-inputs-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 768px) {
+      .search-inputs-grid {
+        grid-template-columns: 2fr 1.1fr 1.1fr;
+        gap: 14px;
+      }
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .field-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--text-muted);
+    }
+    .hero-input, .hero-select {
+      width: 100%;
+      height: 44px;
+      padding: 0 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.92rem;
+      color: var(--text);
+      background: white;
+      outline: none;
+      transition: all 0.2s;
+    }
+    html[dir="rtl"] .hero-input, html[dir="rtl"] .hero-select {
+      font-size: 1.02rem;
+    }
+    .hero-input:focus, .hero-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(11, 94, 57, 0.15);
+    }
+
+    /* Popular Tags Row */
+    .popular-tags-row {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .popular-label {
+      font-weight: 700;
+    }
+    .tag-chip {
+      background: #f1f5f9;
+      color: #334155;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.15s;
+    }
+    .tag-chip:hover {
+      background: #e2e8f0;
+      color: var(--primary-dark);
+    }
+
+    /* 3. Responsive Feed & Desktop Sidebar */
     .main-wrapper {
       max-width: 1240px;
       margin: 0 auto;
-      padding: 12px 16px;
+      padding: 16px;
     }
     @media (min-width: 768px) {
       .main-wrapper {
-        padding: 20px 24px;
+        padding: 24px 20px;
       }
     }
 
@@ -316,89 +461,6 @@
       }
     }
 
-    /* Search & Filter Card */
-    .search-filter-card {
-      background: var(--surface);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      padding: 14px 16px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-      margin-bottom: 16px;
-    }
-    .search-input-wrap {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-    .search-icon {
-      position: absolute;
-      left: 14px;
-      font-size: 1rem;
-      color: var(--text-muted);
-      pointer-events: none;
-    }
-    html[dir="rtl"] .search-icon {
-      left: auto;
-      right: 14px;
-    }
-    .search-input {
-      width: 100%;
-      height: 44px;
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 0 16px 0 40px;
-      font-size: 0.94rem;
-      color: var(--text);
-      outline: none;
-      transition: all 0.2s;
-    }
-    html[dir="rtl"] .search-input {
-      padding: 0 40px 0 16px;
-      font-size: 1.05rem;
-    }
-    .search-input:focus {
-      background: white;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(11, 94, 57, 0.1);
-    }
-
-    .mohalla-chips-bar {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      padding-top: 10px;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-    }
-    @media (min-width: 768px) {
-      .mohalla-chips-bar {
-        flex-wrap: wrap;
-        overflow-x: visible;
-      }
-    }
-    .mohalla-chips-bar::-webkit-scrollbar {
-      display: none;
-    }
-    .pill-btn {
-      flex-shrink: 0;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      background: #f1f5f9;
-      color: #334155;
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .pill-btn.active {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-      box-shadow: 0 2px 6px rgba(11, 94, 57, 0.2);
-    }
-
     .stream-header {
       display: flex;
       justify-content: space-between;
@@ -407,7 +469,7 @@
       padding: 0 4px;
     }
     .stream-title {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 800;
       color: var(--primary-dark);
     }
@@ -546,7 +608,7 @@
       flex-shrink: 0;
     }
 
-    /* 3. Desktop Sidebar Widgets */
+    /* Desktop Sidebar Cards */
     .sidebar-column {
       display: flex;
       flex-direction: column;
@@ -579,32 +641,6 @@
       font-weight: 700;
       padding: 2px 6px;
       border-radius: 6px;
-    }
-
-    /* Mobile Janaza Ribbon */
-    .mobile-janaza-banner {
-      background: #fef2f2;
-      border-left: 3px solid var(--accent-red);
-      padding: 8px 12px;
-      margin-bottom: 12px;
-      border-radius: 8px;
-      font-size: 0.78rem;
-      color: #991b1b;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-    html[dir="rtl"] .mobile-janaza-banner {
-      border-left: none;
-      border-right: 3px solid var(--accent-red);
-      font-size: 0.88rem;
-    }
-    .mobile-janaza-banner a {
-      color: #b91c1c;
-      font-weight: 700;
-      text-decoration: none;
-      white-space: nowrap;
     }
 
     /* 4. Mobile Bottom App Bar */
@@ -668,7 +704,7 @@
       margin-bottom: 2px;
     }
 
-    /* 5. Adaptive Modal Dialog */
+    /* 5. Modal Dialog */
     .modal-backdrop {
       display: none;
       position: fixed;
@@ -709,18 +745,6 @@
     @keyframes slideUp {
       from { transform: translateY(100%); }
       to { transform: translateY(0); }
-    }
-    .sheet-handle {
-      width: 40px;
-      height: 4px;
-      background: #cbd5e1;
-      border-radius: 4px;
-      margin: 0 auto 12px;
-    }
-    @media (min-width: 768px) {
-      .sheet-handle {
-        display: none;
-      }
     }
     .modal-top {
       display: flex;
@@ -823,29 +847,50 @@
     </div>
   </header>
 
-  <!-- 2. MAIN ADAPTIVE WRAPPER -->
-  <div class="main-wrapper">
-    <!-- Mobile Janaza Ribbon (Mobile Only) -->
-    <div class="mobile-janaza-banner mobile-only" id="mobileJanazaBanner">
-      <div>
-        <span id="lblUrgentBadge">📢 Janaza:</span> 
-        <b id="lblJanazaBrief">Haji Manzoor Ahmad</b> (Madanpura)
-      </div>
-      <a href="javascript:void(0)" onclick="openJanazaTab()" id="lblViewDetails">Details ➔</a>
-    </div>
+  <!-- 2. HERO SEARCH SECTION (RESTORED BEAUTIFULLY) -->
+  <section class="hero-search-section">
+    <div class="hero-container">
+      <span class="hero-pill" id="heroBadge">Banarsi Joda • Official Community Portal</span>
+      <h2 class="hero-title" id="heroHeading">Connecting Banarsi Families & Rishtey Across India</h2>
+      <p class="hero-subtitle" id="heroSubheading">Search instantly by Father (*Walid*), Grandfather (*Dada*), or Khandaan name.</p>
 
-    <!-- Responsive Grid -->
+      <!-- 3-Column Search Card -->
+      <div class="hero-search-card">
+        <div class="search-inputs-grid">
+          <div class="field-group">
+            <label class="field-label" id="lblSearchKeyword">Name / Elder / Khandaan</label>
+            <input type="text" id="keywordSearchInput" class="hero-input" placeholder="e.g. Tariq, Haji Rashid, Noorani, Kallu Seth..." oninput="filterProfiles()">
+          </div>
+          <div class="field-group">
+            <label class="field-label" id="lblSearchMohalla">Banaras Mohalla</label>
+            <select id="mohallaSelectInput" class="hero-select" onchange="filterProfiles()">
+              <!-- Options populated dynamically -->
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label" id="lblSearchCity">Current City in India</label>
+            <select id="citySelectInput" class="hero-select" onchange="filterProfiles()">
+              <!-- Options populated dynamically -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Popular Tags -->
+        <div class="popular-tags-row">
+          <span class="popular-label" id="lblPopular">Popular:</span>
+          <span class="tag-chip" id="tagNoorani" onclick="quickFillTag('Noorani')">Noorani Weavers</span>
+          <span class="tag-chip" id="tagKallu" onclick="quickFillTag('Kallu Seth')">Kallu Seth Wale</span>
+          <span class="tag-chip" id="tagPillai" onclick="quickFillTag('Pillai')">Pillai Wale</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. MAIN CONTENT GRID (Cards Stream + Desktop Sidebar) -->
+  <div class="main-wrapper">
     <div class="responsive-grid">
       <!-- Main Feed -->
       <div>
-        <div class="search-filter-card">
-          <div class="search-input-wrap">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="universalSearchInput" class="search-input" placeholder="Search name, elder, or khandaan..." oninput="filterProfiles()">
-          </div>
-          <div class="mohalla-chips-bar" id="mohallaChipsBar"></div>
-        </div>
-
         <div class="stream-header">
           <h2 class="stream-title" id="txtStreamTitle">Verified Family Lineages</h2>
           <span class="stream-count" id="txtProfileCount">Loading...</span>
@@ -874,13 +919,13 @@
           <p style="font-size: 0.82rem; color: #713f12; margin-bottom: 10px;">
             Direct handloom & powerloom weaver connections between Banaras and retail boutique owners in Mumbai, Surat & Hyderabad.
           </p>
-          <button class="pill-btn" style="width: 100%; background: #fef08a; color: #854d0e; font-weight: 700;" onclick="switchNav('trade')">Browse 140+ Weavers</button>
+          <button class="pill-btn" style="width: 100%; background: #fef08a; color: #854d0e; font-weight: 700; border: none; padding: 8px;" onclick="switchNav('trade')">Browse 140+ Weavers</button>
         </div>
       </aside>
     </div>
   </div>
 
-  <!-- 3. MOBILE BOTTOM APP BAR (Mobile Only) -->
+  <!-- 4. MOBILE BOTTOM APP BAR (Mobile Only) -->
   <nav class="mobile-app-bar mobile-only">
     <button class="nav-tab-item active" id="tabNavDir" onclick="switchNav('directory')">
       <span class="nav-tab-icon">📖</span>
@@ -904,10 +949,9 @@
     </button>
   </nav>
 
-  <!-- 4. ADAPTIVE REGISTRATION MODAL -->
+  <!-- 5. ADAPTIVE REGISTRATION MODAL -->
   <div class="modal-backdrop" id="addModalBackdrop">
     <div class="modal-dialog">
-      <div class="sheet-handle"></div>
       <div class="modal-top">
         <h2 class="modal-title" id="txtModalTitle">Register Your Family</h2>
         <button class="modal-close-btn" onclick="closeAddModal()">&times;</button>
@@ -968,7 +1012,6 @@
 
   <script>
     let currentLang = 'en';
-    let currentMohallaFilter = '';
     let currentTab = 'directory';
 
     const mohallas = [
@@ -981,15 +1024,32 @@
       { val: "Adampura", en: "Adampura", ur: "آدم پورہ" }
     ];
 
+    const cities = [
+      { val: "", en: "All Cities", ur: "تمام شہر" },
+      { val: "Mumbai", en: "Mumbai / Bhiwandi", ur: "ممبئی / بھیونڈی" },
+      { val: "Delhi", en: "Delhi-NCR", ur: "دہلی این سی آر" },
+      { val: "Surat", en: "Surat", ur: "سورت" },
+      { val: "Bengaluru", en: "Bengaluru", ur: "بنگلور" },
+      { val: "Kolkata", en: "Kolkata", ur: "کولکتہ" },
+      { val: "Varanasi", en: "Banaras (Native)", ur: "بنارس (آبائی)" }
+    ];
+
     const langData = {
       en: {
         dir: 'ltr',
         appTitle: 'Banarsi Joda',
         liveSync: 'Live Database',
-        searchPlaceholder: 'Search name, elder, or khandaan...',
-        urgentBadge: '📢 Janaza:',
-        janazaBrief: 'Haji Manzoor Ahmad (Madanpura)',
-        viewDetails: 'Details ➔',
+        heroBadge: 'Banarsi Joda • Official Community Portal',
+        heroHeading: 'Connecting Banarsi Families & Rishtey Across India',
+        heroSubheading: 'Search instantly by Father (*Walid*), Grandfather (*Dada*), or Khandaan name.',
+        lblSearchKeyword: 'Name / Elder / Khandaan',
+        searchPlaceholder: 'e.g. Tariq, Haji Rashid, Noorani, Kallu Seth...',
+        lblSearchMohalla: 'Banaras Mohalla',
+        lblSearchCity: 'Current City in India',
+        lblPopular: 'Popular:',
+        tagNoorani: 'Noorani Weavers',
+        tagKallu: 'Kallu Seth Wale',
+        tagPillai: 'Pillai Wale',
         streamTitle: 'Verified Family Lineages',
         streamTitleRishta: 'Matrimonial Lineages (Dadhial & Nanihal)',
         streamTitleTrade: 'B2B Saree Weavers & Merchants',
@@ -1022,10 +1082,17 @@
         dir: 'rtl',
         appTitle: 'بنارسی جوڑا',
         liveSync: 'لائیو ڈیٹا بیس',
-        searchPlaceholder: 'نام، والد، دادا یا خاندان سے تلاش کریں...',
-        urgentBadge: '📢 جنازہ:',
-        janazaBrief: 'حاجی منظور احمد (مدن پورہ)',
-        viewDetails: 'تفصیل ➔',
+        heroBadge: 'بنارسی جوڑا • مستند برادری پورٹل',
+        heroHeading: 'پورے ہندوستان میں بنارسی خاندانوں اور رشتوں کا باوقار رابطہ',
+        heroSubheading: 'والد، دادا اور مشہور خاندان کے نام سے فوری شناخت اور تلاش کریں۔',
+        lblSearchKeyword: 'نام / بزرگ / خاندان کا نام',
+        searchPlaceholder: 'مثلاً: طارق، حاجی رشید، نورانی، کلو سیٹھ...',
+        lblSearchMohalla: 'بنارس کا آبائی محلہ',
+        lblSearchCity: 'موجودہ رہائشی شہر',
+        lblPopular: 'مشہور:',
+        tagNoorani: 'نورانی ویورز',
+        tagKallu: 'کلو سیٹھ والے',
+        tagPillai: 'پلائی والے',
         streamTitle: 'تصدیق شدہ خاندانی شجرہ',
         streamTitleRishta: 'بنارسی رشتہ (دادیال و نانہال)',
         streamTitleTrade: 'بی ٹو بی بنکر و ساڑھی نیٹ ورک',
@@ -1056,7 +1123,7 @@
       }
     };
 
-    // Firebase Credentials (banarsi-joda)
+    // Firebase Credentials
     const firebaseConfig = {
       apiKey: "AIzaSyD8h2eVchH4syRCGEjvQXMUbeMHUPWcJgo",
       authDomain: "banarsi-joda.firebaseapp.com",
@@ -1199,30 +1266,41 @@
       });
     }
 
-    function renderMohallaChips() {
-      const bar = document.getElementById('mohallaChipsBar');
-      bar.innerHTML = '';
+    function populateDropdowns() {
       const isUr = currentLang === 'ur';
 
+      // Mohalla dropdown in Hero
+      const mohallaSel = document.getElementById('mohallaSelectInput');
+      const curM = mohallaSel.value;
+      mohallaSel.innerHTML = '';
       mohallas.forEach(m => {
-        const btn = document.createElement('button');
-        btn.className = 'pill-btn' + (m.val === currentMohallaFilter ? ' active' : '');
-        btn.innerText = isUr ? m.ur : m.en;
-        btn.onclick = () => {
-          currentMohallaFilter = m.val;
-          renderMohallaChips();
-          filterProfiles();
-        };
-        bar.appendChild(btn);
+        const opt = document.createElement('option');
+        opt.value = m.val;
+        opt.innerText = isUr ? m.ur : m.en;
+        if (m.val === curM) opt.selected = true;
+        mohallaSel.appendChild(opt);
       });
 
-      const sel = document.getElementById('inMohalla');
-      sel.innerHTML = `<option value="">${isUr ? 'محلہ منتخب کریں' : 'Select Mohalla'}</option>`;
+      // City dropdown in Hero
+      const citySel = document.getElementById('citySelectInput');
+      const curC = citySel.value;
+      citySel.innerHTML = '';
+      cities.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.val;
+        opt.innerText = isUr ? c.ur : c.en;
+        if (c.val === curC) opt.selected = true;
+        citySel.appendChild(opt);
+      });
+
+      // Modal Mohalla Select
+      const inM = document.getElementById('inMohalla');
+      inM.innerHTML = `<option value="">${isUr ? 'محلہ منتخب کریں' : 'Select Mohalla'}</option>`;
       mohallas.slice(1).forEach(m => {
         const opt = document.createElement('option');
         opt.value = m.val;
         opt.innerText = isUr ? m.ur : m.en;
-        sel.appendChild(opt);
+        inM.appendChild(opt);
       });
     }
 
@@ -1284,18 +1362,22 @@
     }
 
     function filterProfiles() {
-      const q = document.getElementById('universalSearchInput').value.toLowerCase().trim();
+      const q = document.getElementById('keywordSearchInput').value.toLowerCase().trim();
+      const selMohalla = document.getElementById('mohallaSelectInput').value;
+      const selCity = document.getElementById('citySelectInput').value;
       const cards = document.querySelectorAll('.family-card');
       let visible = 0;
 
       cards.forEach(card => {
         const text = card.getAttribute('data-text') || '';
         const mohalla = card.getAttribute('data-mohalla') || '';
+        const city = card.getAttribute('data-city') || '';
 
         const matchQ = !q || text.includes(q);
-        const matchMohalla = !currentMohallaFilter || mohalla === currentMohallaFilter;
+        const matchM = !selMohalla || mohalla === selMohalla;
+        const matchC = !selCity || city.toLowerCase().includes(selCity.toLowerCase());
 
-        if (matchQ && matchMohalla) {
+        if (matchQ && matchM && matchC) {
           card.style.display = 'flex';
           visible++;
         } else {
@@ -1304,6 +1386,11 @@
       });
 
       document.getElementById('txtProfileCount').innerText = langData[currentLang].showingCount(visible);
+    }
+
+    function quickFillTag(tag) {
+      document.getElementById('keywordSearchInput').value = tag;
+      filterProfiles();
     }
 
     function setLanguage(lang) {
@@ -1323,10 +1410,19 @@
 
       document.getElementById('txtAppTitle').innerText = t.appTitle;
       document.getElementById('txtLiveSync').innerText = t.liveSync;
-      document.getElementById('universalSearchInput').setAttribute('placeholder', t.searchPlaceholder);
-      document.getElementById('lblUrgentBadge').innerText = t.urgentBadge;
-      document.getElementById('lblJanazaBrief').innerText = t.janazaBrief;
-      document.getElementById('lblViewDetails').innerText = t.viewDetails;
+
+      document.getElementById('heroBadge').innerText = t.heroBadge;
+      document.getElementById('heroHeading').innerText = t.heroHeading;
+      document.getElementById('heroSubheading').innerText = t.heroSubheading;
+      document.getElementById('lblSearchKeyword').innerText = t.lblSearchKeyword;
+      document.getElementById('keywordSearchInput').setAttribute('placeholder', t.searchPlaceholder);
+      document.getElementById('lblSearchMohalla').innerText = t.lblSearchMohalla;
+      document.getElementById('lblSearchCity').innerText = t.lblSearchCity;
+      document.getElementById('lblPopular').innerText = t.lblPopular;
+      document.getElementById('tagNoorani').innerText = t.tagNoorani;
+      document.getElementById('tagKallu').innerText = t.tagKallu;
+      document.getElementById('tagPillai').innerText = t.tagPillai;
+
       document.getElementById('lblHeaderAddBtn').innerText = t.headerAddBtn;
       document.getElementById('txtDeskJanazaTitle').innerText = t.deskJanazaTitle;
 
@@ -1353,7 +1449,7 @@
       document.getElementById('btnSubmitModal').innerText = t.submitBtn;
 
       updateStreamTitle();
-      renderMohallaChips();
+      populateDropdowns();
       renderFeed(allProfiles);
     }
 
@@ -1370,25 +1466,25 @@
       currentTab = tab;
       document.querySelectorAll('.nav-link, .nav-tab-item').forEach(el => el.classList.remove('active'));
       
-      // Desktop nav links
-      if (tab === 'directory') document.getElementById('deskTabDir').classList.add('active');
-      if (tab === 'matrimony') document.getElementById('deskTabRishta').classList.add('active');
-      if (tab === 'trade') document.getElementById('deskTabTrade').classList.add('active');
-      if (tab === 'janaza') document.getElementById('deskTabNews').classList.add('active');
-
-      // Mobile nav tabs
-      if (tab === 'directory') document.getElementById('tabNavDir').classList.add('active');
-      if (tab === 'matrimony') document.getElementById('tabNavRishta').classList.add('active');
-      if (tab === 'trade') document.getElementById('tabNavTrade').classList.add('active');
-      if (tab === 'janaza') document.getElementById('tabNavNews').classList.add('active');
+      if (tab === 'directory') {
+        document.getElementById('deskTabDir').classList.add('active');
+        document.getElementById('tabNavDir').classList.add('active');
+      }
+      if (tab === 'matrimony') {
+        document.getElementById('deskTabRishta').classList.add('active');
+        document.getElementById('tabNavRishta').classList.add('active');
+      }
+      if (tab === 'trade') {
+        document.getElementById('deskTabTrade').classList.add('active');
+        document.getElementById('tabNavTrade').classList.add('active');
+      }
+      if (tab === 'janaza') {
+        document.getElementById('deskTabNews').classList.add('active');
+        document.getElementById('tabNavNews').classList.add('active');
+      }
 
       updateStreamTitle();
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function openJanazaTab() {
-      switchNav('janaza');
-      alert(currentLang === 'ur' ? 'جنازہ: حاجی منظور احمد (عمر 78 سال) • مدن پورہ بڑی مسجد بعد نمازِ عصر۔' : 'Janaza Announcement: Haji Manzoor Ahmad (Age 78) • Madanpura Badi Masjid after Asr.');
     }
 
     function openAddModal() {
@@ -1439,7 +1535,7 @@
       btn.disabled = false;
     }
 
-    renderMohallaChips();
+    populateDropdowns();
     renderFeed(allProfiles);
   </script>
 </body>
