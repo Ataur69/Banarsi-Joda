@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-  <title>Banarsi Joda | بنارسی جوڑا</title>
+  <title>Banarsi Joda | بنارسی جوڑا • All-India Matrimonial & Community Portal</title>
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +39,7 @@
       --text: #0f172a;
       --text-muted: #64748b;
       --border: #e2e8f0;
-      --radius: 12px;
+      --radius: 14px;
       --font-en: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       --font-ur: 'Jameel Noori Nastaleeq', 'Noto Nastaliq Urdu', serif;
       --safe-bottom: env(safe-area-inset-bottom, 16px);
@@ -87,7 +87,7 @@
       }
     }
 
-    /* RTL Urdu Nastaleeq */
+    /* RTL Nastaleeq Overrides */
     html[dir="rtl"] body {
       font-family: var(--font-ur);
       font-size: 1.05rem;
@@ -119,8 +119,10 @@
     }
     html[dir="rtl"] .nav-link,
     html[dir="rtl"] .khandaan-badge,
+    html[dir="rtl"] .firqa-badge,
     html[dir="rtl"] .btn-primary-action,
     html[dir="rtl"] .field-label,
+    html[dir="rtl"] .form-step-btn,
     html[dir="rtl"] .hero-pill {
       font-family: var(--font-ur);
     }
@@ -214,7 +216,6 @@
       display: inline-block;
     }
 
-    /* Desktop Navigation Links */
     .desktop-nav-links {
       display: none;
       align-items: center;
@@ -242,7 +243,6 @@
       color: var(--primary);
     }
 
-    /* Header Actions */
     .header-actions {
       display: flex;
       align-items: center;
@@ -312,7 +312,7 @@
       }
     }
     .hero-container {
-      max-width: 920px;
+      max-width: 1060px;
       margin: 0 auto;
     }
     .hero-pill {
@@ -350,10 +350,10 @@
       }
     }
 
-    /* 3-Column Search Card */
+    /* Advanced Multi-Filter Search Card */
     .hero-search-card {
       background: white;
-      border-radius: 14px;
+      border-radius: var(--radius);
       padding: 16px 18px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       color: var(--text);
@@ -366,19 +366,19 @@
     .search-inputs-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 12px;
+      gap: 10px;
     }
     @media (min-width: 768px) {
       .search-inputs-grid {
-        grid-template-columns: 2fr 1.1fr 1.1fr;
-        gap: 14px;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 12px;
       }
     }
 
     .field-group {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 4px;
     }
     .field-label {
       font-size: 0.72rem;
@@ -407,18 +407,29 @@
       box-shadow: 0 0 0 2px rgba(11, 94, 57, 0.15);
     }
 
-    /* Popular Tags Row */
+    /* Secondary Filter Row */
+    .secondary-filter-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border);
+    }
+    @media (min-width: 768px) {
+      .secondary-filter-row {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
     .popular-tags-row {
-      margin-top: 14px;
+      margin-top: 12px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       gap: 6px;
       font-size: 0.78rem;
       color: var(--text-muted);
-    }
-    .popular-label {
-      font-weight: 700;
     }
     .tag-chip {
       background: #f1f5f9;
@@ -434,7 +445,7 @@
       color: var(--primary-dark);
     }
 
-    /* 3. Responsive Feed & Desktop Sidebar */
+    /* 3. Main Stream & Desktop Sidebar */
     .main-wrapper {
       max-width: 1240px;
       margin: 0 auto;
@@ -490,6 +501,7 @@
       }
     }
 
+    /* Matrimonial Profile Card */
     .family-card {
       background: var(--surface);
       border-radius: var(--radius);
@@ -507,14 +519,30 @@
       box-shadow: 0 6px 16px rgba(0,0,0,0.06);
     }
 
-    .card-top {
+    .card-badges-strip {
       display: flex;
-      justify-content: space-between;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
+    .gender-pill {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .pill-groom {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+    .pill-bride {
+      background: #fdf2f8;
+      color: #be185d;
+      border: 1px solid #fbcfe8;
+    }
+
     .khandaan-badge {
-      display: inline-block;
       background: var(--gold-light);
       color: var(--gold);
       border: 1px solid rgba(184, 134, 11, 0.25);
@@ -523,23 +551,58 @@
       font-size: 0.74rem;
       font-weight: 700;
     }
-    .mohalla-tag {
-      font-size: 0.74rem;
-      color: var(--text-muted);
-      background: #f8fafc;
-      padding: 2px 8px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
+    .firqa-badge {
+      background: #f0fdf4;
+      color: var(--primary);
+      border: 1px solid #bbf7d0;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
     }
 
+    .card-person-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .avatar-box {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      border: 2px solid var(--border);
+    }
     .card-name {
       font-size: 1.15rem;
       font-weight: 800;
       color: var(--text);
-      line-height: 1.3;
+      line-height: 1.25;
+    }
+    .card-subtext {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* Solution A: Privacy Card for Female Profiles */
+    .female-photo-privacy-box {
+      background: #fffdf5;
+      border: 1px dashed #fcd34d;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 0.78rem;
+      color: #92400e;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    html[dir="rtl"] .female-photo-privacy-box {
+      font-size: 0.88rem;
     }
 
     .lineage-box {
@@ -552,18 +615,19 @@
       border-left: 3px solid var(--primary);
     }
 
-    .card-meta-chips {
-      display: flex;
-      flex-wrap: wrap;
+    /* Grid of Matrimonial Spec Chips */
+    .matri-specs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 6px;
       font-size: 0.78rem;
-      color: var(--text-muted);
+      color: #475569;
     }
-    .meta-chip {
-      background: #f1f5f9;
-      padding: 3px 8px;
-      border-radius: 4px;
-      display: inline-flex;
+    .spec-item {
+      background: #f8fafc;
+      padding: 4px 8px;
+      border-radius: 6px;
+      display: flex;
       align-items: center;
       gap: 4px;
     }
@@ -704,12 +768,12 @@
       margin-bottom: 2px;
     }
 
-    /* 5. Modal Dialog */
+    /* 5. Multi-Step Matrimonial Registration Modal */
     .modal-backdrop {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.65);
       z-index: 2000;
       align-items: flex-end;
       justify-content: center;
@@ -727,8 +791,8 @@
       background: white;
       border-radius: 20px 20px 0 0;
       width: 100%;
-      max-width: 560px;
-      max-height: 88vh;
+      max-width: 640px;
+      max-height: 90vh;
       overflow-y: auto;
       padding: 18px 20px calc(24px + var(--safe-bottom));
       box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
@@ -750,7 +814,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       padding-bottom: 10px;
       border-bottom: 1px solid var(--border);
     }
@@ -772,11 +836,42 @@
       justify-content: center;
       color: var(--text-muted);
     }
+
+    /* Modal Step Nav */
+    .form-step-nav {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .form-step-btn {
+      flex: 1;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      background: #f1f5f9;
+      color: var(--text-muted);
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      text-align: center;
+    }
+    .form-step-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .form-section-box {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
     .form-group-item {
       display: flex;
       flex-direction: column;
       gap: 4px;
-      margin-bottom: 12px;
     }
     .form-group-item label {
       font-size: 0.78rem;
@@ -788,7 +883,7 @@
       padding: 0 12px;
       border: 1px solid var(--border);
       border-radius: 8px;
-      font-size: 0.94rem;
+      font-size: 0.92rem;
       background: #f8fafc;
       outline: none;
       font-family: inherit;
@@ -800,7 +895,7 @@
     .form-grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 10px;
     }
     @media (max-width: 480px) {
       .form-grid-2 {
@@ -841,36 +936,82 @@
         </div>
         <button class="btn-header-add" onclick="openAddModal()">
           <span>➕</span>
-          <span id="lblHeaderAddBtn">Add Family</span>
+          <span id="lblHeaderAddBtn">Register Rishta</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- 2. HERO SEARCH SECTION (RESTORED BEAUTIFULLY) -->
+  <!-- 2. HERO SEARCH SECTION (WITH 4-FIRQA & GENDER FILTERS) -->
   <section class="hero-search-section">
     <div class="hero-container">
       <span class="hero-pill" id="heroBadge">Banarsi Joda • Official Community Portal</span>
       <h2 class="hero-title" id="heroHeading">Connecting Banarsi Families & Rishtey Across India</h2>
-      <p class="hero-subtitle" id="heroSubheading">Search instantly by Father (*Walid*), Grandfather (*Dada*), or Khandaan name.</p>
+      <p class="hero-subtitle" id="heroSubheading">Search instantly by Lineage (*Walid/Dada*), Maslak/Firqa, Age & City.</p>
 
-      <!-- 3-Column Search Card -->
+      <!-- Search Card -->
       <div class="hero-search-card">
         <div class="search-inputs-grid">
           <div class="field-group">
-            <label class="field-label" id="lblSearchKeyword">Name / Elder / Khandaan</label>
+            <label class="field-label" id="lblSearchKeyword">Keyword / Elder / Khandaan</label>
             <input type="text" id="keywordSearchInput" class="hero-input" placeholder="e.g. Tariq, Haji Rashid, Noorani, Kallu Seth..." oninput="filterProfiles()">
+          </div>
+          <div class="field-group">
+            <label class="field-label" id="lblSearchFirqa">Maslak / Firqa</label>
+            <select id="firqaSelectInput" class="hero-select" onchange="filterProfiles()">
+              <!-- Populated dynamically -->
+            </select>
           </div>
           <div class="field-group">
             <label class="field-label" id="lblSearchMohalla">Banaras Mohalla</label>
             <select id="mohallaSelectInput" class="hero-select" onchange="filterProfiles()">
-              <!-- Options populated dynamically -->
+              <!-- Populated dynamically -->
             </select>
           </div>
           <div class="field-group">
             <label class="field-label" id="lblSearchCity">Current City in India</label>
             <select id="citySelectInput" class="hero-select" onchange="filterProfiles()">
-              <!-- Options populated dynamically -->
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Secondary Row: Gender & Marital Status Filters -->
+        <div class="secondary-filter-row">
+          <div class="field-group">
+            <label class="field-label" id="lblSearchGender">Candidate Gender</label>
+            <select id="genderSelectInput" class="hero-select" style="height: 38px;" onchange="filterProfiles()">
+              <option value="">All Genders</option>
+              <option value="Male">Groom (Dulha)</option>
+              <option value="Female">Bride (Dulhan)</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label" id="lblSearchMarital">Marital Status</label>
+            <select id="maritalSelectInput" class="hero-select" style="height: 38px;" onchange="filterProfiles()">
+              <option value="">Any Status</option>
+              <option value="Unmarried">Never Married (Unmarried)</option>
+              <option value="Widowed">Widow / Widower (Bewa)</option>
+              <option value="Divorced">Divorced (Talaq-shuda / Khula)</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label" id="lblSearchEthnicity">Ethnicity / Zaat</label>
+            <select id="ethnicitySelectInput" class="hero-select" style="height: 38px;" onchange="filterProfiles()">
+              <option value="">All Biradaris</option>
+              <option value="Ansari">Ansari</option>
+              <option value="Siddiqui">Siddiqui</option>
+              <option value="Qureshi">Qureshi</option>
+              <option value="Pathan">Pathan</option>
+              <option value="Syed">Syed</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label" id="lblSearchHouse">House Ownership</label>
+            <select id="houseSelectInput" class="hero-select" style="height: 38px;" onchange="filterProfiles()">
+              <option value="">Any Housing</option>
+              <option value="Own House">Own House (Zati)</option>
+              <option value="Rented">Rented House</option>
             </select>
           </div>
         </div>
@@ -878,21 +1019,22 @@
         <!-- Popular Tags -->
         <div class="popular-tags-row">
           <span class="popular-label" id="lblPopular">Popular:</span>
-          <span class="tag-chip" id="tagNoorani" onclick="quickFillTag('Noorani')">Noorani Weavers</span>
-          <span class="tag-chip" id="tagKallu" onclick="quickFillTag('Kallu Seth')">Kallu Seth Wale</span>
-          <span class="tag-chip" id="tagPillai" onclick="quickFillTag('Pillai')">Pillai Wale</span>
+          <span class="tag-chip" onclick="quickFillTag('Ahl us Sunnah')">Ahl us Sunnah</span>
+          <span class="tag-chip" onclick="quickFillTag('Deobandi')">Deobandi</span>
+          <span class="tag-chip" onclick="quickFillTag('Noorani')">Noorani Weavers</span>
+          <span class="tag-chip" onclick="quickFillTag('Kallu Seth')">Kallu Seth Wale</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 3. MAIN CONTENT GRID (Cards Stream + Desktop Sidebar) -->
+  <!-- 3. MAIN CARDS STREAM & SIDEBAR -->
   <div class="main-wrapper">
     <div class="responsive-grid">
       <!-- Main Feed -->
       <div>
         <div class="stream-header">
-          <h2 class="stream-title" id="txtStreamTitle">Verified Family Lineages</h2>
+          <h2 class="stream-title" id="txtStreamTitle">Verified Matrimonial Profiles</h2>
           <span class="stream-count" id="txtProfileCount">Loading...</span>
         </div>
 
@@ -912,12 +1054,23 @@
           </div>
         </div>
 
+        <!-- Photo Privacy Notice Box -->
+        <div class="side-card" style="background: #fdf2f8; border-color: #fbcfe8;">
+          <div class="side-card-head" style="border-color: #fbcfe8;">
+            <h3 class="side-card-title" style="color: #9d174d;">🛡️ Female Photo Privacy</h3>
+          </div>
+          <p style="font-size: 0.82rem; color: #831843; line-height: 1.5;">
+            Following strict community modesty norms, female candidate photos are <b>never displayed publicly</b>. Photos are exchanged privately between family elders / Wali via WhatsApp upon mutual interest.
+          </p>
+        </div>
+
+        <!-- B2B Trade Widget -->
         <div class="side-card" style="background: #fffdf5; border-color: #fef08a;">
           <div class="side-card-head" style="border-color: #fef08a;">
             <h3 class="side-card-title" style="color: #854d0e;">🧵 B2B Saree Weavers</h3>
           </div>
           <p style="font-size: 0.82rem; color: #713f12; margin-bottom: 10px;">
-            Direct handloom & powerloom weaver connections between Banaras and retail boutique owners in Mumbai, Surat & Hyderabad.
+            Direct handloom & powerloom weaver connections between Banaras and retail boutique owners nationwide.
           </p>
           <button class="pill-btn" style="width: 100%; background: #fef08a; color: #854d0e; font-weight: 700; border: none; padding: 8px;" onclick="switchNav('trade')">Browse 140+ Weavers</button>
         </div>
@@ -925,7 +1078,7 @@
     </div>
   </div>
 
-  <!-- 4. MOBILE BOTTOM APP BAR (Mobile Only) -->
+  <!-- 4. MOBILE BOTTOM APP BAR -->
   <nav class="mobile-app-bar mobile-only">
     <button class="nav-tab-item active" id="tabNavDir" onclick="switchNav('directory')">
       <span class="nav-tab-icon">📖</span>
@@ -937,7 +1090,7 @@
     </button>
     <button class="nav-tab-item center-add" onclick="openAddModal()">
       <div class="center-add-circle">＋</div>
-      <span class="nav-tab-label" id="lblNavAdd">Add Family</span>
+      <span class="nav-tab-label" id="lblNavAdd">Add Rishta</span>
     </button>
     <button class="nav-tab-item" id="tabNavTrade" onclick="switchNav('trade')">
       <span class="nav-tab-icon">🧵</span>
@@ -949,62 +1102,242 @@
     </button>
   </nav>
 
-  <!-- 5. ADAPTIVE REGISTRATION MODAL -->
+  <!-- 5. COMPREHENSIVE MATRIMONIAL REGISTRATION MODAL -->
   <div class="modal-backdrop" id="addModalBackdrop">
     <div class="modal-dialog">
       <div class="modal-top">
-        <h2 class="modal-title" id="txtModalTitle">Register Your Family</h2>
+        <h2 class="modal-title" id="txtModalTitle">Register Banarsi Rishta</h2>
         <button class="modal-close-btn" onclick="closeAddModal()">&times;</button>
       </div>
 
+      <!-- Step Navigation Tabs -->
+      <div class="form-step-nav">
+        <button type="button" class="form-step-btn active" id="stepBtn1" onclick="showFormStep(1)">1. Personal & Physical</button>
+        <button type="button" class="form-step-btn" id="stepBtn2" onclick="showFormStep(2)">2. Marital & Family</button>
+        <button type="button" class="form-step-btn" id="stepBtn3" onclick="showFormStep(3)">3. Lineage & Firqa</button>
+        <button type="button" class="form-step-btn" id="stepBtn4" onclick="showFormStep(4)">4. Expectations & Contact</button>
+      </div>
+
       <form id="familyRegistrationForm" onsubmit="submitFamilyProfile(event)">
-        <div class="form-group-item">
-          <label id="lblInputName">Full Name (*Apna Naam*)</label>
-          <input type="text" id="inName" required placeholder="e.g. Mohammad Bilal Ansari">
-        </div>
-
-        <div class="form-grid-2">
-          <div class="form-group-item">
-            <label id="lblInputWalid">Father's Name (*Walid*)</label>
-            <input type="text" id="inWalid" required placeholder="e.g. Akhtar Hussain">
+        <!-- STEP 1: PERSONAL & PHYSICAL -->
+        <div class="form-section-box" id="formStep1">
+          <div class="form-grid-2">
+            <div class="form-group-item">
+              <label>Candidate Gender (*Jins*)</label>
+              <select id="inGender" required onchange="handleGenderChange()">
+                <option value="Male">Groom (Dulha / Mard)</option>
+                <option value="Female">Bride (Dulhan / Aurat)</option>
+              </select>
+            </div>
+            <div class="form-group-item">
+              <label>Profile Managed By (*Rabita Kaun Karega*)</label>
+              <select id="inManagedBy" required>
+                <option value="Father">Father (Walid)</option>
+                <option value="Mother">Mother (Walida)</option>
+                <option value="Brother">Brother (Bhai)</option>
+                <option value="Self">Self (Candidate)</option>
+              </select>
+            </div>
           </div>
+
           <div class="form-group-item">
-            <label id="lblInputDada">Grandfather (*Dada*)</label>
-            <input type="text" id="inDada" required placeholder="e.g. Late Haji Maqbool">
+            <label>Full Name (*Umeedwar Ka Poora Naam*)</label>
+            <input type="text" id="inName" required placeholder="e.g. Mohammad Tariq Ansari">
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group-item">
+              <label>Age (*Umar*) / Date of Birth</label>
+              <input type="text" id="inAge" required placeholder="e.g. 26 Years">
+            </div>
+            <div class="form-group-item">
+              <label>Height & Weight (*Qad o Wazan*)</label>
+              <input type="text" id="inHeightWeight" required placeholder="e.g. 5' 7\" / 65 kg">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group-item">
+              <label>Ethnicity / Biradari (*Zaat / Qaum*)</label>
+              <select id="inEthnicity" required>
+                <option value="Ansari">Ansari</option>
+                <option value="Siddiqui">Siddiqui</option>
+                <option value="Qureshi">Qureshi</option>
+                <option value="Abbasi">Abbasi</option>
+                <option value="Pathan">Pathan</option>
+                <option value="Syed">Syed</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group-item">
+              <label>Physical Disability / Special Needs</label>
+              <select id="inDisability">
+                <option value="None">None (Alhamdulillah)</option>
+                <option value="Minor">Minor Challenge</option>
+                <option value="Major">Physical Disability</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Photo upload block (Solution A: Male allows photo, Female shows Pardah notice) -->
+          <div id="malePhotoSection" class="form-group-item">
+            <label>Groom Photo URL (Optional for Men)</label>
+            <input type="url" id="inPhotoUrl" placeholder="https://... (Optional)">
+          </div>
+          <div id="femalePhotoNotice" class="female-photo-privacy-box" style="display: none;">
+            🛡️ <b>Female Privacy (Solution A):</b> No photo required or shown publicly. Photo is only exchanged privately between family guardians on WhatsApp upon mutual interest.
+          </div>
+
+          <div style="margin-top: 10px; display: flex; justify-content: flex-end;">
+            <button type="button" class="btn-primary-action" style="max-width: 140px;" onclick="showFormStep(2)">Next: Family ➔</button>
           </div>
         </div>
 
-        <div class="form-group-item">
-          <label id="lblInputKhandaan">Khandaan / Family Moniker (*Urfiat*)</label>
-          <input type="text" id="inKhandaan" required placeholder="e.g. Noorani Weavers / Pillai Wale">
-        </div>
-
-        <div class="form-grid-2">
-          <div class="form-group-item">
-            <label id="lblInputMohalla">Banaras Mohalla</label>
-            <select id="inMohalla" required></select>
+        <!-- STEP 2: MARITAL STATUS & LIVING -->
+        <div class="form-section-box" id="formStep2" style="display: none;">
+          <div class="form-grid-2">
+            <div class="form-group-item">
+              <label>Marital Status (*Azdawaji Haisiyat*)</label>
+              <select id="inMaritalStatus" required onchange="handleMaritalChange()">
+                <option value="Unmarried">Never Married (Ghair Shaadishuda)</option>
+                <option value="Widowed">Widow / Widower (Bewa)</option>
+                <option value="Divorced">Divorced (Talaq-shuda / Khula)</option>
+              </select>
+            </div>
+            <div class="form-group-item" id="kidsBox">
+              <label>Children (*Aulad Detail*)</label>
+              <input type="text" id="inKids" placeholder="e.g. None / 1 Son (with me)">
+            </div>
           </div>
-          <div class="form-group-item">
-            <label id="lblInputCity">Current City in India</label>
-            <input type="text" id="inCity" required placeholder="e.g. Mumbai, Bengaluru">
+
+          <div class="form-grid-2">
+            <div class="form-group-item">
+              <label>Father's Status (*Walid*)</label>
+              <select id="inFatherStatus">
+                <option value="Alive">Alive (Ba-Hayaat)</option>
+                <option value="Deceased">Deceased (Marhoom)</option>
+              </select>
+            </div>
+            <div class="form-group-item">
+              <label>Mother's Status (*Walida*)</label>
+              <select id="inMotherStatus">
+                <option value="Alive">Alive (Ba-Hayaat)</option>
+                <option value="Deceased">Deceased (Marhooma)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group-item">
+              <label>Current Housing Status</label>
+              <select id="inHousing">
+                <option value="Own House">Own House (Zati Makaan)</option>
+                <option value="Rented">Rented House (Kiraye Ka)</option>
+              </select>
+            </div>
+            <div class="form-group-item">
+              <label>Ancestral House in Banaras</label>
+              <select id="inBanarasHouse">
+                <option value="Yes">Yes (Own Ancestral Home)</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top: 10px; display: flex; justify-content: space-between;">
+            <button type="button" class="btn-primary-action" style="max-width: 120px; background: #f1f5f9; color: #334155;" onclick="showFormStep(1)">⬅ Back</button>
+            <button type="button" class="btn-primary-action" style="max-width: 140px;" onclick="showFormStep(3)">Next: Lineage ➔</button>
           </div>
         </div>
 
-        <div class="form-group-item">
-          <label id="lblInputWork">Profession / Business</label>
-          <input type="text" id="inWork" placeholder="e.g. Saree Merchant, Software Engineer">
+        <!-- STEP 3: RELIGIOUS SCHOOL (4 FIRQA) & LINEAGE -->
+        <div class="form-section-box" id="formStep3" style="display: none;">
+          <div class="form-group-item">
+            <label>Candidate's Maslak / Firqa (*مسلک / فقہی وابستگی*)</label>
+            <select id="inFirqa" required>
+              <option value="Ahl us Sunnah">Ahl us Sunnah wal Jama'ah (اہلِ سنت والجماعت)</option>
+              <option value="Deobandi">Deobandi (دیوبندی)</option>
+              <option value="Ahl-e-Hadees">Ahl-e-Hadees (اہلِ حدیث)</option>
+              <option value="Ahl-e-Tashayyo">Ahl-e-Tashayyo (اہلِ تشیع)</option>
+            </select>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group-item">
+              <label>Father's Name (*Walid*)</label>
+              <input type="text" id="inWalid" required placeholder="e.g. Haji Abdul Rashid">
+            </div>
+            <div class="form-group-item">
+              <label>Grandfather (*Dada*)</label>
+              <input type="text" id="inDada" required placeholder="e.g. Late Haji Noor Mohammad">
+            </div>
+          </div>
+
+          <div class="form-group-item">
+            <label>Khandaan Name / Urfiat (*Mashhoor Khandaani Naam*)</label>
+            <input type="text" id="inKhandaan" required placeholder="e.g. Noorani Weavers / Pillai Wale / Kallu Seth">
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group-item">
+              <label>Banaras Root Mohalla (*Abai Mohalla*)</label>
+              <select id="inMohalla" required></select>
+            </div>
+            <div class="form-group-item">
+              <label>Maternal Lineage (*Nanihal Mohalla & Nana*)</label>
+              <input type="text" id="inNanihal" placeholder="e.g. Bajardiha (Kallu Seth Nana)">
+            </div>
+          </div>
+
+          <div class="form-group-item">
+            <label>Banaras Local References (*2 Zamin / Hawala for Verification*)</label>
+            <input type="text" id="inReferences" required placeholder="Names & Mohallas of 1-2 known Banaras elders / relatives">
+          </div>
+
+          <div style="margin-top: 10px; display: flex; justify-content: space-between;">
+            <button type="button" class="btn-primary-action" style="max-width: 120px; background: #f1f5f9; color: #334155;" onclick="showFormStep(2)">⬅ Back</button>
+            <button type="button" class="btn-primary-action" style="max-width: 160px;" onclick="showFormStep(4)">Next: Expectations ➔</button>
+          </div>
         </div>
 
-        <div class="form-group-item">
-          <label id="lblInputPhone">Mobile Number (Private / For Verification)</label>
-          <input type="tel" id="inPhone" required placeholder="+91 98765 43210">
-        </div>
+        <!-- STEP 4: EXPECTATIONS & GUARDIAN CONTACT -->
+        <div class="form-section-box" id="formStep4" style="display: none;">
+          <div class="form-grid-2">
+            <div class="form-group-item">
+              <label>Preferred Partner Age Range</label>
+              <input type="text" id="inPrefAge" placeholder="e.g. 21 - 26 Years">
+            </div>
+            <div class="form-group-item">
+              <label>Firqa Flexibility</label>
+              <select id="inFirqaFlex">
+                <option value="Same Firqa Only">Strictly Same Firqa Only</option>
+                <option value="Open to Any">Open to Other Maslak / Any</option>
+              </select>
+            </div>
+          </div>
 
-        <div style="margin-top: 14px; display: flex; gap: 8px;">
-          <button type="button" class="btn-primary-action desktop-only" style="background: #f1f5f9; color: #475569;" onclick="closeAddModal()">Cancel</button>
-          <button type="submit" class="btn-primary-action" id="btnSubmitModal" style="flex: 2; height: 44px; border-radius: 10px; font-size: 0.95rem;">
-            Save to Banarsi Joda
-          </button>
+          <div class="form-grid-2">
+            <div class="form-group-item">
+              <label>Profession / Business (*Peesha*)</label>
+              <input type="text" id="inWork" required placeholder="e.g. Saree Merchant / Engineer">
+            </div>
+            <div class="form-group-item">
+              <label>Current Residence City in India</label>
+              <input type="text" id="inCity" required placeholder="e.g. Mumbai, Surat, Delhi">
+            </div>
+          </div>
+
+          <div class="form-group-item">
+            <label>Guardian / Wali Mobile Number (*For Family Verification*)</label>
+            <input type="tel" id="inPhone" required placeholder="+91 98765 43210">
+          </div>
+
+          <div style="margin-top: 14px; display: flex; gap: 8px;">
+            <button type="button" class="btn-primary-action" style="max-width: 100px; background: #f1f5f9; color: #334155;" onclick="showFormStep(3)">⬅ Back</button>
+            <button type="submit" class="btn-primary-action" id="btnSubmitModal" style="flex: 2; height: 46px; border-radius: 10px; font-size: 0.95rem;">
+              Save to Banarsi Joda Database
+            </button>
+          </div>
         </div>
       </form>
     </div>
@@ -1024,6 +1357,14 @@
       { val: "Adampura", en: "Adampura", ur: "آدم پورہ" }
     ];
 
+    const firqaList = [
+      { val: "", en: "All Maslak / Firqas", ur: "تمام مسالک" },
+      { val: "Ahl us Sunnah", en: "Ahl us Sunnah", ur: "اہلِ سنت والجماعت" },
+      { val: "Deobandi", en: "Deobandi", ur: "دیوبندی" },
+      { val: "Ahl-e-Hadees", en: "Ahl-e-Hadees", ur: "اہلِ حدیث" },
+      { val: "Ahl-e-Tashayyo", en: "Ahl-e-Tashayyo", ur: "اہلِ تشیع" }
+    ];
+
     const cities = [
       { val: "", en: "All Cities", ur: "تمام شہر" },
       { val: "Mumbai", en: "Mumbai / Bhiwandi", ur: "ممبئی / بھیونڈی" },
@@ -1041,89 +1382,79 @@
         liveSync: 'Live Database',
         heroBadge: 'Banarsi Joda • Official Community Portal',
         heroHeading: 'Connecting Banarsi Families & Rishtey Across India',
-        heroSubheading: 'Search instantly by Father (*Walid*), Grandfather (*Dada*), or Khandaan name.',
-        lblSearchKeyword: 'Name / Elder / Khandaan',
+        heroSubheading: 'Search instantly by Lineage (*Walid/Dada*), Maslak/Firqa, Age & City.',
+        lblSearchKeyword: 'Keyword / Elder / Khandaan',
         searchPlaceholder: 'e.g. Tariq, Haji Rashid, Noorani, Kallu Seth...',
+        lblSearchFirqa: 'Maslak / Firqa',
         lblSearchMohalla: 'Banaras Mohalla',
         lblSearchCity: 'Current City in India',
+        lblSearchGender: 'Candidate Gender',
+        lblSearchMarital: 'Marital Status',
+        lblSearchEthnicity: 'Ethnicity / Zaat',
+        lblSearchHouse: 'House Ownership',
         lblPopular: 'Popular:',
-        tagNoorani: 'Noorani Weavers',
-        tagKallu: 'Kallu Seth Wale',
-        tagPillai: 'Pillai Wale',
-        streamTitle: 'Verified Family Lineages',
-        streamTitleRishta: 'Matrimonial Lineages (Dadhial & Nanihal)',
+        streamTitle: 'Verified Matrimonial Profiles',
+        streamTitleRishta: 'Banarsi Rishta Lineages (Dadhial & Nanihal)',
         streamTitleTrade: 'B2B Saree Weavers & Merchants',
         streamTitleJanaza: 'Janaza Notices & Community Khabar',
         navDir: 'Directory',
         navRishta: 'Rishta',
-        navAdd: 'Add Family',
+        navAdd: 'Add Rishta',
         navTrade: 'Trade',
         navNews: 'Janaza',
-        headerAddBtn: 'Add Family',
+        headerAddBtn: 'Register Rishta',
         deskJanazaTitle: '📢 Janaza & Urgent Notices',
-        modalTitle: 'Register Your Family',
-        inName: 'Full Name (*Apna Naam*)',
-        inWalid: "Father's Name (*Walid*)",
-        inDada: "Grandfather (*Dada*)",
-        inKhandaan: 'Khandaan / Family Moniker (*Urfiat*)',
-        inMohalla: 'Banaras Mohalla',
-        inCity: 'Current City in India',
-        inWork: 'Profession / Business',
-        inPhone: 'Mobile Number (Private / For Verification)',
-        submitBtn: 'Save to Banarsi Joda',
+        modalTitle: 'Register Banarsi Rishta',
+        submitBtn: 'Save to Banarsi Joda Database',
         cardKhandaan: 'Khandaan: ',
         cardWalid: 'Walid: ',
         cardDada: 'Dada: ',
-        cardConnect: 'Request Connect',
+        cardConnect: 'Contact Family / Wali',
         showingCount: (n) => `${n} profiles found`,
-        waShare: (name, khandaan, mohalla) => `Assalamu Alaikum, check out the profile of ${name} (${khandaan}, from ${mohalla}) on Banarsi Joda.`
+        femalePhotoNotice: '🔒 Photo shared privately between family elders / Wali via WhatsApp.',
+        waShare: (name, khandaan, mohalla) => `Assalamu Alaikum, check out the matrimonial profile of ${name} (${khandaan}, from ${mohalla}) on Banarsi Joda.`
       },
       ur: {
         dir: 'rtl',
         appTitle: 'بنارسی جوڑا',
         liveSync: 'لائیو ڈیٹا بیس',
-        heroBadge: 'بنارسی جوڑا • مستند برادری پورٹل',
+        heroBadge: 'بنارسی جوڑا • مستند رشتہ پورٹل',
         heroHeading: 'پورے ہندوستان میں بنارسی خاندانوں اور رشتوں کا باوقار رابطہ',
-        heroSubheading: 'والد، دادا اور مشہور خاندان کے نام سے فوری شناخت اور تلاش کریں۔',
+        heroSubheading: 'والد، دادا، مسلک، عمر اور شہر کے اعتبار سے فوری شناخت اور رشتہ تلاش کریں۔',
         lblSearchKeyword: 'نام / بزرگ / خاندان کا نام',
         searchPlaceholder: 'مثلاً: طارق، حاجی رشید، نورانی، کلو سیٹھ...',
+        lblSearchFirqa: 'مسلک / فقہی وابستگی',
         lblSearchMohalla: 'بنارس کا آبائی محلہ',
         lblSearchCity: 'موجودہ رہائشی شہر',
+        lblSearchGender: 'امیدوار کی جنس',
+        lblSearchMarital: 'ازدواجی حیثیت',
+        lblSearchEthnicity: 'برادری / ذات',
+        lblSearchHouse: 'مکان کی ملکیت',
         lblPopular: 'مشہور:',
-        tagNoorani: 'نورانی ویورز',
-        tagKallu: 'کلو سیٹھ والے',
-        tagPillai: 'پلائی والے',
-        streamTitle: 'تصدیق شدہ خاندانی شجرہ',
-        streamTitleRishta: 'بنارسی رشتہ (دادیال و نانہال)',
+        streamTitle: 'تصدیق شدہ بنارسی رشتے',
+        streamTitleRishta: 'بنارسی رشتہ (دادیال و نانہال شجرہ)',
         streamTitleTrade: 'بی ٹو بی بنکر و ساڑھی نیٹ ورک',
         streamTitleJanaza: 'اعلاناتِ جنازہ و خبریں',
         navDir: 'ڈائریکٹری',
         navRishta: 'رشتہ',
-        navAdd: 'خاندان درج کریں',
+        navAdd: 'رشتہ درج کریں',
         navTrade: 'تجارت',
         navNews: 'جنازہ',
-        headerAddBtn: 'خاندان درج کریں',
+        headerAddBtn: 'رشتہ درج کریں',
         deskJanazaTitle: '📢 اعلاناتِ جنازہ و اطلاعات',
-        modalTitle: 'اپنے خاندان کا اندراج کریں',
-        inName: 'آپ کا پورا نام',
-        inWalid: 'والد محترم کا نام',
-        inDada: 'دادا مرحوم / محترم کا نام',
-        inKhandaan: 'خاندان کا نام / عرفیت',
-        inMohalla: 'بنارس کا آبائی محلہ',
-        inCity: 'موجودہ رہائشی شہر',
-        inWork: 'پیشہ یا کاروبار',
-        inPhone: 'موبائل نمبر (خاندانی تصدیق کے لیے)',
-        submitBtn: 'بنارسی جوڑا پر محفوظ کریں',
+        modalTitle: 'بنارسی رشتہ کا اندراج کریں',
+        submitBtn: 'بنارسی جوڑا ڈیٹا بیس میں محفوظ کریں',
         cardKhandaan: 'خاندان: ',
         cardWalid: 'والد: ',
         cardDada: 'دادا: ',
-        cardConnect: 'رابطے کی درخواست',
+        cardConnect: 'ولی / بزرگوں سے رابطہ کریں',
         showingCount: (n) => `${n} خاندانی کارڈز موجود ہیں`,
-        waShare: (name, khandaan, mohalla) => `السلام علیکم، بنارسی جوڑا پر ${name} (${khandaan}، آبائی تعلق: ${mohalla}) کا خاندانی تعارف دیکھیں۔`
+        femalePhotoNotice: '🔒 تصویر ولی اور بزرگوں کی باہمی رضامندی سے واٹس ایپ پر دکھائی جائے گی۔',
+        waShare: (name, khandaan, mohalla) => `السلام علیکم، بنارسی جوڑا پر ${name} (${khandaan}، آبائی تعلق: ${mohalla}) کا خاندانی رشتہ تعارف دیکھیں۔`
       }
     };
 
-    // Firebase Credentials
+    // Firebase live configuration (banarsi-joda)
     const firebaseConfig = {
       apiKey: "AIzaSyD8h2eVchH4syRCGEjvQXMUbeMHUPWcJgo",
       authDomain: "banarsi-joda.firebaseapp.com",
@@ -1137,10 +1468,23 @@
     let db = null;
     let isFirebaseReady = false;
 
+    // Seed Profiles with Full Matrimonial Data
     const seedProfiles = [
       {
         fullName: "Mohammad Tariq Ansari",
         fullNameUr: "محمد طارق انصاری",
+        gender: "Male",
+        age: "26 Years",
+        heightWeight: "5' 8\" / 68 kg",
+        ethnicity: "Ansari",
+        disability: "None",
+        maritalStatus: "Unmarried",
+        kids: "None",
+        fatherStatus: "Alive",
+        motherStatus: "Alive",
+        housing: "Own House",
+        firqa: "Ahl us Sunnah",
+        firqaUr: "اہلِ سنت والجماعت",
         walidName: "Haji Abdul Rashid",
         walidNameUr: "حاجی عبد الرشید",
         dadaName: "Late Haji Noor Mohammad",
@@ -1149,14 +1493,28 @@
         khandaanUr: "نورانی ویورز",
         mohalla: "Madanpura",
         mohallaUr: "مدن پورہ",
+        nanihal: "Bajardiha (Kallu Seth)",
         city: "Mumbai",
         cityUr: "ممبئی / بھیونڈی",
         profession: "Pure Silk Saree Wholesale",
-        professionUr: "خالص بنارسی ریشم ساڑھی تجارت"
+        professionUr: "خالص بنارسی ریشم ساڑھی تجارت",
+        managedBy: "Father"
       },
       {
-        fullName: "Zubair Ahmad Ansari",
-        fullNameUr: "زبیر احمد انصاری",
+        fullName: "Fatima Bano Ansari",
+        fullNameUr: "فاطمہ بانو انصاری",
+        gender: "Female",
+        age: "23 Years",
+        heightWeight: "5' 3\" / 52 kg",
+        ethnicity: "Ansari",
+        disability: "None",
+        maritalStatus: "Unmarried",
+        kids: "None",
+        fatherStatus: "Alive",
+        motherStatus: "Alive",
+        housing: "Own House",
+        firqa: "Deobandi",
+        firqaUr: "دیوبندی",
         walidName: "Janab Shamim Ahmad",
         walidNameUr: "جناب شمیم احمد",
         dadaName: "Haji Kallu Seth",
@@ -1165,30 +1523,58 @@
         khandaanUr: "کلو سیٹھ والے",
         mohalla: "Bajardiha",
         mohallaUr: "بجرڈیہہ",
+        nanihal: "Pilikothi",
         city: "Delhi",
         cityUr: "دہلی این سی آر",
-        profession: "Senior Software Engineer",
-        professionUr: "سینئر سافٹ ویئر انجینئر"
+        profession: "B.Com, B.Ed Teacher",
+        professionUr: "بی کام، بی ایڈ معلمہ",
+        managedBy: "Father"
       },
       {
         fullName: "Mohammad Arshad",
         fullNameUr: "محمد ارشد",
-        walidName: "Haji Nizamuddin",
-        walidNameUr: "حاجی نظام الدین",
+        gender: "Male",
+        age: "31 Years",
+        heightWeight: "5' 9\" / 72 kg",
+        ethnicity: "Ansari",
+        disability: "None",
+        maritalStatus: "Widowed",
+        kids: "1 Daughter (with father)",
+        fatherStatus: "Deceased",
+        motherStatus: "Alive",
+        housing: "Own House",
+        firqa: "Ahl us Sunnah",
+        firqaUr: "اہلِ سنت والجماعت",
+        walidName: "Late Haji Nizamuddin",
+        walidNameUr: "مرحوم حاجی نظام الدین",
         dadaName: "Late Master Abdul Qadir",
         dadaNameUr: "مرحوم ماسٹر عبد القادر",
         khandaan: "Pillai Wale",
         khandaanUr: "پلائی والے",
         mohalla: "Alaipura",
         mohallaUr: "علائی پورہ",
+        nanihal: "Lohta (Munshi Ji)",
         city: "Surat",
         cityUr: "سورت",
         profession: "Textile Jacquard Processing",
-        professionUr: "ٹیکسٹائل پروسیسنگ"
+        professionUr: "ٹیکسٹائل پروسیسنگ",
+        managedBy: "Self"
       },
       {
         fullName: "Dr. Farhan Mushtaq",
         fullNameUr: "ڈاکٹر فرحان مشتاق",
+        gender: "Male",
+        age: "29 Years",
+        heightWeight: "5' 11\" / 75 kg",
+        ethnicity: "Siddiqui",
+        disability: "None",
+        maritalStatus: "Unmarried",
+        kids: "None",
+        fatherStatus: "Alive",
+        motherStatus: "Alive",
+        housing: "Own House",
+        firqa: "Ahl-e-Hadees",
+        firqaUr: "اہلِ حدیث",
         walidName: "Prof. Mushtaq Ahmad",
         walidNameUr: "پروفیسر مشتاق احمد",
         dadaName: "Late Janab Bashir Master",
@@ -1197,42 +1583,72 @@
         khandaanUr: "ماسٹر جی خاندان",
         mohalla: "Pilikothi",
         mohallaUr: "پیلی کوٹھی",
+        nanihal: "Madanpura",
         city: "Bengaluru",
         cityUr: "بنگلور",
         profession: "Cardiologist (MBBS, MD)",
-        professionUr: "ماہرِ امراضِ قلب"
+        professionUr: "ماہرِ امراضِ قلب (ایم بی بی ایس)",
+        managedBy: "Mother"
+      },
+      {
+        fullName: "Zainab Parveen",
+        fullNameUr: "زینب پروین",
+        gender: "Female",
+        age: "27 Years",
+        heightWeight: "5' 4\" / 56 kg",
+        ethnicity: "Pathan",
+        disability: "None",
+        maritalStatus: "Divorced",
+        kids: "None (No children)",
+        fatherStatus: "Alive",
+        motherStatus: "Alive",
+        housing: "Rented",
+        firqa: "Ahl-e-Tashayyo",
+        firqaUr: "اہلِ تشیع",
+        walidName: "Janab Akhtar Hussain",
+        walidNameUr: "جناب اختر حسین",
+        dadaName: "Late Haji Maqbool",
+        dadaNameUr: "مرحوم حاجی مقبول",
+        khandaan: "Subedari Khandaan",
+        khandaanUr: "صوبیداری خاندان",
+        mohalla: "Adampura",
+        mohallaUr: "آدم پورہ",
+        nanihal: "Alaipura",
+        city: "Mumbai",
+        cityUr: "ممبئی",
+        profession: "Software Quality Analyst",
+        professionUr: "سافٹ ویئر اینالسٹ",
+        managedBy: "Brother"
       },
       {
         fullName: "Haji Imran Ansari",
         fullNameUr: "حاجی عمران انصاری",
-        walidName: "Haji Gufran Ahmad",
-        walidNameUr: "حاجی غفران احمد",
+        gender: "Male",
+        age: "34 Years",
+        heightWeight: "5' 7\" / 70 kg",
+        ethnicity: "Ansari",
+        disability: "None",
+        maritalStatus: "Unmarried",
+        kids: "None",
+        fatherStatus: "Deceased",
+        motherStatus: "Alive",
+        housing: "Own House",
+        firqa: "Ahl us Sunnah",
+        firqaUr: "اہلِ سنت والجماعت",
+        walidName: "Late Haji Gufran Ahmad",
+        walidNameUr: "مرحوم حاجی غفران احمد",
         dadaName: "Munshi Abdul Sattar",
         dadaNameUr: "منشی عبد الستار",
         khandaan: "Munshi Ji Wale",
         khandaanUr: "منشی جی والے",
         mohalla: "Lohta",
         mohallaUr: "لوہتا",
+        nanihal: "Alaipura",
         city: "Varanasi",
         cityUr: "بنارس",
         profession: "Master Weaver (Pure Katan)",
-        professionUr: "ماہر بنکر (خالص کتان)"
-      },
-      {
-        fullName: "Salman Irfan",
-        fullNameUr: "سلمان عرفان",
-        walidName: "Janab Irfan-ur-Rahman",
-        walidNameUr: "جناب عرفان الرحمن",
-        dadaName: "Haji Chhotey Mian",
-        dadaNameUr: "حاجی چھوٹے میاں",
-        khandaan: "Chhotey Mian Wale",
-        khandaanUr: "چھوٹے میاں والے",
-        mohalla: "Madanpura",
-        mohallaUr: "مدن پورہ",
-        city: "Kolkata",
-        cityUr: "کولکتہ",
-        profession: "Wholesale Cloth Merchant",
-        professionUr: "تھوک کپڑا تاجر"
+        professionUr: "ماہر بنکر (خالص کتان)",
+        managedBy: "Self"
       }
     ];
 
@@ -1269,7 +1685,19 @@
     function populateDropdowns() {
       const isUr = currentLang === 'ur';
 
-      // Mohalla dropdown in Hero
+      // Firqa filter in Hero
+      const firqaSel = document.getElementById('firqaSelectInput');
+      const curF = firqaSel.value;
+      firqaSel.innerHTML = '';
+      firqaList.forEach(f => {
+        const opt = document.createElement('option');
+        opt.value = f.val;
+        opt.innerText = isUr ? f.ur : f.en;
+        if (f.val === curF) opt.selected = true;
+        firqaSel.appendChild(opt);
+      });
+
+      // Mohalla filter in Hero
       const mohallaSel = document.getElementById('mohallaSelectInput');
       const curM = mohallaSel.value;
       mohallaSel.innerHTML = '';
@@ -1281,7 +1709,7 @@
         mohallaSel.appendChild(opt);
       });
 
-      // City dropdown in Hero
+      // City filter in Hero
       const citySel = document.getElementById('citySelectInput');
       const curC = citySel.value;
       citySel.innerHTML = '';
@@ -1317,38 +1745,62 @@
         const khandaan = (isUr && p.khandaanUr) ? p.khandaanUr : (p.khandaan || 'Banarsi Parivar');
         const mohalla = (isUr && p.mohallaUr) ? p.mohallaUr : (p.mohalla || 'Banaras');
         const city = (isUr && p.cityUr) ? p.cityUr : (p.city || '');
+        const firqa = (isUr && p.firqaUr) ? p.firqaUr : (p.firqa || 'Ahl us Sunnah');
         const work = (isUr && p.professionUr) ? p.professionUr : (p.profession || '');
+        const isFemale = p.gender === 'Female';
 
-        const searchKeywords = `${p.fullName} ${p.walidName} ${p.dadaName} ${p.khandaan} ${p.mohalla || ''} ${p.city || ''} ${p.profession || ''} ${p.fullNameUr || ''} ${p.khandaanUr || ''}`.toLowerCase();
+        const searchKeywords = `${p.fullName} ${p.walidName} ${p.dadaName} ${p.khandaan} ${p.mohalla || ''} ${p.city || ''} ${p.firqa || ''} ${p.gender || ''} ${p.maritalStatus || ''} ${p.ethnicity || ''} ${p.housing || ''} ${p.fullNameUr || ''} ${p.khandaanUr || ''}`.toLowerCase();
 
         const card = document.createElement('article');
         card.className = 'family-card';
         card.setAttribute('data-mohalla', p.mohalla || '');
         card.setAttribute('data-city', p.city || '');
+        card.setAttribute('data-firqa', p.firqa || '');
+        card.setAttribute('data-gender', p.gender || '');
+        card.setAttribute('data-marital', p.maritalStatus || '');
+        card.setAttribute('data-ethnicity', p.ethnicity || '');
+        card.setAttribute('data-housing', p.housing || '');
         card.setAttribute('data-text', searchKeywords);
 
         const waText = encodeURIComponent(t.waShare(name, khandaan, mohalla));
 
         card.innerHTML = `
-          <div class="card-top">
+          <div class="card-badges-strip">
+            <span class="gender-pill ${isFemale ? 'pill-bride' : 'pill-groom'}">${isFemale ? (isUr ? 'دلہن' : 'Bride') : (isUr ? 'دولہا' : 'Groom')}</span>
             <span class="khandaan-badge">${t.cardKhandaan}${khandaan}</span>
-            <span class="mohalla-tag">📍 ${mohalla}</span>
+            <span class="firqa-badge">🕌 ${firqa}</span>
           </div>
 
-          <h3 class="card-name">${name}</h3>
+          <div class="card-person-header">
+            <div class="avatar-box">${isFemale ? '🧕' : '🧔'}</div>
+            <div>
+              <h3 class="card-name">${name}</h3>
+              <div class="card-subtext">${p.age || '25 Yrs'} • ${p.heightWeight || '5\' 6\"'} • ${p.ethnicity || 'Ansari'}</div>
+            </div>
+          </div>
+
+          ${isFemale ? `
+            <div class="female-photo-privacy-box">
+              <span>${t.femalePhotoNotice}</span>
+            </div>
+          ` : ''}
 
           <div class="lineage-box">
-            ${t.cardWalid}<b>${walid}</b><br>
-            ${t.cardDada}<b>${dada}</b>
+            ${t.cardWalid}<b>${walid}</b> (${p.fatherStatus === 'Deceased' ? (isUr ? 'مرحوم' : 'Deceased') : (isUr ? 'باحیات' : 'Alive')})<br>
+            ${t.cardDada}<b>${dada}</b> | <b>${t.cardKhandaan}</b>${khandaan}<br>
+            ${p.nanihal ? `<span><b>${isUr ? 'نانہال:' : 'Nanihal:'}</b> ${p.nanihal}</span>` : ''}
           </div>
 
-          <div class="card-meta-chips">
-            <span class="meta-chip">🏢 ${city}</span>
-            ${work ? `<span class="meta-chip">💼 ${work}</span>` : ''}
+          <div class="matri-specs-grid">
+            <div class="spec-item">💍 ${p.maritalStatus || 'Unmarried'} ${p.kids && p.kids !== 'None' ? `(${p.kids})` : ''}</div>
+            <div class="spec-item">🏠 ${p.housing || 'Own House'}</div>
+            <div class="spec-item">📍 ${mohalla} (Banaras)</div>
+            <div class="spec-item">🏢 ${city}</div>
+            <div class="spec-item" style="grid-column: 1 / -1;">💼 ${work || 'Business'} (${isUr ? 'رابطہ کار:' : 'Managed by:'} ${p.managedBy || 'Father'})</div>
           </div>
 
           <div class="card-actions-row">
-            <button class="btn-primary-action" onclick="alert('${isUr ? 'رابطے کی درخواست ارسال کر دی گئی ہے۔' : 'Connection request sent to family.'}')">
+            <button class="btn-primary-action" onclick="alert('${isUr ? 'رابطے کی درخواست ارسال کر دی گئی ہے۔ ولی / سرپرست سے رابطہ کیا جائے گا۔' : 'Connection request sent to family guardian (Wali).'}')">
               <span>👤</span>
               <span>${t.cardConnect}</span>
             </button>
@@ -1363,8 +1815,14 @@
 
     function filterProfiles() {
       const q = document.getElementById('keywordSearchInput').value.toLowerCase().trim();
+      const selFirqa = document.getElementById('firqaSelectInput').value;
       const selMohalla = document.getElementById('mohallaSelectInput').value;
       const selCity = document.getElementById('citySelectInput').value;
+      const selGender = document.getElementById('genderSelectInput').value;
+      const selMarital = document.getElementById('maritalSelectInput').value;
+      const selEthnicity = document.getElementById('ethnicitySelectInput').value;
+      const selHouse = document.getElementById('houseSelectInput').value;
+
       const cards = document.querySelectorAll('.family-card');
       let visible = 0;
 
@@ -1372,12 +1830,22 @@
         const text = card.getAttribute('data-text') || '';
         const mohalla = card.getAttribute('data-mohalla') || '';
         const city = card.getAttribute('data-city') || '';
+        const firqa = card.getAttribute('data-firqa') || '';
+        const gender = card.getAttribute('data-gender') || '';
+        const marital = card.getAttribute('data-marital') || '';
+        const ethnicity = card.getAttribute('data-ethnicity') || '';
+        const housing = card.getAttribute('data-housing') || '';
 
         const matchQ = !q || text.includes(q);
+        const matchF = !selFirqa || firqa.toLowerCase().includes(selFirqa.toLowerCase());
         const matchM = !selMohalla || mohalla === selMohalla;
         const matchC = !selCity || city.toLowerCase().includes(selCity.toLowerCase());
+        const matchG = !selGender || gender === selGender;
+        const matchMar = !selMarital || marital === selMarital;
+        const matchEth = !selEthnicity || ethnicity === selEthnicity;
+        const matchH = !selHouse || housing === selHouse;
 
-        if (matchQ && matchM && matchC) {
+        if (matchQ && matchF && matchM && matchC && matchG && matchMar && matchEth && matchH) {
           card.style.display = 'flex';
           visible++;
         } else {
@@ -1416,12 +1884,14 @@
       document.getElementById('heroSubheading').innerText = t.heroSubheading;
       document.getElementById('lblSearchKeyword').innerText = t.lblSearchKeyword;
       document.getElementById('keywordSearchInput').setAttribute('placeholder', t.searchPlaceholder);
+      document.getElementById('lblSearchFirqa').innerText = t.lblSearchFirqa;
       document.getElementById('lblSearchMohalla').innerText = t.lblSearchMohalla;
       document.getElementById('lblSearchCity').innerText = t.lblSearchCity;
+      document.getElementById('lblSearchGender').innerText = t.lblSearchGender;
+      document.getElementById('lblSearchMarital').innerText = t.lblSearchMarital;
+      document.getElementById('lblSearchEthnicity').innerText = t.lblSearchEthnicity;
+      document.getElementById('lblSearchHouse').innerText = t.lblSearchHouse;
       document.getElementById('lblPopular').innerText = t.lblPopular;
-      document.getElementById('tagNoorani').innerText = t.tagNoorani;
-      document.getElementById('tagKallu').innerText = t.tagKallu;
-      document.getElementById('tagPillai').innerText = t.tagPillai;
 
       document.getElementById('lblHeaderAddBtn').innerText = t.headerAddBtn;
       document.getElementById('txtDeskJanazaTitle').innerText = t.deskJanazaTitle;
@@ -1438,14 +1908,6 @@
       document.getElementById('lblNavNews').innerText = t.navNews;
 
       document.getElementById('txtModalTitle').innerText = t.modalTitle;
-      document.getElementById('lblInputName').innerText = t.inName;
-      document.getElementById('lblInputWalid').innerText = t.inWalid;
-      document.getElementById('lblInputDada').innerText = t.inDada;
-      document.getElementById('lblInputKhandaan').innerText = t.inKhandaan;
-      document.getElementById('lblInputMohalla').innerText = t.inMohalla;
-      document.getElementById('lblInputCity').innerText = t.inCity;
-      document.getElementById('lblInputWork').innerText = t.inWork;
-      document.getElementById('lblInputPhone').innerText = t.inPhone;
       document.getElementById('btnSubmitModal').innerText = t.submitBtn;
 
       updateStreamTitle();
@@ -1489,27 +1951,75 @@
 
     function openAddModal() {
       document.getElementById('addModalBackdrop').classList.add('open');
+      showFormStep(1);
     }
 
     function closeAddModal() {
       document.getElementById('addModalBackdrop').classList.remove('open');
     }
 
+    // Step Switcher in Modal
+    function showFormStep(step) {
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById(`formStep${i}`).style.display = (i === step) ? 'flex' : 'none';
+        document.getElementById(`stepBtn${i}`).classList.toggle('active', i === step);
+      }
+    }
+
+    function handleGenderChange() {
+      const g = document.getElementById('inGender').value;
+      if (g === 'Female') {
+        document.getElementById('malePhotoSection').style.display = 'none';
+        document.getElementById('femalePhotoNotice').style.display = 'flex';
+      } else {
+        document.getElementById('malePhotoSection').style.display = 'flex';
+        document.getElementById('femalePhotoNotice').style.display = 'none';
+      }
+    }
+
+    function handleMaritalChange() {
+      const m = document.getElementById('inMaritalStatus').value;
+      const kidsBox = document.getElementById('kidsBox');
+      if (m === 'Unmarried') {
+        document.getElementById('inKids').value = 'None';
+      } else {
+        document.getElementById('inKids').placeholder = 'e.g. 1 Son / 1 Daughter (with me)';
+      }
+    }
+
     async function submitFamilyProfile(e) {
       e.preventDefault();
       const btn = document.getElementById('btnSubmitModal');
       const isUr = currentLang === 'ur';
-      btn.innerText = isUr ? 'محفوظ ہو رہا ہے...' : 'Saving...';
+      btn.innerText = isUr ? 'محفوظ ہو رہا ہے...' : 'Saving to Database...';
       btn.disabled = true;
 
       const profile = {
+        gender: document.getElementById('inGender').value,
+        managedBy: document.getElementById('inManagedBy').value,
         fullName: document.getElementById('inName').value,
+        age: document.getElementById('inAge').value,
+        heightWeight: document.getElementById('inHeightWeight').value,
+        ethnicity: document.getElementById('inEthnicity').value,
+        disability: document.getElementById('inDisability').value,
+        photoUrl: document.getElementById('inPhotoUrl') ? document.getElementById('inPhotoUrl').value : '',
+        maritalStatus: document.getElementById('inMaritalStatus').value,
+        kids: document.getElementById('inKids').value || 'None',
+        fatherStatus: document.getElementById('inFatherStatus').value,
+        motherStatus: document.getElementById('inMotherStatus').value,
+        housing: document.getElementById('inHousing').value,
+        banarasHouse: document.getElementById('inBanarasHouse').value,
+        firqa: document.getElementById('inFirqa').value,
         walidName: document.getElementById('inWalid').value,
         dadaName: document.getElementById('inDada').value,
         khandaan: document.getElementById('inKhandaan').value,
         mohalla: document.getElementById('inMohalla').value,
-        city: document.getElementById('inCity').value,
+        nanihal: document.getElementById('inNanihal').value,
+        references: document.getElementById('inReferences').value,
+        prefAge: document.getElementById('inPrefAge').value,
+        firqaFlex: document.getElementById('inFirqaFlex').value,
         profession: document.getElementById('inWork').value,
+        city: document.getElementById('inCity').value,
         phone: document.getElementById('inPhone').value,
         createdAt: new Date().toISOString()
       };
@@ -1517,7 +2027,7 @@
       if (isFirebaseReady && db) {
         try {
           await db.collection("families").add(profile);
-          alert(isUr ? 'مبارک! آپ کا خاندانی اندراج کامیابی سے محفوظ ہو گیا ہے۔' : 'Mubarak! Your family profile has been saved live into Banarsi Joda.');
+          alert(isUr ? 'مبارک! بنارسی رشتہ کامیابی سے گوگل فائر بیس ڈیٹا بیس میں محفوظ ہو گیا ہے۔' : 'Mubarak! Your matrimonial profile has been saved live into Banarsi Joda database.');
           document.getElementById('familyRegistrationForm').reset();
           closeAddModal();
         } catch (err) {
