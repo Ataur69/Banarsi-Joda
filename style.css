@@ -1,0 +1,921 @@
+/* ==========================================================================
+   BANARSI JODA - CORE STYLESHEET (style.css)
+   Brand Palette: Green (#064e3b), Banarsi Brown (#78350f), Gold/Amber (#d97706, #b8860b)
+   Apple Design System & Minimalist SVG Iconography
+   ========================================================================== */
+
+:root {
+  /* Brand Identity Colors */
+  --primary: #064e3b;
+  --primary-dark: #022c22;
+  --primary-light: #ecfdf5;
+  --brown: #78350f;
+  --gold: #b8860b;
+  --gold-accent: #d97706;
+  --gold-light: #fef9e7;
+  --gold-border: #fef08a;
+
+  /* Apple Monochrome & Neutral System */
+  --surface: #ffffff;
+  --bg: #f8fafc;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --border-focus: #cbd5e1;
+  --radius: 16px;
+  --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  padding-bottom: 70px;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button, input, select {
+  font-family: inherit;
+}
+
+/* ==========================================
+   APP HEADER & NAVIGATION
+   ========================================== */
+.app-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.brand-logo-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-border);
+  font-size: 1.15rem;
+  font-weight: 900;
+  border: 1.5px solid var(--gold);
+}
+
+.brand-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  letter-spacing: -0.3px;
+}
+
+.brand-sub {
+  font-size: 0.72rem;
+  color: var(--primary);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+}
+
+.desktop-nav {
+  display: none;
+  align-items: center;
+  gap: 6px;
+}
+
+@media(min-width: 860px) {
+  .desktop-nav {
+    display: flex;
+  }
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  padding: 8px 14px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+
+.nav-btn.active, .nav-btn:hover {
+  color: var(--primary);
+  background: var(--primary-light);
+  font-weight: 700;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-login {
+  background: white;
+  border: 1.5px solid var(--border);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.84rem;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.btn-login:hover {
+  border-color: var(--text-muted);
+}
+
+.btn-reg {
+  background: var(--primary);
+  color: white;
+  border: 1px solid var(--gold);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.84rem;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.btn-reg:hover {
+  opacity: 0.95;
+}
+
+.user-pill {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary-light);
+  border: 1px solid #a7f3d0;
+  padding: 4px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+/* ==========================================
+   HERO & SEARCH FINDER
+   ========================================== */
+.hero-sec {
+  background: radial-gradient(circle at top right, #0d5e3c, var(--primary-dark) 60%, #031e17);
+  color: white;
+  padding: 36px 16px 48px;
+  text-align: center;
+}
+
+.hero-box {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.hero-subtitle {
+  font-size: 0.95rem;
+  color: #a7f3d0;
+  margin-bottom: 24px;
+}
+
+.finder-bar {
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.finder-col label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  text-align: left;
+}
+
+.finder-col select {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  background: #fff;
+  color: var(--text);
+  outline: none;
+}
+
+.finder-col select:focus {
+  border-color: var(--gold-accent);
+}
+
+.btn-find {
+  background: linear-gradient(135deg, var(--gold-accent), var(--gold));
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 18px;
+}
+
+/* ==========================================
+   MAIN CONTAINER & GUEST PRIVACY GATE
+   ========================================== */
+.main-container {
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+.guest-gate {
+  background: white;
+  border: 1.5px solid var(--gold-border);
+  border-radius: var(--radius);
+  padding: 48px 24px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+  margin-bottom: 30px;
+}
+
+.gate-badge-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--gold-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.guest-gate h3 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin-bottom: 8px;
+}
+
+.guest-gate p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  max-width: 520px;
+  margin: 0 auto 20px;
+  line-height: 1.5;
+}
+
+.gate-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ==========================================
+   CARDS GRID & 130x165px SHOWCASE
+   ========================================== */
+.cards-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 20px;
+}
+
+.profile-card {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+}
+
+.profile-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+.card-row {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+/* 130x165px Showcase */
+.card-photo-box {
+  width: 130px;
+  height: 165px;
+  border-radius: 12px;
+  background: #f1f5f9;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-avatar-empty {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #94a3b8;
+}
+
+.groom-tag {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  right: 6px;
+  background: rgba(6,78,59,0.9);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 3px 4px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* Female Royal Arch Showcase */
+.female-tile {
+  background: radial-gradient(circle at center, #fef9e7, #fef08a);
+  border: 1.5px solid var(--gold);
+}
+
+.arch-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background: var(--primary);
+  clip-path: polygon(0 0, 100% 0, 100% 50%, 50% 100%, 0 50%);
+  opacity: 0.15;
+}
+
+.urdu-initial {
+  font-family: 'Scheherazade New', serif;
+  font-size: 4rem;
+  color: var(--brown);
+  font-weight: 700;
+  line-height: 1;
+  margin-top: 10px;
+}
+
+.purdah-tag {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  right: 6px;
+  background: var(--primary);
+  color: var(--gold-border);
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 3px 4px;
+  border-radius: 4px;
+  text-align: center;
+  border: 1px solid var(--gold);
+}
+
+/* Card Details */
+.card-info {
+  flex: 1;
+}
+
+.card-name {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin-bottom: 4px;
+}
+
+.card-spec {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.card-work {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-top: 6px;
+}
+
+.card-managed {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  margin-top: 6px;
+}
+
+/* Lineage Drawer */
+.lineage-drawer {
+  display: none;
+  background: var(--bg);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 0.8rem;
+}
+
+.lineage-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.btn-lineage-toggle {
+  background: none;
+  border: none;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--gold-accent);
+  cursor: pointer;
+  text-align: left;
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Card Action Buttons */
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.btn-action {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-interest {
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid #a7f3d0;
+}
+
+.btn-interest.active {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-wa {
+  background: #10b981;
+  color: white;
+}
+
+/* ==========================================
+   MODALS & APPLE DESIGN SYSTEM
+   ========================================== */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.modal-backdrop.open {
+  display: flex;
+}
+
+.modal-dialog {
+  background: white;
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 440px;
+  padding: 24px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-dialog-large {
+  max-width: 600px;
+}
+
+.modal-close-apple {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--bg);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.modal-close-apple:hover {
+  background: var(--border);
+  color: var(--text);
+}
+
+.auth-brand-emblem {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--primary);
+  color: var(--gold-border);
+  font-weight: 800;
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+  border: 1.5px solid var(--gold);
+}
+
+.auth-h {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.auth-sub {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.input-group-apple {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 0 14px;
+  margin-bottom: 14px;
+  background: white;
+  transition: border-color 0.2s;
+}
+
+.input-group-apple:focus-within {
+  border-color: var(--gold-accent);
+}
+
+.country-prefix {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-right: 8px;
+  user-select: none;
+}
+
+.input-apple {
+  width: 100%;
+  border: none;
+  padding: 12px 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  outline: none;
+  background: transparent;
+}
+
+.btn-apple-primary {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  font-size: 0.92rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+}
+
+.btn-apple-primary:hover { opacity: 0.95; }
+.btn-apple-primary:active { transform: scale(0.99); }
+
+.auth-divider-apple {
+  text-align: center;
+  margin: 18px 0;
+  position: relative;
+}
+
+.auth-divider-apple::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--border);
+}
+
+.auth-divider-apple span {
+  position: relative;
+  background: white;
+  padding: 0 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.btn-apple-secondary {
+  width: 100%;
+  padding: 11px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  background: white;
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-apple-secondary:hover {
+  background: var(--bg);
+  border-color: #cbd5e1;
+}
+
+/* ==========================================
+   4-DIGIT UNDERLINE OTP SCREEN
+   ========================================== */
+.otp-container-clean {
+  text-align: center;
+  padding: 8px 4px;
+}
+
+.shield-badge-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.shield-badge {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--gold-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.otp-heading {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.otp-subtext {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  max-width: 310px;
+  margin: 0 auto 28px;
+  line-height: 1.45;
+}
+
+.otp-subtext b {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.otp-underline-row {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.otp-underline-slot {
+  width: 44px;
+  height: 48px;
+  border: none;
+  border-bottom: 2.5px solid #cbd5e1;
+  background: transparent;
+  font-size: 1.6rem;
+  font-weight: 800;
+  text-align: center;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s, transform 0.1s;
+  caret-color: var(--gold-accent);
+}
+
+.otp-underline-slot:focus,
+.otp-underline-slot.filled {
+  border-bottom-color: var(--gold-accent);
+}
+
+.otp-timer-row {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+}
+
+.otp-timer-row b {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.btn-resend-link {
+  background: none;
+  border: none;
+  color: var(--gold-accent);
+  font-weight: 700;
+  font-size: 0.84rem;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  margin-left: 4px;
+}
+
+.btn-link-clean {
+  background: none;
+  border: none;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-link-clean:hover {
+  color: var(--text);
+}
+
+/* ==========================================
+   MULTI-STEP REGISTRATION MODAL
+   ========================================== */
+.step-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1.5px solid var(--border);
+  margin-bottom: 16px;
+  overflow-x: auto;
+}
+
+.step-btn {
+  flex: 1;
+  padding: 8px 6px;
+  border: none;
+  background: none;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.step-btn.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.f-item {
+  margin-bottom: 12px;
+}
+
+.f-item label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
+.f-item input, .f-item select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.88rem;
+}
+
+.f-item input:focus, .f-item select:focus {
+  border-color: var(--gold-accent);
+  outline: none;
+}
+
+.f-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.btn-proceed {
+  width: 100%;
+  background: var(--primary);
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
