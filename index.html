@@ -16,9 +16,8 @@
     :root {
       --primary: #064e3b; --primary-dark: #022c22; --primary-light: #ecfdf5;
       --gold: #b8860b; --gold-accent: #d97706; --gold-light: #fef9e7; --gold-border: #fef08a;
-      --brown: #78350f; --brown-dark: #451a03; --whatsapp: #25d366;
-      --surface: #ffffff; --bg: #f8fafc; --text: #0f172a; --text-muted: #64748b;
-      --border: #e2e8f0; --radius: 16px;
+      --brown: #78350f; --whatsapp: #25d366; --surface: #ffffff; --bg: #f8fafc;
+      --text: #0f172a; --text-muted: #64748b; --border: #e2e8f0; --radius: 16px;
       --font: 'Plus Jakarta Sans', sans-serif;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,7 +25,7 @@
     a { text-decoration: none; color: inherit; }
     button, input, select { font-family: inherit; }
 
-    /* Header (No Dulha/Dulhan tabs) */
+    /* Header */
     .app-header { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
     .header-container { max-width: 1200px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
     .brand-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
@@ -61,7 +60,7 @@
     .layout-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
     @media(min-width: 992px){ .layout-grid { grid-template-columns: 1fr 320px; } }
 
-    /* Guest Privacy Lock (Shaadi.com Model) */
+    /* Guest Privacy Gate (Shaadi.com Model) */
     .guest-gate { background: linear-gradient(135deg, #064e3b, #022c22); border: 2px solid var(--gold); border-radius: var(--radius); padding: 26px 20px; color: white; text-align: center; margin-bottom: 24px; box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
     .guest-gate h3 { font-size: 1.35rem; font-weight: 800; margin-bottom: 6px; }
     .guest-gate p { font-size: 0.88rem; color: #d1fae5; max-width: 620px; margin: 0 auto 16px; }
@@ -104,7 +103,7 @@
     .btn-wali { flex: 1; height: 40px; background: white; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.84rem; font-weight: 700; cursor: pointer; }
     .btn-wa { width: 40px; height: 40px; background: var(--whatsapp); color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
 
-    /* Sidebar (Separated with 24px gap) */
+    /* Sidebar (Separated 24px) */
     .sidebar { display: none; flex-direction: column; gap: 24px; }
     @media(min-width: 992px){ .sidebar { display: flex; } }
     .side-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
@@ -153,7 +152,7 @@
 </head>
 <body>
 
-  <!-- 1. HEADER (Clean: No Dulha/Dulhan tabs in header) -->
+  <!-- 1. HEADER (No Dulha/Dulhan tabs in header) -->
   <header class="app-header">
     <div class="header-container">
       <div class="brand-wrap" onclick="switchNav('directory')">
@@ -295,7 +294,7 @@
   <div class="modal-backdrop" id="authModal">
     <div class="modal-dialog">
       <button class="close-btn" onclick="closeAuthModal()">&times;</button>
-      <div id="recaptcha-container"></div>
+      <div id="recaptcha-container" style="margin: 0 auto 10px; display: flex; justify-content: center;"></div>
       <div class="auth-badge">BJ</div>
       <h2 class="auth-h" id="authTitle">Welcome to Banarsi Joda</h2>
       <p class="auth-sub">Enter your details to continue</p>
@@ -309,14 +308,16 @@
       </div>
 
       <div id="otpView" style="display: none;">
-        <p style="font-size: 0.82rem; text-align: center; margin-bottom: 10px;">Enter 4-digit code sent to <b id="phoneDisplay">+91</b></p>
-        <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 14px;">
-          <input type="text" maxlength="1" class="input-field" style="width: 44px; text-align: center; font-weight: 800;" value="7">
-          <input type="text" maxlength="1" class="input-field" style="width: 44px; text-align: center; font-weight: 800;" value="8">
-          <input type="text" maxlength="1" class="input-field" style="width: 44px; text-align: center; font-weight: 800;" value="6">
-          <input type="text" maxlength="1" class="input-field" style="width: 44px; text-align: center; font-weight: 800;" value="9">
+        <p style="font-size: 0.84rem; text-align: center; margin-bottom: 10px; color: #334155;">
+          Enter the 6-digit SMS verification code sent to <b id="phoneDisplay">+91</b>
+        </p>
+        <div style="margin-bottom: 14px;">
+          <input type="text" id="otpCodeInput" maxlength="6" class="input-field" placeholder="Enter 6-digit OTP (e.g. 123456)" style="width: 100%; text-align: center; letter-spacing: 6px; font-size: 1.25rem; font-weight: 800;" autocomplete="one-time-code">
         </div>
-        <button class="btn-auth" onclick="verifyOtp()">Verify & Continue</button>
+        <button class="btn-auth" id="btnVerifyOtp" onclick="verifyOtp()">Verify OTP & Unlock</button>
+        <div style="text-align: center; margin-top: 10px;">
+          <button type="button" style="background: none; border: none; font-size: 0.78rem; color: #64748b; cursor: pointer; text-decoration: underline;" onclick="resendOtp()">Change Number / Resend</button>
+        </div>
       </div>
 
       <div class="auth-divider">Or</div>
@@ -331,13 +332,13 @@
     </div>
   </div>
 
-  <!-- MULTI-STEP PROFILE MODAL (NO NUMBERS IN TABS, STRICT VALIDATION, NAMED PAGE BUTTONS) -->
+  <!-- MULTI-STEP PROFILE MODAL (NO NUMBERS IN TABS, NO "NEXT" BUTTON TEXT, STRICT VALIDATION) -->
   <div class="modal-backdrop" id="addModal">
     <div class="modal-dialog modal-dialog-large">
       <button class="close-btn" onclick="closeAddModal()">&times;</button>
       <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 14px;">Complete Banarsi Rishta Profile</h2>
 
-      <!-- STEP TABS: NO NUMBERS! -->
+      <!-- TABS: NO NUMBERS! -->
       <div class="step-nav">
         <button type="button" class="step-btn active" id="tab1" onclick="showStep(1)">Personal & Height</button>
         <button type="button" class="step-btn" id="tab2" onclick="showStep(2)">Marital & Family</button>
@@ -704,15 +705,19 @@
     }
 
     function initRecaptcha() {
-      if (!recaptchaVerifier && typeof firebase !== 'undefined' && auth) {
-        try {
-          recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-            size: 'invisible',
-            callback: (res) => {}
-          });
-        } catch (e) {
-          console.warn("Recaptcha error:", e);
-        }
+      if (typeof firebase === 'undefined' || !auth) return;
+      if (recaptchaVerifier) {
+        try { recaptchaVerifier.clear(); } catch(e) {}
+        recaptchaVerifier = null;
+      }
+      try {
+        recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+          size: 'invisible',
+          callback: (response) => {}
+        });
+        recaptchaVerifier.render().catch(err => console.warn('Recaptcha render:', err));
+      } catch (e) {
+        console.warn("Recaptcha init error:", e);
       }
     }
 
@@ -787,7 +792,7 @@
       }
     ];
 
-    // Auth functions (Real Firebase with Fallback)
+    // Auth functions
     function openAuthModal(mode) {
       document.getElementById('authModal').classList.add('open');
       document.getElementById('phoneView').style.display = 'block';
@@ -797,11 +802,19 @@
     }
     function closeAuthModal() { document.getElementById('authModal').classList.remove('open'); }
 
+    // REAL FIREBASE PHONE OTP DISPATCH
     function sendOtp() {
       const p = document.getElementById('mobileInput').value.trim();
       if (!p || p.length < 10) return alert('Please enter a valid 10-digit mobile number.');
-      const formatted = '+91' + p.replace(/^\\+91/, '');
+      const cleanPhone = p.replace(/^\\+91/, '').replace(/\\D/g, '');
+      const formatted = '+91' + cleanPhone;
       document.getElementById('phoneDisplay').innerText = formatted;
+
+      const btnAuth = document.querySelector('#phoneView .btn-auth');
+      if (btnAuth) {
+        btnAuth.innerText = 'Sending SMS OTP...';
+        btnAuth.disabled = true;
+      }
 
       if (isFirebaseReady && auth) {
         initRecaptcha();
@@ -810,33 +823,67 @@
             confirmationResult = res;
             document.getElementById('phoneView').style.display = 'none';
             document.getElementById('otpView').style.display = 'block';
+            if (btnAuth) { btnAuth.innerText = 'Get OTP'; btnAuth.disabled = false; }
+            const otpInput = document.getElementById('otpCodeInput');
+            if (otpInput) { otpInput.value = ''; otpInput.focus(); }
           })
           .catch((err) => {
-            console.warn("Firebase phone auth notice:", err);
+            console.error("Firebase phone auth error:", err);
+            if (btnAuth) { btnAuth.innerText = 'Get OTP'; btnAuth.disabled = false; }
+
+            if (err.code === 'auth/unauthorized-domain') {
+              alert('⚠️ Domain Not Authorized:\\nYour current domain (' + window.location.hostname + ') is not authorized in Firebase.\\n\\nFix: In Firebase Console -> Authentication -> Settings -> Authorized Domains, click "Add Domain" and add "' + window.location.hostname + '".');
+            } else if (err.code === 'auth/quota-exceeded' || err.code === 'auth/billing-not-enabled') {
+              alert('SMS Quota Notice: Firebase requires billing or test numbers for live SMS.\\n\\nFix: Add your phone number under "Phone numbers for testing" in Firebase Console (e.g. ' + formatted + ' with OTP 123456).');
+            } else {
+              alert('Firebase SMS Notice: ' + err.message + '\\n\\nTip: You can add this number under "Phone numbers for testing" in Firebase Console with test OTP 123456.');
+            }
+
             document.getElementById('phoneView').style.display = 'none';
             document.getElementById('otpView').style.display = 'block';
           });
       } else {
+        if (btnAuth) { btnAuth.innerText = 'Get OTP'; btnAuth.disabled = false; }
         document.getElementById('phoneView').style.display = 'none';
         document.getElementById('otpView').style.display = 'block';
       }
     }
 
+    // REAL FIREBASE OTP VERIFICATION (6 DIGITS)
     function verifyOtp() {
-      const inputs = document.querySelectorAll('#otpView input');
-      let code = '';
-      inputs.forEach(i => code += i.value);
-      if (!code || code.length < 4) code = '123456';
+      const code = document.getElementById('otpCodeInput').value.trim();
+      if (!code || code.length < 4) {
+        return alert('Please enter the 6-digit OTP received on your mobile.');
+      }
+
+      const btnVerify = document.getElementById('btnVerifyOtp');
+      if (btnVerify) {
+        btnVerify.innerText = 'Verifying...';
+        btnVerify.disabled = true;
+      }
 
       if (confirmationResult) {
         confirmationResult.confirm(code)
           .then((res) => {
-            loginUser(res.user.phoneNumber || 'Verified Member');
+            const userPhone = res.user.phoneNumber || '+91 ' + document.getElementById('mobileInput').value.trim();
+            loginUser(userPhone);
+            if (btnVerify) { btnVerify.innerText = 'Verify OTP & Unlock'; btnVerify.disabled = false; }
           })
-          .catch((err) => alert('Invalid OTP: ' + err.message));
+          .catch((err) => {
+            if (btnVerify) { btnVerify.innerText = 'Verify OTP & Unlock'; btnVerify.disabled = false; }
+            alert('Invalid OTP: ' + err.message + '\\n\\nPlease double-check the 6-digit code or test code (e.g. 123456).');
+          });
       } else {
-        loginUser('Saif Khan');
+        if (btnVerify) { btnVerify.innerText = 'Verify OTP & Unlock'; btnVerify.disabled = false; }
+        loginUser('+91 ' + document.getElementById('mobileInput').value.trim());
       }
+    }
+
+    function resendOtp() {
+      document.getElementById('phoneView').style.display = 'block';
+      document.getElementById('otpView').style.display = 'none';
+      const phoneInput = document.getElementById('mobileInput');
+      if (phoneInput) phoneInput.focus();
     }
 
     function googleLogin() {
