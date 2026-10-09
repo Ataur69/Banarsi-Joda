@@ -44,9 +44,74 @@
       <div class="header-actions">
         <button class="btn-login" id="btnLogin" onclick="openAuthModal('login')">Login</button>
         <button class="btn-reg" id="btnReg" onclick="openAuthModal('register')">Register Free</button>
-        <div class="user-pill" id="userPill" onclick="openAddModal()">
-          <span id="userInitial">S</span>
-          <span id="userName">Saif Khan</span>
+        
+        <!-- Apple-Style User Profile Pill & Dropdown -->
+        <div class="user-pill-wrap" id="userPillWrap" style="display: none; position: relative;">
+          <div class="user-pill" id="userPill" onclick="toggleAccountDropdown(event)">
+            <div class="user-avatar-circle" id="userAvatar">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+            <span id="userName">Saif Khan</span>
+            <svg class="chevron-icon" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+
+          <!-- Account Dropdown Menu -->
+          <div class="account-dropdown" id="accountDropdown">
+            <div class="account-menu-header">
+              <div class="account-menu-avatar" id="dropdownAvatar">S</div>
+              <div class="account-menu-meta">
+                <div class="account-menu-name" id="dropdownName">Saif Khan</div>
+                <div class="account-menu-status">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="#10b981" stroke="none">
+                    <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1.06 14.54L6.7 12.3a.75.75 0 0 1 1.06-1.06l3.18 3.18 6.36-6.36a.75.75 0 0 1 1.06 1.06l-7.42 7.42z"/>
+                  </svg>
+                  <span>Verified Member</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="account-menu-divider"></div>
+
+            <button class="account-menu-item" onclick="openAccountModal()">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span>My Account & Details</span>
+            </button>
+
+            <button class="account-menu-item" onclick="openAddModal(); closeAccountDropdown();">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              <span>Edit Matrimonial Profile</span>
+            </button>
+
+            <button class="account-menu-item" onclick="switchNav('trade'); closeAccountDropdown();">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              <span>My B2B Trade Listings</span>
+            </button>
+
+            <div class="account-menu-divider"></div>
+
+            <button class="account-menu-item item-logout" onclick="logoutUser()">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="#ef4444" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              <span style="color: #ef4444; font-weight: 700;">Logout</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -582,6 +647,76 @@
 
         <button type="submit" class="btn-proceed">Save & List Firm</button>
       </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 4: MY ACCOUNT & PROFILE DETAILS
+       ========================================== -->
+  <div class="modal-backdrop" id="accountModal">
+    <div class="modal-dialog">
+      <button class="modal-close-apple" onclick="closeAccountModal()" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="account-view-card">
+        <div class="account-big-avatar" id="accModalAvatar">S</div>
+        <h2 class="auth-h" id="accModalName" style="margin-bottom: 2px;">Saif Khan</h2>
+        <div class="account-phone-chip" id="accModalPhone">+91 96119 57661</div>
+
+        <div class="account-badges-row">
+          <span class="acc-badge acc-badge-verified">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="#10b981">
+              <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1.06 14.54L6.7 12.3a.75.75 0 0 1 1.06-1.06l3.18 3.18 6.36-6.36a.75.75 0 0 1 1.06 1.06l-7.42 7.42z"/>
+            </svg>
+            Community Verified
+          </span>
+          <span class="acc-badge">Banaras Member</span>
+        </div>
+
+        <div class="account-stats-grid">
+          <div class="stat-box">
+            <div class="stat-num" id="statShortlisted">0</div>
+            <div class="stat-lbl">Interests Sent</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">Active</div>
+            <div class="stat-lbl">Profile Status</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">Standard</div>
+            <div class="stat-lbl">Access Level</div>
+          </div>
+        </div>
+
+        <div class="account-section-title">Registered Profile</div>
+        <div class="account-profile-preview" id="accProfilePreview">
+          <div style="font-weight: 700; color: var(--primary-dark); font-size: 0.95rem;" id="accPrevTitle">Saif Khan • 30 Yrs</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;" id="accPrevSub">Madanpura, Banaras • Ahl us Sunnah</div>
+          <div style="font-size: 0.82rem; color: var(--text); margin-top: 4px;" id="accPrevWork">E-Commerce Manager & Marketer</div>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button class="btn-apple-primary" style="flex: 1;" onclick="closeAccountModal(); openAddModal();">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+            <span>Edit Profile</span>
+          </button>
+          <button class="btn-apple-secondary" style="margin-bottom: 0; width: auto; padding: 0 16px; color: #ef4444; border-color: #fecaca;" onclick="logoutUser()">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="#ef4444" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
