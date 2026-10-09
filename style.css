@@ -181,18 +181,148 @@ button, input, select {
   opacity: 0.95;
 }
 
+/* ==========================================
+   USER PROFILE PILL & DROPDOWN MENU
+   ========================================== */
 .user-pill {
-  display: none;
+  display: flex;
   align-items: center;
   gap: 8px;
-  background: var(--primary-light);
-  border: 1px solid #a7f3d0;
-  padding: 4px 12px;
-  border-radius: 20px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  padding: 5px 12px 5px 6px;
+  border-radius: 24px;
   cursor: pointer;
-  font-size: 0.82rem;
+  font-size: 0.84rem;
   font-weight: 700;
   color: var(--primary-dark);
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.user-pill:hover {
+  border-color: var(--gold);
+  background: var(--primary-light);
+}
+
+.user-avatar-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chevron-icon {
+  color: var(--text-muted);
+  transition: transform 0.2s ease;
+}
+
+.user-pill.open .chevron-icon {
+  transform: rotate(180deg);
+}
+
+.account-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 240px;
+  background: white;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  padding: 8px;
+  z-index: 200;
+  animation: dropdownFade 0.15s ease-out;
+}
+
+.account-dropdown.show {
+  display: block;
+}
+
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.account-menu-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 8px;
+}
+
+.account-menu-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: var(--gold-border);
+  font-weight: 800;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--gold);
+}
+
+.account-menu-meta {
+  flex: 1;
+  overflow: hidden;
+}
+
+.account-menu-name {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.account-menu-status {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  color: #10b981;
+  font-weight: 700;
+  margin-top: 1px;
+}
+
+.account-menu-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 6px 0;
+}
+
+.account-menu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  border: none;
+  background: none;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s ease;
+}
+
+.account-menu-item:hover {
+  background: var(--bg);
+}
+
+.account-menu-item.item-logout:hover {
+  background: #fef2f2;
 }
 
 /* ==========================================
@@ -361,7 +491,7 @@ button, input, select {
   margin-bottom: 12px;
 }
 
-/* 130x165px Showcase */
+/* 130x165px Portrait Showcase */
 .card-photo-box {
   width: 130px;
   height: 165px;
@@ -443,7 +573,6 @@ button, input, select {
   border: 1px solid var(--gold);
 }
 
-/* Card Details */
 .card-info {
   flex: 1;
 }
@@ -508,7 +637,7 @@ button, input, select {
   gap: 4px;
 }
 
-/* Card Action Buttons */
+/* Action Buttons */
 .card-actions {
   display: flex;
   gap: 8px;
@@ -918,4 +1047,108 @@ button, input, select {
   border: none;
   cursor: pointer;
   margin-top: 10px;
+}
+
+/* ==========================================
+   MY ACCOUNT & PROFILE DASHBOARD MODAL
+   ========================================== */
+.account-view-card {
+  text-align: center;
+  padding: 8px 4px;
+}
+
+.account-big-avatar {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: var(--gold-border);
+  font-weight: 800;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  border: 2px solid var(--gold);
+  box-shadow: 0 4px 14px rgba(6, 78, 59, 0.2);
+}
+
+.account-phone-chip {
+  display: inline-block;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.account-badges-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.acc-badge {
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+.acc-badge-verified {
+  background: #ecfdf5;
+  color: #064e3b;
+  border-color: #a7f3d0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.account-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 18px;
+}
+
+.stat-num {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+}
+
+.stat-lbl {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.account-section-title {
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.account-profile-preview {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: left;
 }
