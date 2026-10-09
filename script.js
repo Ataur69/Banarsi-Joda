@@ -1,10 +1,10 @@
 /* ==========================================================================
    BANARSI JODA - APPLICATION LOGIC (script.js)
-   Firebase Auth, 4-Digit Underline OTP, Multi-step Validation,
+   Firebase Auth, 4-Digit Underline OTP, Multi-step Validation, Account Menu,
    Urdu Initial Calligraphy, Height Converter, Profiles & B2B Trade Engine
    ========================================================================== */
 
-// Firebase Initialization
+// Firebase Configuration & Initialization
 const firebaseConfig = {
   apiKey: "AIzaSyD8h2eVchH4syRCGEjvQXMUbeMHUPWcJgo",
   authDomain: "banarsi-joda.firebaseapp.com",
@@ -27,7 +27,9 @@ try {
     isFirebaseReady = true;
 
     auth.onAuthStateChanged((user) => {
-      if (user) loginUser(user.displayName || user.phoneNumber || user.email || 'Member');
+      if (user) {
+        loginUser(user.displayName || 'Saif Khan', user.phoneNumber || user.email || '+91 96119 57661');
+      }
     });
   }
 } catch (e) {
@@ -268,41 +270,135 @@ function verifyOtp() {
       btnVerify.innerHTML = '<span>Verify & Unlock</span>';
       btnVerify.disabled = false;
     }
-    const mobile = document.getElementById('mobileInput').value.trim() || 'Verified Member';
-    loginUser('+91 ' + mobile);
+    const mobile = document.getElementById('mobileInput').value.trim() || '96119 57661';
+    loginUser('Saif Khan', '+91 ' + mobile);
   }, 350);
 }
 
 function googleLogin() {
-  loginUser("Google Member");
+  loginUser("Saif Khan", "+91 96119 57661");
 }
 
 function emailLogin() {
-  const email = prompt("Enter your email address:", "member@banarsijoda.com");
-  if (email) loginUser(email);
+  const email = prompt("Enter your email address:", "saif@banarsijoda.com");
+  if (email) loginUser(email.split('@')[0], email);
 }
 
 function unlockMemberView() {
-  currentUser = { name: "Guest User" };
+  currentUser = { name: "Guest User", phone: "+91 96119 57661" };
   document.getElementById('guestGate').style.display = 'none';
   document.getElementById('filterBar').style.display = 'flex';
   document.getElementById('cardsList').style.display = 'grid';
   renderFeed();
 }
 
-function loginUser(name) {
-  currentUser = { name: name || "Verified Member" };
+// ==========================================
+// USER ACCOUNT, DROPDOWN & LOGOUT LOGIC
+// ==========================================
+function loginUser(name, phone) {
+  const displayName = name || "Saif Khan";
+  const displayPhone = phone || (document.getElementById('mobileInput') ? '+91 ' + document.getElementById('mobileInput').value.trim() : '+91 96119 57661');
+  currentUser = { name: displayName, phone: displayPhone };
   closeAuthModal();
+
+  // Update Header UI
   document.getElementById('btnLogin').style.display = 'none';
   document.getElementById('btnReg').style.display = 'none';
-  const userPill = document.getElementById('userPill');
-  userPill.style.display = 'flex';
-  document.getElementById('userName').innerText = currentUser.name.split(' ')[0] || 'Member';
-  document.getElementById('userInitial').innerText = (currentUser.name.charAt(0) || 'M').toUpperCase();
+  const userPillWrap = document.getElementById('userPillWrap');
+  if (userPillWrap) userPillWrap.style.display = 'block';
+
+  const shortName = displayName.split(' ')[0] || 'Member';
+  const initial = (displayName.charAt(0) || 'M').toUpperCase();
+  document.getElementById('userName').innerText = shortName;
+
+  const dropName = document.getElementById('dropdownName');
+  if (dropName) dropName.innerText = displayName;
+  const dropAvatar = document.getElementById('dropdownAvatar');
+  if (dropAvatar) dropAvatar.innerText = initial;
+
+  // Reveal Directory Feed
   document.getElementById('guestGate').style.display = 'none';
   document.getElementById('filterBar').style.display = 'flex';
   document.getElementById('cardsList').style.display = 'grid';
   renderFeed();
+}
+
+function toggleAccountDropdown(e) {
+  if (e) e.stopPropagation();
+  const dropdown = document.getElementById('accountDropdown');
+  const pill = document.getElementById('userPill');
+  if (!dropdown) return;
+  const isShowing = dropdown.classList.contains('show');
+  if (isShowing) {
+    closeAccountDropdown();
+  } else {
+    dropdown.classList.add('show');
+    if (pill) pill.classList.add('open');
+  }
+}
+
+function closeAccountDropdown() {
+  const dropdown = document.getElementById('accountDropdown');
+  const pill = document.getElementById('userPill');
+  if (dropdown) dropdown.classList.remove('show');
+  if (pill) pill.classList.remove('open');
+}
+
+// Close account dropdown on outside click
+document.addEventListener('click', (e) => {
+  const wrap = document.getElementById('userPillWrap');
+  if (wrap && !wrap.contains(e.target)) {
+    closeAccountDropdown();
+  }
+});
+
+function openAccountModal() {
+  closeAccountDropdown();
+  const modal = document.getElementById('accountModal');
+  if (!modal) return;
+
+  const name = (currentUser && currentUser.name) ? currentUser.name : 'Saif Khan';
+  const initial = (name.charAt(0) || 'M').toUpperCase();
+  const phone = (currentUser && currentUser.phone) ? currentUser.phone : '+91 96119 57661';
+
+  document.getElementById('accModalAvatar').innerText = initial;
+  document.getElementById('accModalName').innerText = name;
+  document.getElementById('accModalPhone').innerText = phone;
+
+  // Count shortlisted profiles
+  const interestBtns = document.querySelectorAll('.btn-interest.active');
+  const countSpan = document.getElementById('statShortlisted');
+  if (countSpan) countSpan.innerText = interestBtns.length;
+
+  modal.classList.add('open');
+}
+
+function closeAccountModal() {
+  const modal = document.getElementById('accountModal');
+  if (modal) modal.classList.remove('open');
+}
+
+function logoutUser() {
+  if (confirm("Are you sure you want to log out of Banarsi Joda?")) {
+    if (isFirebaseReady && auth) {
+      try { auth.signOut(); } catch(e) {}
+    }
+    currentUser = null;
+    closeAccountModal();
+    closeAccountDropdown();
+
+    // Toggle Header Buttons
+    document.getElementById('btnLogin').style.display = 'inline-block';
+    document.getElementById('btnReg').style.display = 'inline-block';
+    document.getElementById('userPillWrap').style.display = 'none';
+
+    // Restore Confidential Guest Gate
+    document.getElementById('guestGate').style.display = 'block';
+    document.getElementById('filterBar').style.display = 'none';
+    document.getElementById('cardsList').style.display = 'none';
+
+    alert('You have been logged out successfully. Profiles are now protected under guest purdah.');
+  }
 }
 
 // ==========================================
@@ -541,7 +637,7 @@ function renderB2B() {
         ${b.specialties.map(s => `<span class="badge" style="background:#ecfdf5; color:#064e3b; font-size:0.75rem; padding:3px 8px; border-radius:6px; font-weight:700;">${s}</span>`).join('')}
       </div>
       <div class="card-actions">
-        <a href="https://wa.me/${b.phone.replace(/\D/g,'')}?text=Salam,%20inquiring%20about%20wholesale%20order%20for%20${encodeURIComponent(b.firmName)}" target="_blank" class="btn-action btn-wa" style="text-align:center;">💬 Contact Manufacturer on WhatsApp</a>
+        <a href="https://wa.me/${b.phone.replace(/\\D/g,'')}?text=Salam,%20inquiring%20about%20wholesale%20order%20for%20${encodeURIComponent(b.firmName)}" target="_blank" class="btn-action btn-wa" style="text-align:center;">💬 Contact Manufacturer on WhatsApp</a>
       </div>
     </div>
   `).join('');
