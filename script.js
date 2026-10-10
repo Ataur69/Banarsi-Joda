@@ -833,35 +833,36 @@ function removePhoto(e) {
 
 function genderChanged() {
   const g = document.getElementById('inGender') ? document.getElementById('inGender').value : 'Male';
-  const groomSec = document.getElementById('groomPhotoSection');
-  const brideSec = document.getElementById('bridePardahSection');
-  const step7Title = document.getElementById('step7Title');
-  const step7Sub = document.getElementById('step7Sub');
-  const step7Badge = document.getElementById('step7Badge');
+  const isFemale = (g === 'Female');
+
+  // Step 6 & 7 controls for Bride vs Groom
+  const brideStep6Sec = document.getElementById('brideFinalSectionStep6');
+  const btnNextGroom = document.getElementById('btnNextGroom');
+  const btnSubmitBride = document.getElementById('btnSubmitBride');
+  const prog7 = document.getElementById('prog7');
   const mSelect = document.getElementById('inMaritalStatus');
 
-  if (g === 'Female') {
-    // AUTOMATICALLY NO PHOTO FOR BRIDES
-    if (groomSec) groomSec.style.display = 'none';
-    if (brideSec) {
-      brideSec.style.display = 'block';
-      const nameVal = document.getElementById('inName') ? document.getElementById('inName').value : '';
-      const urduInitialEl = document.getElementById('regPardahUrduInitial');
-      if (urduInitialEl) urduInitialEl.innerText = getUrduInitial(nameVal || 'Fatima');
-    }
-    if (step7Title) step7Title.innerText = 'Pardah Protection & Verification';
-    if (step7Sub) step7Sub.innerText = 'Sister profiles are strictly Pardah Protected with royal Urdu calligraphy';
-    if (step7Badge) step7Badge.innerText = '🛡️';
-    
+  if (isFemale) {
+    // BRIDES: Step 6 is the final step! No Step 7 photo upload
+    if (brideStep6Sec) brideStep6Sec.style.display = 'block';
+    if (btnNextGroom) btnNextGroom.style.display = 'none';
+    if (btnSubmitBride) btnSubmitBride.style.display = 'inline-block';
+    if (prog7) prog7.style.display = 'none';
+
+    // Update Urdu initial on Pardah card
+    const nameVal = document.getElementById('inName') ? document.getElementById('inName').value : '';
+    const initialEl = document.getElementById('regPardahUrduInitialBride');
+    if (initialEl) initialEl.innerText = getUrduInitial(nameVal || 'Fatima');
+
     removePhoto();
     if (mSelect) mSelect.innerHTML = '<option value="Unmarried">Never Married (Ghair Shaadishuda)</option><option value="Widowed">Widow (Bewa)</option><option value="Divorced">Divorced (Talaq-shuda)</option>';
   } else {
-    // GROOMS: PHOTO UPLOAD ENABLED
-    if (groomSec) groomSec.style.display = 'block';
-    if (brideSec) brideSec.style.display = 'none';
-    if (step7Title) step7Title.innerText = 'Upload Photo';
-    if (step7Sub) step7Sub.innerText = 'Profiles with authentic photos receive up to 5x more genuine responses';
-    if (step7Badge) step7Badge.innerText = '📷';
+    // GROOMS: Step 6 proceeds to Step 7 for Photo Upload
+    if (brideStep6Sec) brideStep6Sec.style.display = 'none';
+    if (btnNextGroom) btnNextGroom.style.display = 'inline-block';
+    if (btnSubmitBride) btnSubmitBride.style.display = 'none';
+    if (prog7) prog7.style.display = 'block';
+
     if (mSelect) mSelect.innerHTML = '<option value="Unmarried">Never Married (Ghair Shaadishuda)</option><option value="Married (Shadi Shuda)">Married (Shadi Shuda)</option><option value="Widowed">Widower (Bewa)</option><option value="Divorced">Divorced (Talaq-shuda)</option>';
   }
 }
@@ -1264,7 +1265,10 @@ function saveProfile(e) {
   const customWork = document.getElementById('inWorkCustom') ? document.getElementById('inWorkCustom').value.trim() : '';
   const finalProfession = (rawWork === 'Other' && customWork) ? customWork : (rawWork || 'Weaver');
 
-  const userPhone = document.getElementById('inPhone').value.trim();
+  const isFemale = (document.getElementById('inGender') && document.getElementById('inGender').value === 'Female');
+  const bridePhone = document.getElementById('inPhoneBride') ? document.getElementById('inPhoneBride').value.trim() : '';
+  const groomPhone = document.getElementById('inPhoneGroom') ? document.getElementById('inPhoneGroom').value.trim() : '';
+  const userPhone = isFemale ? bridePhone : (groomPhone || bridePhone);
   const userName = document.getElementById('inName').value.trim();
 
   const newProfile = {
@@ -1807,4 +1811,27 @@ function dismissVerifyBanner() {
   const banner = document.getElementById('verifyFloatingBanner');
   if (banner) banner.style.display = 'none';
   sessionStorage.setItem('banarsi_verify_banner_dismissed', 'true');
+}
+
+
+function submitBrideRegistration(e) {
+  if (e) e.preventDefault();
+  const phoneInput = document.getElementById('inPhoneBride');
+  if (phoneInput && !phoneInput.value.trim()) {
+    alert('Please enter Guardian / Wali mobile number to complete registration.');
+    phoneInput.focus();
+    return;
+  }
+  saveProfile(e);
+}
+
+function submitGroomRegistration(e) {
+  if (e) e.preventDefault();
+  const phoneInput = document.getElementById('inPhoneGroom');
+  if (phoneInput && !phoneInput.value.trim()) {
+    alert('Please enter Guardian / Wali mobile number to complete registration.');
+    phoneInput.focus();
+    return;
+  }
+  saveProfile(e);
 }
