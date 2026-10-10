@@ -48,13 +48,21 @@
         <!-- Apple-Style User Profile Pill & Dropdown -->
         <div class="user-pill-wrap" id="userPillWrap" style="display: none; position: relative;">
           <div class="user-pill" id="userPill" onclick="toggleAccountDropdown(event)">
-            <div class="user-avatar-circle" id="userAvatar">
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
+            <!-- Circular Progression Ring Around Profile Icon -->
+            <div class="user-avatar-progress-wrap" id="userProgressWrap" title="Profile Completion">
+              <svg class="progress-ring" width="34" height="34" viewBox="0 0 36 36">
+                <circle class="progress-ring-bg" stroke="#e2e8f0" stroke-width="2.6" fill="transparent" r="15" cx="18" cy="18" />
+                <circle class="progress-ring-circle" id="profileProgressCircle" stroke="var(--gold-accent)" stroke-width="2.8" stroke-linecap="round" fill="transparent" r="15" cx="18" cy="18" stroke-dasharray="94.25" stroke-dashoffset="65" />
               </svg>
+              <div class="user-avatar-circle" id="userAvatar">
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
             </div>
             <span id="userName">Saif Khan</span>
+            <span class="pill-completion" id="pillCompletion">30%</span>
             <svg class="chevron-icon" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
@@ -66,13 +74,31 @@
               <div class="account-menu-avatar" id="dropdownAvatar">S</div>
               <div class="account-menu-meta">
                 <div class="account-menu-name" id="dropdownName">Saif Khan</div>
-                <div class="account-menu-status">
+                <div class="account-menu-status" id="dropdownStatusRow">
                   <svg viewBox="0 0 24 24" width="12" height="12" fill="#10b981" stroke="none">
                     <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1.06 14.54L6.7 12.3a.75.75 0 0 1 1.06-1.06l3.18 3.18 6.36-6.36a.75.75 0 0 1 1.06 1.06l-7.42 7.42z"/>
                   </svg>
-                  <span>Verified Member</span>
+                  <span id="dropdownStatusText">Verified Member</span>
                 </div>
               </div>
+            </div>
+
+            <!-- Verification Reminder Card with Progress -->
+            <div class="verify-reminder-card" id="verifyReminderCard">
+              <div class="verify-reminder-top">
+                <div class="verify-shield-box" id="verifyShieldBox">🛡️</div>
+                <div style="flex: 1;">
+                  <div class="verify-reminder-h" id="verifyStatusTitle">Profile 30% Complete</div>
+                  <div class="verify-reminder-p" id="verifyStatusSub">Complete your profile to unlock the green <b>Community Verified Badge</b>.</div>
+                </div>
+              </div>
+              <div class="verify-progress-bar-bg">
+                <div class="verify-progress-bar-fill" id="verifyProgressFill" style="width: 30%;"></div>
+              </div>
+              <button type="button" class="btn-verify-now" onclick="openAddModal(); closeAccountDropdown();">
+                <span>Complete Profile & Verify</span>
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
             </div>
 
             <div class="account-menu-divider"></div>
@@ -116,6 +142,19 @@
       </div>
     </div>
   </header>
+  <!-- Top Floating Verification Callout Banner (Reminds users to verify profile) -->
+  <div class="verify-floating-banner" id="verifyFloatingBanner" style="display: none;">
+    <div class="verify-banner-inner">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 1.2rem;">🛡️</span>
+        <span class="verify-banner-text"><b>Get Verified:</b> Complete your family & lineage details to earn your <b>Community Verified Badge</b> and receive 3x more genuine responses.</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button type="button" class="btn-banner-verify" onclick="openAddModal()">Complete & Verify Profile ➔</button>
+        <button type="button" class="btn-banner-close" onclick="dismissVerifyBanner()" aria-label="Dismiss">&times;</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ==========================================
        HERO & SEARCH SECTION
@@ -145,25 +184,38 @@
           </select>
         </div>
         <div class="finder-col">
-          <label>Firqa / Maslak</label>
+          <label>Maslak / Firqa</label>
           <select id="finderFirqa" onchange="runMatchFinder()">
-            <option value="all">Any Firqa</option>
-            <option value="Ahl us Sunnah">Ahl us Sunnah</option>
+            <option value="all">All Maslak / Firqa</option>
+            <option value="Ahl us Sunnah">Ahl us Sunnah wal Jama'ah</option>
             <option value="Deobandi">Deobandi</option>
-            <option value="Barelvi">Barelvi</option>
-            <option value="Ahle Hadees">Ahle Hadees</option>
-            <option value="Shia">Shia</option>
+            <option value="Ahl-e-Hadees">Ahl-e-Hadees</option>
+            <option value="Ahl-e-Tashayyo">Ahl-e-Tashayyo</option>
           </select>
         </div>
         <div class="finder-col">
-          <label>Mohalla</label>
-          <select id="finderMohalla" onchange="runMatchFinder()">
-            <option value="all">All Banaras Mohallas</option>
-            <option value="Madanpura">Madanpura</option>
-            <option value="Bajardiha">Bajardiha</option>
-            <option value="Pilikothi">Pilikothi</option>
-            <option value="Lallapura">Lallapura</option>
-            <option value="Reori Talab">Reori Talab</option>
+          <label>Location / City</label>
+          <select id="finderLocation" onchange="runMatchFinder()">
+            <option value="all">All Locations</option>
+            <option value="Varanasi">Varanasi / Banaras</option>
+            <option value="Bengaluru">Bengaluru / Bangalore</option>
+            <option value="Delhi">Delhi NCR (New Delhi, Noida, Gurgaon)</option>
+            <option value="Mumbai">Mumbai / Navi Mumbai / Thane</option>
+            <option value="Hyderabad">Hyderabad / Secunderabad</option>
+            <option value="Kolkata">Kolkata / Howrah</option>
+            <option value="Surat">Surat</option>
+            <option value="Ahmedabad">Ahmedabad</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Pune">Pune</option>
+            <option value="Lucknow">Lucknow</option>
+            <option value="Kanpur">Kanpur</option>
+            <option value="Jaipur">Jaipur</option>
+            <option value="Mau">Mau</option>
+            <option value="Azamgarh">Azamgarh</option>
+            <option value="Gorakhpur">Gorakhpur</option>
+            <option value="Patna">Patna</option>
+            <option value="Bhopal">Bhopal</option>
+            <option value="Other">Other Indian Cities</option>
           </select>
         </div>
         <div class="finder-col" style="display: flex; align-items: flex-end;">
@@ -196,11 +248,10 @@
           </svg>
         </div>
         <h3>Confidential Community Profiles Protected</h3>
-        <p>In accordance with community purdah principles, photos, phone numbers, and full lineage information are reserved for verified community members.</p>
+        <p>In accordance with community pardah principles, photos, phone numbers, and full lineage information are reserved for verified community members.</p>
         <div class="gate-actions">
           <button class="btn-reg" onclick="openAuthModal('register')">Register Free Profile</button>
           <button class="btn-login" onclick="openAuthModal('login')">Member Login</button>
-          <button class="btn-login" style="border-style: dashed;" onclick="unlockMemberView()">Browse as Demo Guest</button>
         </div>
       </div>
 
@@ -211,7 +262,7 @@
           <button class="nav-btn" id="btnFilterMale" onclick="filterByGender('Male')">Grooms</button>
           <button class="nav-btn" id="btnFilterFemale" onclick="filterByGender('Female')">Brides</button>
         </div>
-        <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);" id="txtCount">2 Profiles Available</span>
+        <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);" id="txtCount">20 Profiles Available</span>
       </div>
 
       <!-- Profile Cards Grid -->
@@ -251,7 +302,7 @@
         <p class="auth-sub">Enter your details to continue</p>
 
         <div class="input-group-apple">
-          <span class="country-prefix">🇮🇳 +91</span>
+          <span class="country-prefix"><span style="font-size: 1.1rem; line-height: 1;">🇮🇳</span> <span>+91</span></span>
           <input type="tel" class="input-apple" id="mobileInput" placeholder="Mobile no." maxlength="10" inputmode="numeric">
         </div>
 
@@ -327,257 +378,547 @@
     </div>
   </div>
 
+  
   <!-- ==========================================
-       MODAL 2: MULTI-STEP MATRIMONIAL REGISTRATION
+       MODAL 2: MODERN SHAADI.COM MULTI-STEP REGISTRATION
+       Includes Family Details, Financial Status, Diet, Income & Hobbies
        ========================================== -->
   <div class="modal-backdrop" id="addModal">
-    <div class="modal-dialog modal-dialog-large">
+    <div class="modal-dialog modal-dialog-large" style="max-width: 580px; padding: 26px 28px;">
       <button class="modal-close-apple" onclick="closeAddModal()" aria-label="Close">
-        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
 
-      <h2 class="auth-h" style="text-align: left; margin-bottom: 4px;">Complete Your Matrimonial Profile</h2>
-      <p class="auth-sub" style="text-align: left; margin-bottom: 16px;">Biometric/Aadhaar e-KYC will be integrated for community verification.</p>
-
-      <div class="step-tabs">
-        <button type="button" class="step-btn active" id="tab1" onclick="showStep(1)">Personal & Height</button>
-        <button type="button" class="step-btn" id="tab2" onclick="showStep(2)">Marital & Family</button>
-        <button type="button" class="step-btn" id="tab3" onclick="showStep(3)">Lineage & Mohalla</button>
-        <button type="button" class="step-btn" id="tab4" onclick="showStep(4)">Expectations</button>
+      <!-- Step Progress Bar (7 Steps) -->
+      <div class="reg-progress-bar">
+        <div class="reg-progress-step active" id="prog1"></div>
+        <div class="reg-progress-step" id="prog2"></div>
+        <div class="reg-progress-step" id="prog3"></div>
+        <div class="reg-progress-step" id="prog4"></div>
+        <div class="reg-progress-step" id="prog5"></div>
+        <div class="reg-progress-step" id="prog6"></div>
+        <div class="reg-progress-step" id="prog7"></div>
       </div>
 
       <form id="regForm" onsubmit="saveProfile(event)">
-        <!-- Step 1: Personal & Height -->
-        <div id="step1">
-          <div class="f-row">
-            <div class="f-item">
-              <label>Profile For *</label>
-              <select id="inGender" onchange="genderChanged()">
-                <option value="Male">Groom (Dulha)</option>
-                <option value="Female">Bride (Dulhan)</option>
-              </select>
+        
+        <!-- ==========================================
+             STEP 1: PROFILE FOR & BASIC IDENTITY
+             ========================================== -->
+        <div class="reg-step-box" id="regStep1">
+          <div class="reg-step-badge badge-peach">👤</div>
+          <h2 class="reg-step-title">This Profile is for</h2>
+          <p class="reg-step-sub">Select who you are creating this profile for</p>
+
+          <div class="form-field-group">
+            <label>Profile Managed By *</label>
+            <div class="chip-grid" id="managedByChips">
+              <span class="reg-chip active" onclick="selectChip(this, 'inManagedBy', 'Self')"><span class="chip-dot"></span><span class="chip-check">✓</span> Myself</span>
+              <span class="reg-chip" onclick="selectChip(this, 'inManagedBy', 'Father')"><span class="chip-dot"></span><span class="chip-check">✓</span> My Father</span>
+              <span class="reg-chip" onclick="selectChip(this, 'inManagedBy', 'Wali')"><span class="chip-dot"></span><span class="chip-check">✓</span> My Wali</span>
             </div>
-            <div class="f-item">
-              <label>Managed By *</label>
-              <select id="inManagedBy">
-                <option value="Self">Self</option>
-                <option value="Father">Father</option>
-                <option value="Mother">Mother</option>
-                <option value="Brother">Brother</option>
-                <option value="Guardian">Guardian</option>
-              </select>
-            </div>
+            <input type="hidden" id="inManagedBy" value="Self">
           </div>
 
-          <div class="f-item">
-            <label>Full Name *</label>
-            <input type="text" id="inName" placeholder="Candidate's full name" required>
+          <div class="form-field-group">
+            <label>Candidate Gender *</label>
+            <div class="chip-grid" id="genderChips">
+              <span class="reg-chip active" onclick="selectGender(this, 'Male')"><span class="chip-dot"></span><span class="chip-check">✓</span> Groom (Male)</span>
+              <span class="reg-chip" onclick="selectGender(this, 'Female')"><span class="chip-dot"></span><span class="chip-check">✓</span> Bride (Female)</span>
+            </div>
+            <input type="hidden" id="inGender" value="Male">
           </div>
 
-          <div class="f-row">
-            <div class="f-item">
-              <label>Age *</label>
-              <input type="number" id="inAge" placeholder="e.g. 26" min="18" max="70" required>
-            </div>
-            <div class="f-item">
-              <label>Height (cm / ft) *</label>
-              <select id="inHeight" required></select>
-            </div>
+          <div class="form-field-group">
+            <label>Candidate's Full Name *</label>
+            <input type="text" id="inName" placeholder="Enter candidate's full legal name" required>
           </div>
 
-          <div class="f-row">
-            <div class="f-item">
-              <label>Weight (kg) *</label>
-              <select id="inWeight" required>
-                <option value="50 kg">50 kg</option>
-                <option value="55 kg">55 kg</option>
-                <option value="60 kg" selected>60 kg</option>
-                <option value="65 kg">65 kg</option>
-                <option value="70 kg">70 kg</option>
-                <option value="75 kg">75 kg</option>
-                <option value="80 kg">80 kg</option>
-                <option value="85+ kg">85+ kg</option>
-              </select>
-            </div>
-            <div class="f-item">
-              <label>Physical Status</label>
-              <select id="inDisability">
-                <option value="Normal">Normal</option>
-                <option value="Physically Challenged">Physically Challenged</option>
-              </select>
-            </div>
+          <div class="form-field-group">
+            <label>Age / Date of Birth *</label>
+            <input type="text" id="inAge" placeholder="e.g. 26 Years" required>
           </div>
 
-          <div id="malePhotoBlock" class="f-item">
-            <label>Groom Photo (Optional)</label>
-            <div style="border: 1.5px dashed var(--border); border-radius: 8px; padding: 14px; text-align: center; cursor: pointer;" onclick="document.getElementById('inFile').click()">
-              <input type="file" id="inFile" accept="image/*" style="display: none;" onchange="fileChosen(this)">
-              <div id="photoPlaceholder">📷 Select Photo from Device</div>
-              <div id="photoPreviewWrap" style="display: none; align-items: center; justify-content: center; gap: 10px;">
-                <img id="photoPreview" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;">
-                <button type="button" onclick="removePhoto(event)" style="background: none; border: none; color: #ef4444; font-weight: 700; cursor: pointer;">Remove</button>
-              </div>
-            </div>
-            <input type="hidden" id="inPhotoData">
+                    <div class="reg-notice-card" style="background: #f0fdf4; border-color: #bbf7d0; color: #166534;">
+            <span style="font-size: 1.15rem;">🛡️</span>
+            <div><b>1 Profile per Mobile / Email:</b> Each profile is secured and uniquely tied to your verified account. Duplicate accounts are blocked. Aadhaar e-KYC integration coming soon.</div>
           </div>
 
-          <button type="button" class="btn-proceed" onclick="proceedStep(1, 2)">Marital & Family Details ➔</button>
+          <div class="reg-nav-row">
+            <button type="button" class="btn-reg-continue" onclick="proceedRegStep(1, 2)">Continue ➔</button>
+          </div>
         </div>
 
-        <!-- Step 2: Marital & Family -->
-        <div id="step2" style="display: none;">
-          <div class="f-row">
-            <div class="f-item">
-              <label>Marital Status *</label>
-              <select id="inMaritalStatus" onchange="maritalChanged()">
-                <option value="Unmarried">Unmarried</option>
-                <option value="Divorced">Divorced</option>
-                <option value="Widowed">Widowed</option>
-              </select>
-            </div>
-            <div class="f-item" id="kidsWrap" style="display: none;">
-              <label>Children</label>
-              <input type="text" id="inKids" placeholder="e.g. 1 Child living with me">
-            </div>
+        <!-- ==========================================
+             STEP 2: RELIGION, LINEAGE & BANARAS ROOTS
+             ========================================== -->
+        <div class="reg-step-box" id="regStep2" style="display: none;">
+          <div class="reg-step-badge badge-green">🕌</div>
+          <h2 class="reg-step-title">Lineage & Banaras Roots</h2>
+          <p class="reg-step-sub">Authentic family lineage verification helps build mutual trust</p>
+
+          <div class="form-field-group">
+            <label>Maslak / Firqa *</label>
+            <select id="inFirqa" required>
+              <option value="Ahl us Sunnah">Ahl us Sunnah wal Jama'ah</option>
+              <option value="Deobandi">Deobandi</option>
+              <option value="Ahl-e-Hadees">Ahl-e-Hadees</option>
+              <option value="Ahl-e-Tashayyo">Ahl-e-Tashayyo</option>
+            </select>
           </div>
 
           <div class="f-row">
-            <div class="f-item">
-              <label>Father's Status *</label>
-              <select id="inFatherStatus">
-                <option value="Alive">Alive</option>
-                <option value="Passed Away">Passed Away (Marhoom)</option>
-              </select>
+            <div class="form-field-group">
+              <label>Father's Name (Walid) *</label>
+              <input type="text" id="inWalid" placeholder="Janab Walid's name" required>
             </div>
-            <div class="f-item">
-              <label>Mother's Status *</label>
-              <select id="inMotherStatus">
-                <option value="Alive">Alive</option>
-                <option value="Passed Away">Passed Away (Marhooma)</option>
-              </select>
+            <div class="form-field-group">
+              <label>Grandfather (Dada) *</label>
+              <input type="text" id="inDada" placeholder="Janab Dada's name" required>
             </div>
           </div>
 
-          <div class="f-row">
-            <div class="f-item">
-              <label>Housing *</label>
-              <select id="inHousing">
-                <option value="Own House">Own House (Makaan Apna Hai)</option>
-                <option value="Rented House">Rented House</option>
-              </select>
-            </div>
-            <div class="f-item">
-              <label>Ancestral House in Banaras</label>
-              <select id="inBanarasHouse">
-                <option value="Yes">Yes, in Banaras</option>
-                <option value="Outside">Settled Outside Banaras</option>
-              </select>
-            </div>
-          </div>
-
-          <button type="button" class="btn-proceed" onclick="proceedStep(2, 3)">Lineage & Mohalla ➔</button>
-        </div>
-
-        <!-- Step 3: Lineage & Mohalla -->
-        <div id="step3" style="display: none;">
-          <div class="f-row">
-            <div class="f-item">
-              <label>Firqa / Maslak *</label>
-              <select id="inFirqa">
-                <option value="Ahl us Sunnah">Ahl us Sunnah</option>
-                <option value="Deobandi">Deobandi</option>
-                <option value="Barelvi">Barelvi</option>
-                <option value="Ahle Hadees">Ahle Hadees</option>
-                <option value="Shia">Shia</option>
-              </select>
-            </div>
-            <div class="f-item">
-              <label>Walid Name *</label>
-              <input type="text" id="inWalid" placeholder="Father's full name" required>
-            </div>
+          <div class="form-field-group">
+            <label>Khandaan Name / Urfiat (Family Moniker) *</label>
+            <input type="text" id="inKhandaan" placeholder="e.g. Kallu Seth Wale, Ansari" required>
           </div>
 
           <div class="f-row">
-            <div class="f-item">
-              <label>Dada Name *</label>
-              <input type="text" id="inDada" placeholder="Grandfather's name" required>
-            </div>
-            <div class="f-item">
-              <label>Khandaan *</label>
-              <input type="text" id="inKhandaan" placeholder="e.g. Seth Wale, Ansari" required>
-            </div>
-          </div>
-
-          <div class="f-row">
-            <div class="f-item">
-              <label>Banaras Mohalla *</label>
-              <select id="inMohalla">
+            <div class="form-field-group">
+              <label>Banaras Root Mohalla (Abai) *</label>
+              <select id="inMohalla" required>
+                <option value="">Select Mohalla</option>
                 <option value="Madanpura">Madanpura</option>
                 <option value="Bajardiha">Bajardiha</option>
+                <option value="Alaipura">Alaipura</option>
                 <option value="Pilikothi">Pilikothi</option>
-                <option value="Lallapura">Lallapura</option>
-                <option value="Reori Talab">Reori Talab</option>
+                <option value="Lohta">Lohta</option>
+                <option value="Adampura">Adampura</option>
                 <option value="Other">Other Varanasi Mohalla</option>
               </select>
             </div>
-            <div class="f-item">
-              <label>Nanihal (Maternal Family)</label>
-              <input type="text" id="inNanihal" placeholder="Nanihal Khandaan / Mohalla">
+            <div class="form-field-group">
+              <label>Maternal Lineage (Nanihal)</label>
+              <input type="text" id="inNanihal" placeholder="Nanihal Mohalla / Khandaan">
             </div>
           </div>
 
-          <button type="button" class="btn-proceed" onclick="proceedStep(3, 4)">Expectations & Contact ➔</button>
+          <div class="form-field-group">
+            <label>Current Residence City in India *</label>
+            <input type="text" id="inCity" placeholder="e.g. Varanasi, Bengaluru, Mumbai" required>
+          </div>
+
+          <div class="reg-nav-row">
+            <button type="button" class="btn-reg-back" onclick="showRegStep(1)">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="btn-reg-continue" onclick="proceedRegStep(2, 3)">Continue ➔</button>
+          </div>
         </div>
 
-        <!-- Step 4: Expectations & Contact -->
-        <div id="step4" style="display: none;">
-          <div class="f-row">
-            <div class="f-item">
-              <label>Preferred Age Range</label>
-              <select id="inPrefAge">
-                <option value="Any">Any Suitable</option>
-                <option value="18-24">18 - 24 Years</option>
-                <option value="25-30">25 - 30 Years</option>
-                <option value="31-38">31 - 38 Years</option>
-              </select>
-            </div>
-            <div class="f-item">
-              <label>Firqa Flexibility</label>
-              <select id="inFirqaFlex">
-                <option value="Strict">Strictly Same Firqa</option>
-                <option value="Flexible">Open to Discussion</option>
-              </select>
-            </div>
+        <!-- ==========================================
+             STEP 3: PERSONAL, HEIGHT & DIET
+             ========================================== -->
+        <div class="reg-step-box" id="regStep3" style="display: none;">
+          <div class="reg-step-badge badge-purple">📏</div>
+          <h2 class="reg-step-title">Personal & Lifestyle Details</h2>
+          <p class="reg-step-sub">Height, marital status, and daily diet preferences</p>
+
+          <div class="form-field-group">
+            <label>Marital Status *</label>
+            <select id="inMaritalStatus" onchange="maritalChanged()">
+              <option value="Unmarried" selected>Never Married (Ghair Shaadishuda)</option>
+              <option value="Married (Shadi Shuda)">Married (Shadi Shuda)</option>
+              <option value="Widowed">Widower (Bewa)</option>
+              <option value="Divorced">Divorced (Talaq-shuda)</option>
+            </select>
+          </div>
+
+          <div class="form-field-group" id="kidsWrap" style="display: none;">
+            <label>Children (Aulad Details & Custody) *</label>
+            <input type="text" id="inKids" placeholder="Number of children, living with candidate">
           </div>
 
           <div class="f-row">
-            <div class="f-item">
-              <label>Profession / Work</label>
-              <input type="text" id="inWork" placeholder="e.g. Software Engineer, Saree Business">
+            <div class="form-field-group">
+              <label>Height *</label>
+              <select id="inHeight" required></select>
             </div>
-            <div class="f-item">
-              <label>Current City</label>
-              <input type="text" id="inCity" placeholder="e.g. Varanasi, Bangalore">
+            <div class="form-field-group">
+              <label>Weight (kg) *</label>
+              <select id="inWeight" required>
+                <option value="">Select Weight</option>
+                <option value="35 - 40 kg">35 - 40 kg</option>
+                <option value="41 - 45 kg">41 - 45 kg</option>
+                <option value="46 - 50 kg">46 - 50 kg</option>
+                <option value="51 - 55 kg">51 - 55 kg</option>
+                <option value="56 - 60 kg">56 - 60 kg</option>
+                <option value="61 - 65 kg">61 - 65 kg</option>
+                <option value="66 - 70 kg">66 - 70 kg</option>
+                <option value="71 - 75 kg">71 - 75 kg</option>
+                <option value="76 - 80 kg">76 - 80 kg</option>
+                <option value="80+ kg">80+ kg</option>
+              </select>
             </div>
           </div>
 
-          <div class="f-item">
-            <label>Contact Phone (Kept Private)</label>
-            <input type="tel" id="inPhone" placeholder="Mobile / WhatsApp number">
+          <div class="form-field-group">
+            <label>Diet Preferences</label>
+            <div class="chip-grid" id="dietChips">
+              <span class="reg-chip active" onclick="selectChip(this, 'inDiet', 'Non-Veg')"><span class="chip-dot"></span><span class="chip-check">✓</span> Non-Veg (Halal)</span>
+              <span class="reg-chip" onclick="selectChip(this, 'inDiet', 'Occasionally Non-Veg')"><span class="chip-dot"></span><span class="chip-check">✓</span> Occasionally Non-Veg</span>
+              <span class="reg-chip" onclick="selectChip(this, 'inDiet', 'Veg')"><span class="chip-dot"></span><span class="chip-check">✓</span> Vegetarian</span>
+              <span class="reg-chip" onclick="selectChip(this, 'inDiet', 'Eggetarian')"><span class="chip-dot"></span><span class="chip-check">✓</span> Eggetarian</span>
+            </div>
+            <input type="hidden" id="inDiet" value="Non-Veg">
           </div>
 
-          <button type="submit" class="btn-proceed" id="btnSubmit">Complete Profile & Save</button>
+          <div class="form-field-group">
+            <label>Physical Disability / Special Needs</label>
+            <select id="inDisability">
+              <option value="None">None (Alhamdulillah)</option>
+              <option value="Minor">Minor Challenge</option>
+              <option value="Major">Physical Disability</option>
+            </select>
+          </div>
+
+          <div class="reg-nav-row">
+            <button type="button" class="btn-reg-back" onclick="showRegStep(2)">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="btn-reg-continue" onclick="proceedRegStep(3, 4)">Continue ➔</button>
+          </div>
         </div>
+
+        <!-- ==========================================
+             STEP 4: CAREER, EDUCATION & INCOME
+             ========================================== -->
+        <div class="reg-step-box" id="regStep4" style="display: none;">
+          <div class="reg-step-badge badge-blue">💼</div>
+          <h2 class="reg-step-title">Education & Career</h2>
+          <p class="reg-step-sub">Professional credentials help ensure compatible matches</p>
+
+          <div class="form-field-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label style="margin-bottom: 0;">Annual Income *</label>
+              <div class="income-toggle-wrap">
+                <button type="button" class="income-toggle-btn active" id="btnIncYearly" onclick="toggleIncomeView('yearly')">Yearly</button>
+                <button type="button" class="income-toggle-btn" id="btnIncMonthly" onclick="toggleIncomeView('monthly')">Monthly</button>
+              </div>
+            </div>
+            <select id="inIncome">
+              <option value="3 - 5 Lakh yearly">₹ 3 to 5 Lakh yearly (~ 25K to 40K monthly)</option>
+              <option value="5 - 7 Lakh yearly">₹ 5 to 7 Lakh yearly (~ 40K to 60K monthly)</option>
+              <option value="7 - 10 Lakh yearly" selected>₹ 7 to 10 Lakh yearly (~ 60K to 80K monthly)</option>
+              <option value="10 - 15 Lakh yearly">₹ 10 to 15 Lakh yearly (~ 85K to 1.25L monthly)</option>
+              <option value="15 - 25 Lakh yearly">₹ 15 to 25 Lakh yearly (~ 1.25L to 2L monthly)</option>
+              <option value="25+ Lakh yearly">₹ 25+ Lakh yearly (~ 2L+ monthly)</option>
+              <option value="Not Disclosed">Prefer not to disclose publicly</option>
+            </select>
+          </div>
+
+          <div class="f-row">
+            <div class="form-field-group">
+              <label>You Work With *</label>
+              <select id="inWorkWith">
+                <option value="Business / Handloom Karkhana">Business / Handloom Karkhana</option>
+                <option value="Job Work / Karigari">Job Work / Karigari</option>
+                <option value="Process & Finishing Unit">Process & Finishing Unit</option>
+                <option value="Online Delivery">Online Delivery (Field / Courier)</option>
+                <option value="Freelancer / Self-Employed">Freelancer / Self-Employed</option>
+                <option value="Private Company">Private Company</option>
+                <option value="Government / Public Sector">Government / Public Sector</option>
+                <option value="Madrasa / School">Madrasa / School</option>
+                <option value="Not Working / Studying">Not Working / Studying</option>
+              </select>
+            </div>
+            <div class="form-field-group">
+              <label>Profession / Job Title *</label>
+              <select id="inWork" onchange="professionChanged()" required>
+                <option value="">Select Profession</option>
+                <option value="Process">Process (Saree Processing & Finishing)</option>
+                <option value="Job Work">Job Work (Karigari / Handwork)</option>
+                <option value="Online Delivery">Online Delivery (Delivery Executive)</option>
+                <option value="Freelancer">Freelancer (Independent Work)</option>
+                <option value="Teacher">Teacher (School / Madrasa)</option>
+                <option value="Aalim / Hafiz / Qari">Aalim / Hafiz / Qari</option>
+                <option value="Powerloom Master Weaver">Powerloom Master Weaver / Karkhanedar</option>
+                <option value="Handloom Saree Weaver">Handloom Saree Weaver (Kadwa / Katan)</option>
+                <option value="Saree Gaddi / Wholesale Trader">Saree Gaddi / Wholesale Trader</option>
+                <option value="Zari & Raw Silk Karigar">Zari & Raw Silk Karigar</option>
+                <option value="Shop Owner / Saree Retailer">Shop Owner / Saree Retailer</option>
+                <option value="Accounts in Saree Firm">Accounts in Saree Firm</option>
+                <option value="Homemaker">Homemaker (Tailoring & Embroidery)</option>
+                <option value="Private Service">Private Service / Job</option>
+                <option value="Other">Other Profession (Specify)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-field-group" id="customWorkWrap" style="display: none;">
+            <label>Specify Your Profession</label>
+            <input type="text" id="inWorkCustom" placeholder="e.g. Electrician, Mechanic, Tailor">
+          </div>
+
+          <div class="form-field-group">
+            <label>Current Firm / Company / Shop Name</label>
+            <input type="text" id="inCompany" placeholder="Specify firm name or local area">
+          </div>
+
+          <div class="form-field-group">
+            <label>Education / Qualification *</label>
+            <select id="inEducation" required>
+              <option value="No Formal Education">No Formal Education (Ghair Taleem Yafta)</option>
+              <option value="Can Read Urdu & Arabic">Can Read Urdu & Arabic (Urdu-Arabi Khwan)</option>
+              <option value="Primary / Middle School">Primary / Middle School (Up to 8th)</option>
+              <option value="10th Pass (High School)">10th Pass (High School)</option>
+              <option value="12th Pass (Intermediate)" selected>12th Pass (Intermediate)</option>
+              <option value="Aalim / Aalimat / Hafiz / Qari">Aalim / Aalimat / Hafiz / Qari</option>
+              <option value="Diploma / ITI">Diploma / ITI</option>
+              <option value="Graduation (B.Com / BA / B.Sc)">Graduation (B.Com / BA / B.Sc)</option>
+              <option value="Post Graduation / Masters">Post Graduation / Masters</option>
+            </select>
+          </div>
+
+          <div class="reg-nav-row">
+            <button type="button" class="btn-reg-back" onclick="showRegStep(3)">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="btn-reg-continue" onclick="proceedRegStep(4, 5)">Continue ➔</button>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             STEP 5: FAMILY DETAILS & FINANCIAL STATUS
+             ========================================== -->
+        <div class="reg-step-box" id="regStep5" style="display: none;">
+          <div class="reg-step-badge badge-pink">👨‍👩‍👦</div>
+          <h2 class="reg-step-title">Add Family Details</h2>
+          <p class="reg-step-sub">This helps families find common community connections</p>
+
+          <div class="f-row">
+            <div class="form-field-group">
+              <label>Father's Details / Occupation *</label>
+              <select id="inFatherStatus">
+                <option value="Alive (Businessman)">Alive - Businessman / Trader</option>
+                <option value="Alive (Handloom Owner)">Alive - Handloom Karkhana Owner</option>
+                <option value="Alive (Service)">Alive - Service (Govt/Pvt)</option>
+                <option value="Alive (Retired)">Alive - Retired</option>
+                <option value="Deceased (Marhoom)">Deceased (Marhoom)</option>
+              </select>
+            </div>
+            <div class="form-field-group">
+              <label>Mother's Details / Occupation *</label>
+              <select id="inMotherStatus">
+                <option value="Alive (Homemaker)">Alive - Homemaker</option>
+                <option value="Alive (Businesswoman)">Alive - Businesswoman</option>
+                <option value="Alive (Teacher / Service)">Alive - Teacher / Service</option>
+                <option value="Deceased (Marhooma)">Deceased (Marhooma)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="f-row">
+            <div class="form-field-group">
+              <label>No. of Brothers</label>
+              <select id="inBrothers">
+                <option value="None">None</option>
+                <option value="1 Brother">1 Brother</option>
+                <option value="2 Brothers" selected>2 Brothers</option>
+                <option value="3+ Brothers">3+ Brothers</option>
+              </select>
+            </div>
+            <div class="form-field-group">
+              <label>No. of Sisters</label>
+              <select id="inSisters">
+                <option value="None" selected>None</option>
+                <option value="1 Sister">1 Sister</option>
+                <option value="2 Sisters">2 Sisters</option>
+                <option value="3+ Sisters">3+ Sisters</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="f-row">
+            <div class="form-field-group">
+              <label>Family Financial Status *</label>
+              <select id="inFamilyFinance">
+                <option value="Middle Class" selected>Middle Class</option>
+                <option value="Upper Middle Class">Upper Middle Class</option>
+                <option value="Rich / Affluent">Rich / Affluent (Khandani Seth)</option>
+              </select>
+            </div>
+            <div class="form-field-group">
+              <label>Current Housing Status *</label>
+              <select id="inHousing">
+                <option value="Own House">Own House (Zati Makaan)</option>
+                <option value="Rented House">Rented House (Kiraye Ka)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-field-group">
+            <label>Ancestral House in Banaras</label>
+            <select id="inBanarasHouse">
+              <option value="Yes">Yes (Own Ancestral Home in Banaras)</option>
+              <option value="No">No (Settled Outside)</option>
+            </select>
+          </div>
+
+          <div class="reg-nav-row">
+            <button type="button" class="btn-reg-back" onclick="showRegStep(4)">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="btn-reg-continue" onclick="proceedRegStep(5, 6)">Continue ➔</button>
+          </div>
+        </div>
+
+                <!-- ==========================================
+             STEP 6: HOBBIES & INTERESTS (Dedicated Screen)
+             ========================================== -->
+        <div class="reg-step-box" id="regStep6" style="display: none;">
+          <div class="reg-step-badge badge-green">🎨</div>
+          <h2 class="reg-step-title">Hobbies & Interests</h2>
+          <p class="reg-step-sub">Select your favorite activities to find like-minded matches</p>
+
+          <div class="form-field-group">
+            <div class="hobbies-category-title">Creative & Cultural</div>
+            <div class="chip-grid">
+              <span class="reg-chip active" onclick="toggleMultiChip(this)"><span class="chip-check">✓</span> ✍️ Writing</span>
+              <span class="reg-chip active" onclick="toggleMultiChip(this)"><span class="chip-check">✓</span> 🍲 Cooking</span>
+              <span class="reg-chip" onclick="toggleMultiChip(this)"><span class="chip-check">✓</span> 📸 Photography</span>
+              <span class="reg-chip" onclick="toggleMultiChip(this)"><span class="chip-check">✓</span> 🎨 Painting</span>
+              <span class="reg-chip" onclick="toggleMultiChip(this)"><span class="chip-check">✓</span> 📝 Poetry</span>
+              <span class="reg-chip active" onclick="toggleMultiChip(this)"><span class="chip-check">✓</span> 🧵 Textile & Sarees</span>
+            </div>
+
+            <div class="hobbies-category-title">Fun & Leisure</div>
+            <div class="chip-grid">
+              <span class="reg-chip active" onclick="toggleMultiChip(this)"><span class="chip-check">✓</span> ✈️ Travelling</span>
+              <span class="reg-chip active" onclick="toggleMultiChip(this)"><span class="chip-check">✓</span> 📖 Reading</span>
+              <span class="reg-chip" onclick="toggleMultiChip(this)"><span class="chip-check">✓</span> 🎬 Movies</span>
+              <span class="reg-chip" onclick="toggleMultiChip(this)"><span class="chip-check">✓</span> 🎵 Music</span>
+              <span class="reg-chip" onclick="toggleMultiChip(this)"><span class="chip-check">✓</span> ⚽ Sports</span>
+              <span class="reg-chip" onclick="toggleMultiChip(this)"><span class="chip-check">✓</span> 🛍️ Shopping</span>
+            </div>
+
+            <div class="hobbies-category-title">Fitness & Lifestyle</div>
+            <div class="chip-grid">
+              <span class="reg-chip" onclick="toggleMultiChip(this)"><span class="chip-check">✓</span> 🏃 Running</span>
+              <span class="reg-chip" onclick="toggleMultiChip(this)"><span class="chip-check">✓</span> 🚴 Cycling</span>
+              <span class="reg-chip" onclick="toggleMultiChip(this)"><span class="chip-check">✓</span> 🚶 Walking</span>
+              <span class="reg-chip" onclick="toggleMultiChip(this)"><span class="chip-check">✓</span> 🍔 Foodie</span>
+              <span class="reg-chip" onclick="toggleMultiChip(this)"><span class="chip-check">✓</span> 💼 Entrepreneurship</span>
+              <span class="reg-chip" onclick="toggleMultiChip(this)"><span class="chip-check">✓</span> 🏡 Home Decor</span>
+            </div>
+            <input type="hidden" id="inHobbies" value="Writing, Cooking, Textile & Sarees, Travelling, Reading">
+          </div>
+
+          <div class="reg-nav-row">
+            <button type="button" class="btn-reg-back" onclick="showRegStep(5)">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="btn-reg-continue" onclick="proceedRegStep(6, 7)">Continue to Photo ➔</button>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             STEP 7: PHOTO UPLOAD & VERIFICATION (With Real Photos)
+             ========================================== -->
+        <div class="reg-step-box" id="regStep7" style="display: none;">
+          <div class="reg-step-badge badge-blue" id="step7Badge">📷</div>
+          <h2 class="reg-step-title" id="step7Title">Upload Photo</h2>
+          <p class="reg-step-sub" id="step7Sub">Profiles with authentic photos receive up to 5x more genuine responses</p>
+
+          <!-- 1. GROOM PHOTO SECTION (Visible for Men Only) -->
+          <div id="groomPhotoSection">
+            <div style="text-align: center; margin: 16px 0;">
+              <div style="width: 88px; height: 88px; border-radius: 50%; background: #f1f5f9; border: 2.5px dashed var(--primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; cursor: pointer; position: relative;" onclick="document.getElementById('inFile').click()">
+                <input type="file" id="inFile" accept="image/*" style="display: none;" onchange="fileChosen(this)">
+                <div id="photoPlaceholder" style="font-size: 2.2rem;">📷</div>
+                <div id="photoPreviewWrap" style="display: none; width: 100%; height: 100%;">
+                  <img id="photoPreview" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                </div>
+                <div style="position: absolute; bottom: -2px; right: -2px; width: 26px; height: 26px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; border: 2px solid white;">+</div>
+              </div>
+              <input type="hidden" id="inPhotoData">
+
+              <button type="button" class="btn-apple-secondary" style="max-width: 220px; margin: 0 auto 10px; height: 38px; font-size: 0.82rem;" onclick="document.getElementById('inFile').click()">
+                🖥️ Upload From Device
+              </button>
+            </div>
+
+            <!-- Real Photo Guidelines Section for Grooms -->
+            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 14px; padding: 14px 12px; margin-top: 14px;">
+              <div style="font-size: 0.76rem; font-weight: 800; color: var(--text); text-align: left; margin-bottom: 2px;">Photo Guidelines</div>
+              <div class="photo-guidelines-grid">
+                <div class="guide-item valid">
+                  <span>✓ Close up</span>
+                  <div class="guide-img-box"><img src="artifacts/file_generation/ttl=63d/output/guide_closeup.jpg" alt="Close up photo example"></div>
+                </div>
+                <div class="guide-item valid">
+                  <span>✓ Half view</span>
+                  <div class="guide-img-box"><img src="artifacts/file_generation/ttl=63d/output/guide_halfview.jpg" alt="Half view photo example"></div>
+                </div>
+                <div class="guide-item valid">
+                  <span>✓ Full view</span>
+                  <div class="guide-img-box"><img src="artifacts/file_generation/ttl=63d/output/guide_fullview.jpg" alt="Full view photo example"></div>
+                </div>
+                <div class="guide-item invalid">
+                  <span>✕ Side face</span>
+                  <div class="guide-img-box"><img src="artifacts/file_generation/ttl=63d/output/guide_sideface.jpg" alt="Side face photo example"></div>
+                </div>
+                <div class="guide-item invalid">
+                  <span>✕ Group</span>
+                  <div class="guide-img-box"><img src="artifacts/file_generation/ttl=63d/output/guide_group.jpg" alt="Group photo example"></div>
+                </div>
+                <div class="guide-item invalid">
+                  <span>✕ Unclear</span>
+                  <div class="guide-img-box"><img src="artifacts/file_generation/ttl=63d/output/guide_unclear.jpg" alt="Unclear photo example"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. BRIDE PARDAH SECTION (Automatically Shown for Women - NO PHOTO OPTION) -->
+          <div id="bridePardahSection" style="display: none; text-align: center; margin: 20px 0 10px;">
+            <div class="card-photo-box female-tile" style="margin: 0 auto 16px; width: 125px; height: 160px; border-radius: 14px; box-shadow: 0 4px 16px rgba(184, 134, 11, 0.2);">
+              <div class="arch-top"></div>
+              <div class="urdu-initial" id="regPardahUrduInitial" style="font-size: 3.8rem; line-height: 1;">ف</div>
+              <span class="pardah-tag">Pardah Protected</span>
+            </div>
+
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 4px;">Pardah Protected Profile</h3>
+            <p style="font-size: 0.84rem; color: var(--text-muted); max-width: 380px; margin: 0 auto; line-height: 1.45;">
+              In accordance with community traditions & Islamic modesty, bride profiles do not require photos. Your profile will be presented to verified families with this royal Urdu calligraphy arch tile.
+            </p>
+
+            <div style="display: inline-flex; align-items: center; gap: 6px; background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; font-size: 0.78rem; font-weight: 700; padding: 5px 14px; border-radius: 20px; margin-top: 14px;">
+              <span>🔒 100% Pardah Preserved • No Photo Required</span>
+            </div>
+          </div>
+
+          <div class="form-field-group" style="margin-top: 18px;">
+            <label>Guardian / Wali Mobile Number *</label>
+            <input type="tel" id="inPhone" placeholder="Mobile / WhatsApp number for verification" required>
+          </div>
+
+          <div class="reg-nav-row">
+            <button type="button" class="btn-reg-back" onclick="showRegStep(6)">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="submit" class="btn-reg-continue" id="btnSubmit">Complete Profile & Save</button>
+          </div>
+        </div>
+
       </form>
     </div>
   </div>
 
-  <!-- ==========================================
-       MODAL 3: B2B HANDLOOM REGISTRATION
-       ========================================== -->
+
   <div class="modal-backdrop" id="b2bModal">
     <div class="modal-dialog">
       <button class="modal-close-apple" onclick="closeB2BModal()" aria-label="Close">
@@ -650,6 +991,7 @@
     </div>
   </div>
 
+  
   <!-- ==========================================
        MODAL 4: MY ACCOUNT & PROFILE DETAILS
        ========================================== -->
@@ -663,7 +1005,10 @@
       </button>
 
       <div class="account-view-card">
-        <div class="account-big-avatar" id="accModalAvatar">S</div>
+        <div class="account-big-avatar" id="accModalAvatar"><svg viewBox="0 0 24 24" width="38" height="38" stroke="var(--gold-border)" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg></div>
         <h2 class="auth-h" id="accModalName" style="margin-bottom: 2px;">Saif Khan</h2>
         <div class="account-phone-chip" id="accModalPhone">+91 96119 57661</div>
 
@@ -717,6 +1062,131 @@
           </button>
         </div>
       </div>
+    </div>
+  </div>
+
+  
+  <!-- ==========================================
+       MODAL 5: APPLE-STYLE SHARE SHEET MODAL
+       ========================================== -->
+  <div class="modal-backdrop" id="shareModal">
+    <div class="modal-dialog" style="max-width: 380px; padding: 22px;">
+      <button class="modal-close-apple" onclick="closeShareModal()" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div style="width: 48px; height: 48px; border-radius: 12px; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; border: 1px solid #a7f3d0;">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+            <polyline points="16 6 12 2 8 6"></polyline>
+            <line x1="12" y1="2" x2="12" y2="15"></line>
+          </svg>
+        </div>
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 4px;">Share Profile</h3>
+        <p style="font-size: 0.82rem; color: var(--text-muted);" id="shareProfileTarget">Share candidate profile with family</p>
+      </div>
+
+      <div class="share-grid">
+        <!-- WhatsApp -->
+        <a class="share-option" id="shareWaLink" href="#" target="_blank">
+          <div class="share-icon-box" style="background: #25d366; color: white;">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+            </svg>
+          </div>
+          <span>WhatsApp</span>
+        </a>
+
+        <!-- Copy Link -->
+        <button class="share-option" onclick="copyProfileLink()">
+          <div class="share-icon-box" style="background: var(--bg); color: var(--text); border: 1.5px solid var(--border);">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </div>
+          <span id="copyLinkText">Copy Link</span>
+        </button>
+
+        <!-- Email -->
+        <a class="share-option" id="shareMailLink" href="#">
+          <div class="share-icon-box" style="background: var(--primary); color: white;">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <span>Email</span>
+        </a>
+
+        <!-- SMS -->
+        <a class="share-option" id="shareSmsLink" href="#">
+          <div class="share-icon-box" style="background: #0284c7; color: white;">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </div>
+          <span>SMS</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- ==========================================
+       MODAL 6: IN-WEBSITE CHAT MESSENGER MODAL
+       ========================================== -->
+  <div class="modal-backdrop" id="inWebChatModal">
+    <div class="modal-dialog chat-dialog-clean">
+      
+      <!-- Chat Header -->
+      <div class="chat-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="chat-avatar-circle" id="chatHeaderAvatar">🧵</div>
+          <div>
+            <div class="chat-header-title" id="chatFirmName">Noorani Silk Handloom</div>
+            <div class="chat-header-status">
+              <span class="chat-online-dot"></span>
+              <span id="chatOwnerName">Janab Shamim Ahmad</span> • Online
+            </div>
+          </div>
+        </div>
+        <button class="modal-close-apple" onclick="closeInWebChat()" aria-label="Close" style="position: static !important;">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Quick Inquiry Prompt Pills -->
+      <div class="chat-quick-prompts">
+        <button type="button" class="chat-prompt-pill" onclick="sendQuickPrompt('Salam, please share your latest wholesale saree catalog and price list.')">📋 Wholesale Catalog</button>
+        <button type="button" class="chat-prompt-pill" onclick="sendQuickPrompt('What is your minimum order quantity (MOQ) and sample set availability?')">🧵 MOQ Details</button>
+        <button type="button" class="chat-prompt-pill" onclick="sendQuickPrompt('Do you take custom Kadwa weave & real zari bridal orders?')">✨ Custom Kadwa</button>
+      </div>
+
+      <!-- Messages Body Area -->
+      <div class="chat-messages-body" id="chatMessagesArea">
+        <div class="chat-system-badge">Direct Community Trade Messenger</div>
+        <!-- Dynamic message bubbles will appear here -->
+      </div>
+
+      <!-- Chat Input Footer -->
+      <form class="chat-input-bar" onsubmit="submitChatMessage(event)">
+        <input type="text" class="chat-text-input" id="chatInputBox" placeholder="Write a message to weaver..." autocomplete="off">
+        <button type="submit" class="btn-chat-send" aria-label="Send">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </form>
+
     </div>
   </div>
 
