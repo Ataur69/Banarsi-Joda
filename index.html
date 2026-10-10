@@ -403,7 +403,7 @@
         <div class="reg-progress-step" id="prog7"></div>
       </div>
 
-      <form id="regForm" onsubmit="saveProfile(event)">
+      <form id="regForm" novalidate onsubmit="saveProfile(event)">
         
         <!-- ==========================================
              STEP 1: PROFILE FOR & BASIC IDENTITY
@@ -777,7 +777,7 @@
         </div>
 
                 <!-- ==========================================
-             STEP 6: HOBBIES & INTERESTS (Dedicated Screen)
+             STEP 6: HOBBIES & INTERESTS (FINAL STEP FOR BRIDES!)
              ========================================== -->
         <div class="reg-step-box" id="regStep6" style="display: none;">
           <div class="reg-step-badge badge-green">🎨</div>
@@ -817,23 +817,51 @@
             <input type="hidden" id="inHobbies" value="Writing, Cooking, Textile & Sarees, Travelling, Reading">
           </div>
 
+          <!-- BRIDE FINAL COMPLETION SECTION (Visible ONLY for Brides in Step 6) -->
+          <div id="brideFinalSectionStep6" style="display: none; margin-top: 18px; border-top: 1px solid var(--border); padding-top: 16px;">
+            <div class="card-photo-box female-tile" style="margin: 0 auto 14px; width: 125px; height: 160px; border-radius: 14px; box-shadow: 0 4px 16px rgba(184, 134, 11, 0.2);">
+              <div class="arch-top"></div>
+              <div class="urdu-initial" id="regPardahUrduInitialBride" style="font-size: 3.8rem; line-height: 1;">ف</div>
+              <span class="pardah-tag">Pardah Protected</span>
+            </div>
+
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 4px; text-align: center;">Pardah Protected Profile</h3>
+            <p style="font-size: 0.84rem; color: var(--text-muted); max-width: 380px; margin: 0 auto 12px; line-height: 1.45; text-align: center;">
+              In accordance with community traditions & Islamic modesty, bride profiles do not require photos. Your profile will be presented to verified families with this royal Urdu calligraphy arch tile.
+            </p>
+
+            <div style="text-align: center; margin-bottom: 14px;">
+              <span style="display: inline-flex; align-items: center; gap: 6px; background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; font-size: 0.78rem; font-weight: 700; padding: 4px 14px; border-radius: 20px;">
+                🔒 100% Pardah Preserved • Final Step for Bride
+              </span>
+            </div>
+
+            <div class="form-field-group">
+              <label>Guardian / Wali Mobile Number *</label>
+              <input type="tel" id="inPhoneBride" placeholder="Guardian / Wali Mobile number for verification">
+            </div>
+          </div>
+
+          <!-- Navigation Row for Step 6 -->
           <div class="reg-nav-row">
             <button type="button" class="btn-reg-back" onclick="showRegStep(5)">
               <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </button>
-            <button type="button" class="btn-reg-continue" onclick="proceedRegStep(6, 7)">Continue to Photo ➔</button>
+            <!-- Grooms Button: Advances to Step 7 Photo -->
+            <button type="button" class="btn-reg-continue" id="btnNextGroom" onclick="proceedRegStep(6, 7)">Continue to Photo ➔</button>
+            <!-- Brides Button: Completes Profile Directly (Step 6 is the Last Step!) -->
+            <button type="button" class="btn-reg-continue" id="btnSubmitBride" style="display: none;" onclick="submitBrideRegistration(event)">Complete Profile & Save</button>
           </div>
         </div>
 
         <!-- ==========================================
-             STEP 7: PHOTO UPLOAD & VERIFICATION (With Real Photos)
+             STEP 7: GROOM PHOTO UPLOAD (MEN ONLY)
              ========================================== -->
         <div class="reg-step-box" id="regStep7" style="display: none;">
           <div class="reg-step-badge badge-blue" id="step7Badge">📷</div>
           <h2 class="reg-step-title" id="step7Title">Upload Photo</h2>
           <p class="reg-step-sub" id="step7Sub">Profiles with authentic photos receive up to 5x more genuine responses</p>
 
-          <!-- 1. GROOM PHOTO SECTION (Visible for Men Only) -->
           <div id="groomPhotoSection">
             <div style="text-align: center; margin: 16px 0;">
               <div style="width: 88px; height: 88px; border-radius: 50%; background: #f1f5f9; border: 2.5px dashed var(--primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; cursor: pointer; position: relative;" onclick="document.getElementById('inFile').click()">
@@ -855,65 +883,28 @@
             <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 14px; padding: 14px 12px; margin-top: 14px;">
               <div style="font-size: 0.76rem; font-weight: 800; color: var(--text); text-align: left; margin-bottom: 2px;">Photo Guidelines</div>
               <div class="photo-guidelines-grid">
-                <div class="guide-item valid">
-                  <span>✓ Close up</span>
-                  <div class="guide-img-box"><img src="artifacts/file_generation/ttl=63d/output/guide_closeup.jpg" alt="Close up photo example"></div>
-                </div>
-                <div class="guide-item valid">
-                  <span>✓ Half view</span>
-                  <div class="guide-img-box"><img src="artifacts/file_generation/ttl=63d/output/guide_halfview.jpg" alt="Half view photo example"></div>
-                </div>
-                <div class="guide-item valid">
-                  <span>✓ Full view</span>
-                  <div class="guide-img-box"><img src="artifacts/file_generation/ttl=63d/output/guide_fullview.jpg" alt="Full view photo example"></div>
-                </div>
-                <div class="guide-item invalid">
-                  <span>✕ Side face</span>
-                  <div class="guide-img-box"><img src="artifacts/file_generation/ttl=63d/output/guide_sideface.jpg" alt="Side face photo example"></div>
-                </div>
-                <div class="guide-item invalid">
-                  <span>✕ Group</span>
-                  <div class="guide-img-box"><img src="artifacts/file_generation/ttl=63d/output/guide_group.jpg" alt="Group photo example"></div>
-                </div>
-                <div class="guide-item invalid">
-                  <span>✕ Unclear</span>
-                  <div class="guide-img-box"><img src="artifacts/file_generation/ttl=63d/output/guide_unclear.jpg" alt="Unclear photo example"></div>
-                </div>
+                <div class="guide-item valid"><span>✓ Close up</span><div class="guide-img-box"><img src="artifacts/file_generation/ttl=63d/output/guide_closeup.jpg" alt="Close up photo example"></div></div>
+                <div class="guide-item valid"><span>✓ Half view</span><div class="guide-img-box"><img src="artifacts/file_generation/ttl=63d/output/guide_halfview.jpg" alt="Half view photo example"></div></div>
+                <div class="guide-item valid"><span>✓ Full view</span><div class="guide-img-box"><img src="artifacts/file_generation/ttl=63d/output/guide_fullview.jpg" alt="Full view photo example"></div></div>
+                <div class="guide-item invalid"><span>✕ Side face</span><div class="guide-img-box"><img src="artifacts/file_generation/ttl=63d/output/guide_sideface.jpg" alt="Side face photo example"></div></div>
+                <div class="guide-item invalid"><span>✕ Group</span><div class="guide-img-box"><img src="artifacts/file_generation/ttl=63d/output/guide_group.jpg" alt="Group photo example"></div></div>
+                <div class="guide-item invalid"><span>✕ Unclear</span><div class="guide-img-box"><img src="artifacts/file_generation/ttl=63d/output/guide_unclear.jpg" alt="Unclear photo example"></div></div>
               </div>
-            </div>
-          </div>
-
-          <!-- 2. BRIDE PARDAH SECTION (Automatically Shown for Women - NO PHOTO OPTION) -->
-          <div id="bridePardahSection" style="display: none; text-align: center; margin: 20px 0 10px;">
-            <div class="card-photo-box female-tile" style="margin: 0 auto 16px; width: 125px; height: 160px; border-radius: 14px; box-shadow: 0 4px 16px rgba(184, 134, 11, 0.2);">
-              <div class="arch-top"></div>
-              <div class="urdu-initial" id="regPardahUrduInitial" style="font-size: 3.8rem; line-height: 1;">ف</div>
-              <span class="pardah-tag">Pardah Protected</span>
-            </div>
-
-            <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 4px;">Pardah Protected Profile</h3>
-            <p style="font-size: 0.84rem; color: var(--text-muted); max-width: 380px; margin: 0 auto; line-height: 1.45;">
-              In accordance with community traditions & Islamic modesty, bride profiles do not require photos. Your profile will be presented to verified families with this royal Urdu calligraphy arch tile.
-            </p>
-
-            <div style="display: inline-flex; align-items: center; gap: 6px; background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; font-size: 0.78rem; font-weight: 700; padding: 5px 14px; border-radius: 20px; margin-top: 14px;">
-              <span>🔒 100% Pardah Preserved • No Photo Required</span>
             </div>
           </div>
 
           <div class="form-field-group" style="margin-top: 18px;">
             <label>Guardian / Wali Mobile Number *</label>
-            <input type="tel" id="inPhone" placeholder="Mobile / WhatsApp number for verification" required>
+            <input type="tel" id="inPhoneGroom" placeholder="Mobile / WhatsApp number for verification">
           </div>
 
           <div class="reg-nav-row">
             <button type="button" class="btn-reg-back" onclick="showRegStep(6)">
               <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </button>
-            <button type="submit" class="btn-reg-continue" id="btnSubmit">Complete Profile & Save</button>
+            <button type="button" class="btn-reg-continue" id="btnSubmitGroom" onclick="submitGroomRegistration(event)">Complete Profile & Save</button>
           </div>
         </div>
-
       </form>
     </div>
   </div>
